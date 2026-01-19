@@ -1,3 +1,10 @@
 export const alpha = {
-    // Alpha celestial data - currently empty, add as needed
+    unlocks: {
+        run: {
+            id: 0,
+            price: 1e100,
+            description: "Unlock Alpha's Reality.",
+            onUnlock: () => Alpha.quotes.initial.show(),
+        }
+    }
 };
