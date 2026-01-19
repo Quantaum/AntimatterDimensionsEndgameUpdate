@@ -97,18 +97,13 @@ export default {
         :class="{ 'o-pelle-disabled-pointer': isDoomed }"
         @click="startRun"
       >
-        <span :class="{ 'o-pelle-disabled': isDoomed }">
-          <b>
-            <span v-if="isRunning">You are in </span>
-            <span v-else>Start </span>
-            Alpha's Reality
-          </b>
-        </span>
-        <div v-for="(line, lineId) in runEffects" :key="lineId" class="l-effect-line">
-          {{ line }} <br>
-        </div>
+        <b>
+          <span v-if="isRunning">You are in </span>
+          <span v-else>Start </span>
+          Alpha's Reality
+        </b>
         <br>
-        <div>{{ runDescription }}</div>
+        {{ runDescription }}
       </button>
     </div>
   </div>
