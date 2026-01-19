@@ -9,5 +9,8 @@ export const Alpha = {
     symbol: "α",
     get isUnlocked() {
         return ImaginaryUpgrade(30).isBought;
-    }
+    },
+    get celestial() {
+        return player.celestials.alpha;
+    },
 };
