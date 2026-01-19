@@ -294,7 +294,7 @@ export function getOfflineEPGain(ms) {
 // eslint-disable-next-line max-params
 export function addRealityTime(time, realTime, rm, level, realities, ampFactor, projIM) {
   let reality = "";
-  const celestials = [Teresa, Effarig, Enslaved, V, Ra, Laitela, Alpha];
+  const celestials = [Teresa, Effarig, Enslaved, V, Ra, Laitela];
   for (const cel of celestials) {
     if (cel.isRunning) reality = cel.displayName;
   }

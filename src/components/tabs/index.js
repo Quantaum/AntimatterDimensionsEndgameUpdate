@@ -78,7 +78,6 @@ const TabComponents = {
   RaTab,
   LaitelaTab,
   PelleTab,
-  AlphaTab,
   AutobuyersTab,
   AutomatorTab,
   NormalChallengesTab,
@@ -108,7 +107,8 @@ const TabComponents = {
   GalacticPowerTab,
   EtherealTab,
   ShopTab,
-  MultiplierBreakdownTab
+  MultiplierBreakdownTab,
+  AlphaTab,
 };
 
 export default TabComponents;
