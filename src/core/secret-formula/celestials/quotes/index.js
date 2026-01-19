@@ -1,3 +1,4 @@
+import { alphaQuotes } from "./alpha";
 import { effarigQuotes } from "./effarig";
 import { enslavedQuotes } from "./enslaved";
 import { laitelaQuotes } from "./laitela";
@@ -7,6 +8,7 @@ import { teresaQuotes } from "./teresa";
 import { vQuotes } from "./v";
 
 export const quotes = {
+  alpha: alphaQuotes,
   teresa: teresaQuotes,
   effarig: effarigQuotes,
   enslaved: enslavedQuotes,
