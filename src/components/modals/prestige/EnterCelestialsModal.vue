@@ -65,6 +65,7 @@ export default {
           ? "You have not completed Lai'tela at this tier."
           : `Your fastest completion on this tier is ${this.laitelaTime}.`;
         case 6: return "";
+        case 7: return `Current: ${this.alphaLayer}`;
         default: throw new Error(`Attempted to start an Unknown Celestial in Celestial Modal Confirmation.`);
       }
     }

@@ -105,6 +105,8 @@ html {
 
   --color-pelle--base: crimson;
   --color-pelle--secondary: #00bcd4;
+
+  --color-alpha--base: #03fe00;
 }
 
 :root .t-metro,

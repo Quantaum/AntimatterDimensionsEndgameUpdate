@@ -112,5 +112,16 @@ GameDatabase.celestials.descriptions = [
       Doing this ${formatInt(8)} times will also give a ${formatX(Math.pow(8, Laitela.hadronizes + 1))} to Dark Energy gain.`;
     }
   },
+  {
+    name: "Alpha",
+    effects() {
+      return `Your game is consumed by darkness.
+      All multipliers are greatly reduced.
+      You cannot interact with previous Celestials.`;
+    },
+    description() {
+      return `Alpha's Reality is the final challenge. Overcome the darkness and prove your strength.`;
+    }
+  },
 
 ];
