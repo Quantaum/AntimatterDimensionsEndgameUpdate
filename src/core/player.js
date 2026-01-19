@@ -768,14 +768,14 @@ window.player = {
       run: false,
       quoteBits: 0,
       dimensions: Array.range(0, 8).map(() =>
-        ({
-          amount: DC.D0,
-          intervalUpgrades: DC.D0,
-          powerDMUpgrades: DC.D0,
-          powerDEUpgrades: DC.D0,
-          timeSinceLastUpdate: 0,
-          ascensionCount: DC.D0
-        })),
+      ({
+        amount: DC.D0,
+        intervalUpgrades: DC.D0,
+        powerDMUpgrades: DC.D0,
+        powerDEUpgrades: DC.D0,
+        timeSinceLastUpdate: 0,
+        ascensionCount: DC.D0
+      })),
       entropy: DC.D0,
       thisCompletion: 3600,
       fastestCompletion: 3600,
@@ -865,6 +865,11 @@ window.player = {
         galaxies: false
       },
       showBought: false,
+    },
+    alpha: {
+      run: false,
+      quoteBits: 0,
+      alphaLayer: 0
     }
   },
   endgames: 0,

@@ -20,4 +20,8 @@ export const Alpha = {
     get isRunning() {
         return this.celestial.run;
     },
-};
+}
+
+EventHub.logic.on(GAME_EVENT.TAB_CHANGED, () => {
+    if (Tab.celestials.alpha.isOpen) Alpha.quotes.initial.show();
+});
