@@ -1,38 +1,65 @@
 <script>
 import CelestialQuoteHistory from "@/components/CelestialQuoteHistory";
+import EffarigRunUnlockReward from "./EffarigRunUnlockReward";
+import EffarigUnlockButton from "./EffarigUnlockButton";
 
 export default {
-  name: "AlphaTab",
+  name: "EffarigTab",
   components: {
+    EffarigUnlockButton,
+    EffarigRunUnlockReward,
     CelestialQuoteHistory,
   },
   data() {
     return {
+      relicShards: new Decimal(0),
+      shardRarityBoost: 0,
+      shardPower: 0,
+      shardsGained: new Decimal(0),
+      currentShardsRate: new Decimal(0),
+      amplification: 0,
+      amplifiedShards: new Decimal(0),
+      amplifiedShardsRate: new Decimal(0),
+      runUnlocked: false,
+      quote: "",
       isRunning: false,
+      vIsFlipped: false,
+      relicShardRarityAlwaysMax: false
     };
   },
   computed: {
+    shopUnlocks: () => [
+      EffarigUnlock.adjuster,
+      EffarigUnlock.glyphFilter,
+      EffarigUnlock.setSaves
+    ],
+    runUnlock: () => EffarigUnlock.run,
+    runUnlocks: () => [
+      EffarigUnlock.infinity,
+      EffarigUnlock.eternity,
+      EffarigUnlock.reality
+    ],
+    symbol: () => GLYPH_SYMBOLS.effarig,
     runButtonOuterClass() {
       return {
-        "l-alpha-run-button": true,
-        "c-alpha-run-button": true,
-        "c-alpha-run-button--running": this.isRunning,
-        "c-alpha-run-button--not-running": !this.isRunning,
+        "l-effarig-run-button": true,
+        "c-effarig-run-button": true,
+        "c-effarig-run-button--running": this.isRunning,
+        "c-effarig-run-button--not-running": !this.isRunning,
         "c-celestial-run-button--clickable": !this.isDoomed,
         "o-pelle-disabled-pointer": this.isDoomed
       };
     },
     runButtonInnerClass() {
-      return this.isRunning ? "c-alpha-run-button__inner--running" : "c-alpha-run-button__inner--not-running";
+      return this.isRunning ? "c-effarig-run-button__inner--running" : "c-effarig-run-button__inner--not-running";
     },
     runDescription() {
-      return `${GameDatabase.celestials.descriptions[7].effects()}\n
-      ${GameDatabase.celestials.descriptions[7].description()}`;
+      return `${GameDatabase.celestials.descriptions[1].effects()}\n
+      ${GameDatabase.celestials.descriptions[1].description()}`;
     },
-    runDescriptionLines() {
-      return this.runDescription.split("\n").filter(line => line.trim() !== "");
+    showShardsRate() {
+      return this.currentShardsRate;
     },
-    symbol: () => "Ω",
     isDoomed: () => Pelle.isDoomed,
   },
   watch: {
@@ -42,50 +69,116 @@ export default {
   },
   methods: {
     update() {
-      this.isRunning = Alpha.isRunning;
+      this.relicShards.copyFrom(Currency.relicShards.value);
+      this.shardRarityBoost = Effarig.maxRarityBoost / 100;
+      this.shardPower = Ra.unlocks.maxGlyphRarityAndShardSacrificeBoost.effectOrDefault(1);
+      this.shardsGained.copyFrom(Effarig.shardsGained);
+      this.currentShardsRate.copyFrom(this.shardsGained.div(Time.thisRealityRealTime.totalMinutes));
+      this.amplification = simulatedRealityCount(false);
+      this.amplifiedShards.copyFrom(this.shardsGained.times(1 + this.amplification));
+      this.amplifiedShardsRate.copyFrom(this.amplifiedShards.div(Time.thisRealityRealTime.totalMinutes));
+      this.quote = Effarig.quote;
+      this.runUnlocked = EffarigUnlock.run.isUnlocked;
+      this.isRunning = Effarig.isRunning;
+      this.vIsFlipped = V.isFlipped;
+      this.relicShardRarityAlwaysMax = Ra.unlocks.extraGlyphChoicesAndRelicShardRarityAlwaysMax.canBeApplied || EndgameMastery(53).isBought;
     },
     startRun() {
       if (this.isDoomed) return;
-      Modal.celestials.show({ name: "Alpha's", number: 7 });
+      Modal.celestials.show({ name: "Effarig's", number: 1 });
+    },
+    createCursedGlyph() {
+      Glyphs.giveCursedGlyph();
     }
   }
 };
 </script>
 
-<style scoped>
-.c-alpha-run-description {
-  width: 46rem;
-}
-</style>
-
 <template>
   <div class="l-teresa-celestial-tab">
-    <CelestialQuoteHistory celestial="alpha" />
-    <div class="l-alpha-run">
-      <div class="c-alpha-run-description">
-        <span :class="{ 'o-pelle-disabled': isDoomed }">
-          Enter Alpha's Reality.
-        </span>
+    <CelestialQuoteHistory celestial="effarig" />
+    <div class="l-effarig-shop-and-run">
+      <div class="l-effarig-shop">
+        <div class="c-effarig-relics">
+          You have {{ quantify("Relic Shard", relicShards, 2, 0) }}.
+          <br>
+          <span v-if="relicShardRarityAlwaysMax">
+            The rarity of new Glyphs is being increased by +{{ formatPercents(shardRarityBoost, 2) }}.
+          </span>
+          <span v-else>
+            Each new Glyph will have its rarity increased
+            <br>
+            by a random value between +{{ formatPercents(0) }} and +{{ formatPercents(shardRarityBoost, 2) }}.
+          </span>
+          <span v-if="shardPower > 1">
+            <br>
+            Glyph Sacrifice gain is also being raised to {{ formatPow(shardPower, 0, 2) }}.
+          </span>
+        </div>
+        <div class="c-effarig-relic-description">
+          You will gain {{ quantify("Relic Shard", shardsGained, 2) }} next Reality
+          ({{ format(currentShardsRate, 2) }}/min).
+          <span v-if="amplification !== 0">
+            <br>
+            Due to amplification of your current Reality,
+            <br>
+            you will actually gain a total of
+            {{ quantify("Relic Shard", amplifiedShards, 2) }} ({{ format(amplifiedShardsRate, 2) }}/min).
+          </span>
+        </div>
+        <div class="c-effarig-relic-description">
+          <br>
+          More Eternity Points slightly increases Relic Shards
+          <br>
+          gained. More distinct Glyph effects significantly
+          <br>
+          increases Relic Shards gained.
+        </div>
+        <EffarigUnlockButton
+          v-for="(unlock, i) in shopUnlocks"
+          :key="i"
+          :unlock="unlock"
+        />
+        <EffarigUnlockButton
+          v-if="!runUnlocked"
+          :unlock="runUnlock"
+        />
+        <button
+          v-if="vIsFlipped"
+          class="c-effarig-shop-button c-effarig-shop-button--available"
+          @click="createCursedGlyph"
+        >
+          Get a Cursed Glyph...
+        </button>
       </div>
       <div
-        :class="runButtonOuterClass"
-        @click="startRun"
+        v-if="runUnlocked"
+        class="l-effarig-run"
       >
-        <div
-          :class="runButtonInnerClass"
-          :button-symbol="symbol"
-        >
-          {{ symbol }}
+        <div class="c-effarig-run-description">
+          <span :class="{ 'o-pelle-disabled': isDoomed }">
+            Enter Effarig's Reality.
+          </span>
         </div>
-      </div>
-      <div class="c-alpha-run-description">
-        <span
-          v-for="(line, lineId) in runDescriptionLines"
-          :key="lineId"
+        <div
+          :class="runButtonOuterClass"
+          @click="startRun"
         >
-          {{ line }}
-          <br>
-        </span>
+          <div
+            :class="runButtonInnerClass"
+            :button-symbol="symbol"
+          >
+            {{ symbol }}
+          </div>
+        </div>
+        <div class="c-effarig-run-description">
+          {{ runDescription }}
+        </div>
+        <EffarigRunUnlockReward
+          v-for="(unlock, i) in runUnlocks"
+          :key="i"
+          :unlock="unlock"
+        />
       </div>
     </div>
   </div>
