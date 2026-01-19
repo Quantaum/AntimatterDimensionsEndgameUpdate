@@ -35,7 +35,7 @@ export default {
     },
     startRun() {
       if (this.isDoomed) return;
-      Modal.celestials.show({ name: "Alpha's", number: 1 });
+      Modal.celestials.show({ name: "Alpha's", number: 7 });
     }
   }
 };
