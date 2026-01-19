@@ -22,10 +22,7 @@ export default {
   },
   computed: {
     runDescription() {
-      return GameDatabase.celestials.descriptions[7].description();
-    },
-    runEffects() {
-      return GameDatabase.celestials.descriptions[7].effects().split("\n");
+      return GameDatabase.celestials.descriptions[7].effects();
     },
   },
   methods: {
