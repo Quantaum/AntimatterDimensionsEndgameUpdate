@@ -113,6 +113,12 @@ GameDatabase.celestials.descriptions = [
     }
   },
   {
+    name: "Pelle",
+    effects() {
+      return ``;
+    }
+  },
+  {
     name: "Alpha",
     effects() {
       return `Your game is consumed by darkness.
