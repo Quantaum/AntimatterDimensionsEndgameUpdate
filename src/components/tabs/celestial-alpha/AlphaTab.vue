@@ -59,37 +59,33 @@ export default {
 </style>
 
 <template>
-  <div class="l-alpha-celestial-tab">
+  <div class="l-teresa-celestial-tab">
     <CelestialQuoteHistory celestial="alpha" />
-    <div class="l-alpha-run-container">
-      <div v-if="hasUnlock(unlocksInfo.RUN)">
-        <div class="c-alpha-run-button">
-          <div
-            class="c-alpha-run-button__title"
-            :class="doomedDisabledClass"
-          >
-            {{ realityTitle }}
-          </div>
-          <div v-if="completed">
-            <b>(Completed)</b>
-          </div>
-          <div
-            :class="runButtonClassObject"
-            @click="startRun"
-          >
-            <div class="c-alpha-run-button__icon__sigil">
-              {{ alphaSymbol }}
-            </div>
-          </div>
-          <div
-            v-for="line in runDescription"
-            :key="line"
-            class="c-enslaved-run-description-line"
-          >
-            {{ line }}
-          </div>
-          <b>placeholder text</b>
+    <div class="l-alpha-run">
+      <div class="c-alpha-run-description">
+        <span :class="{ 'o-pelle-disabled': isDoomed }">
+          Enter Alpha's Reality.
+        </span>
+      </div>
+      <div
+        :class="runButtonOuterClass"
+        @click="startRun"
+      >
+        <div
+          :class="runButtonInnerClass"
+          :button-symbol="symbol"
+        >
+          {{ symbol }}
         </div>
+      </div>
+      <div class="c-alpha-run-description">
+        <span
+          v-for="(line, lineId) in runDescriptionLines"
+          :key="lineId"
+        >
+          {{ line }}
+          <br>
+        </span>
       </div>
     </div>
   </div>
