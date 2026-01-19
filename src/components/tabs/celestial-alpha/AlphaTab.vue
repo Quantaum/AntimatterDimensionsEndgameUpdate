@@ -1,191 +1,368 @@
 <script>
+import BlackHoleChargingSliders from "@/components/tabs/black-hole/BlackHoleChargingSliders";
 import CelestialQuoteHistory from "@/components/CelestialQuoteHistory";
-import EffarigRunUnlockReward from "./EffarigRunUnlockReward";
-import EffarigUnlockButton from "./EffarigUnlockButton";
+import PrimaryButton from "@/components/PrimaryButton";
+import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
-  name: "EffarigTab",
+  name: "EnslavedTab",
   components: {
-    EffarigUnlockButton,
-    EffarigRunUnlockReward,
     CelestialQuoteHistory,
+    PrimaryButton,
+    PrimaryToggleButton,
+    BlackHoleChargingSliders
   },
-  data() {
-    return {
-      relicShards: new Decimal(0),
-      shardRarityBoost: 0,
-      shardPower: 0,
-      shardsGained: new Decimal(0),
-      currentShardsRate: new Decimal(0),
-      amplification: 0,
-      amplifiedShards: new Decimal(0),
-      amplifiedShardsRate: new Decimal(0),
-      runUnlocked: false,
-      quote: "",
-      isRunning: false,
-      vIsFlipped: false,
-      relicShardRarityAlwaysMax: false
-    };
-  },
+  data: () => ({
+    isStoringBlackHole: false,
+    isStoringReal: false,
+    autoStoreReal: false,
+    offlineEnabled: false,
+    hasAutoRelease: false,
+    isRunning: false,
+    completed: false,
+    storedBlackHole: new Decimal(0),
+    storedReal: 0,
+    storedRealEffiency: 0,
+    storedRealCap: 0,
+    autoRelease: false,
+    autoReleaseSpeed: new Decimal(0),
+    unlocks: [],
+    buyableUnlocks: [],
+    quote: "",
+    currentSpeedUp: new Decimal(0),
+    hintsUnlocked: false,
+    canModifyGameTimeStorage: false,
+    canChangeStoreTime: false,
+    canChangeStoreRealTime: false,
+    canDischarge: false,
+    canAutoRelease: false,
+    hasNoCharge: true,
+    hasReachedCurrentCap: false,
+  }),
   computed: {
-    shopUnlocks: () => [
-      EffarigUnlock.adjuster,
-      EffarigUnlock.glyphFilter,
-      EffarigUnlock.setSaves
-    ],
-    runUnlock: () => EffarigUnlock.run,
-    runUnlocks: () => [
-      EffarigUnlock.infinity,
-      EffarigUnlock.eternity,
-      EffarigUnlock.reality
-    ],
-    symbol: () => GLYPH_SYMBOLS.effarig,
-    runButtonOuterClass() {
+    storedRealEfficiencyDesc() {
+      return formatPercents(this.storedRealEffiency);
+    },
+    storedRealCapDesc() {
+      return timeDisplayShort(new Decimal(this.storedRealCap));
+    },
+    storedBHDesc() {
+      return timeDisplayShort(new Decimal(this.storedBlackHole));
+    },
+    nerfedBHTimeDesc() {
+      return timeDisplayShort(new Decimal(this.nerfedBlackHoleTime));
+    },
+    storedRealDesc() {
+      return timeDisplayShort(new Decimal(this.storedReal));
+    },
+    unlocksInfo() {
+      return ENSLAVED_UNLOCKS;
+    },
+    nerfedBlackHoleTime() {
+      return Enslaved.storedTimeInsideEnslaved(this.storedBlackHole);
+    },
+    realityTitle() {
+      if (this.isRunning) return "You are inside The Nameless Ones' Reality";
+      return "Start The Nameless Ones' Reality";
+    },
+    runButtonClassObject() {
       return {
-        "l-effarig-run-button": true,
-        "c-effarig-run-button": true,
-        "c-effarig-run-button--running": this.isRunning,
-        "c-effarig-run-button--not-running": !this.isRunning,
+        "c-enslaved-run-button__icon": true,
+        "c-enslaved-run-button__icon--running": this.isRunning,
         "c-celestial-run-button--clickable": !this.isDoomed,
         "o-pelle-disabled-pointer": this.isDoomed
       };
     },
-    runButtonInnerClass() {
-      return this.isRunning ? "c-effarig-run-button__inner--running" : "c-effarig-run-button__inner--not-running";
-    },
     runDescription() {
-      return `${GameDatabase.celestials.descriptions[1].effects()}\n
-      ${GameDatabase.celestials.descriptions[1].description()}`;
+      return GameDatabase.celestials.descriptions[7].effects().split("\n");
     },
-    showShardsRate() {
-      return this.currentShardsRate;
+    realTimeButtonText() {
+      if (!this.offlineEnabled) return "Offline Progress is disabled";
+      if (this.autoStoreReal) return "Offline time stored";
+      return "Offline time used for production";
     },
+    // Use this here since Nameless has a fairly non-standard character, and SFCs don't support using \uf0c1
+    enslavedSymbol: () => Enslaved.symbol,
     isDoomed: () => Pelle.isDoomed,
+    storeGameTimeClass() {
+      return {
+        "o-enslaved-mechanic-button": true,
+        "o-enslaved-mechanic-button--clickable": this.canModifyGameTimeStorage,
+        "o-enslaved-mechanic-button--storing-time": this.isStoringBlackHole,
+        "l-fixed-setting": !this.canModifyGameTimeStorage,
+        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
+      };
+    },
+    storeRealTimeClass() {
+      return {
+        "o-enslaved-mechanic-button": true,
+        "o-enslaved-mechanic-button--clickable": !this.isDoomed,
+        "o-enslaved-mechanic-button--storing-time": this.isStoringReal,
+        "l-fixed-setting": !this.canChangeStoreRealTime,
+        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
+      };
+    },
+    dischargeClass() {
+      return {
+        "o-enslaved-mechanic-button": true,
+        "o-enslaved-mechanic-button--clickable": !this.isDoomed,
+        "l-fixed-setting": !this.canDischarge || this.hasNoCharge,
+        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
+      };
+    },
+    doomedDisabledClass() {
+      return { "o-pelle-disabled": this.isDoomed };
+    },
+    mechanicButtonClass() {
+      return {
+        "o-enslaved-mechanic-button": true,
+        "o-enslaved-mechanic-button--clickable": !this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
+      };
+    }
   },
   watch: {
-    isRunning() {
-      this.$recompute("runDescription");
+    autoRelease(newValue) {
+      player.celestials.enslaved.isAutoReleasing = newValue;
     }
   },
   methods: {
     update() {
-      this.relicShards.copyFrom(Currency.relicShards.value);
-      this.shardRarityBoost = Effarig.maxRarityBoost / 100;
-      this.shardPower = Ra.unlocks.maxGlyphRarityAndShardSacrificeBoost.effectOrDefault(1);
-      this.shardsGained.copyFrom(Effarig.shardsGained);
-      this.currentShardsRate.copyFrom(this.shardsGained.div(Time.thisRealityRealTime.totalMinutes));
-      this.amplification = simulatedRealityCount(false);
-      this.amplifiedShards.copyFrom(this.shardsGained.times(1 + this.amplification));
-      this.amplifiedShardsRate.copyFrom(this.amplifiedShards.div(Time.thisRealityRealTime.totalMinutes));
-      this.quote = Effarig.quote;
-      this.runUnlocked = EffarigUnlock.run.isUnlocked;
-      this.isRunning = Effarig.isRunning;
-      this.vIsFlipped = V.isFlipped;
-      this.relicShardRarityAlwaysMax = Ra.unlocks.extraGlyphChoicesAndRelicShardRarityAlwaysMax.canBeApplied || EndgameMastery(53).isBought;
+      this.isStoringBlackHole = Enslaved.isStoringGameTime;
+      this.storedBlackHole.copyFrom(player.celestials.enslaved.stored);
+      this.isStoringReal = Enslaved.isStoringRealTime;
+      this.autoStoreReal = player.celestials.enslaved.autoStoreReal;
+      this.offlineEnabled = player.options.offlineProgress;
+      this.hasAutoRelease = Ra.unlocks.autoPulseTime.canBeApplied;
+      this.isRunning = Enslaved.isRunning;
+      this.completed = Enslaved.isCompleted && !this.isDoomed;
+      this.storedReal = player.celestials.enslaved.storedReal;
+      this.storedRealEffiency = Enslaved.storedRealTimeEfficiency;
+      this.storedRealCap = Enslaved.storedRealTimeCap;
+      this.unlocks = Array.from(player.celestials.enslaved.unlocks);
+      this.buyableUnlocks = Object.values(ENSLAVED_UNLOCKS).map(x => Enslaved.canBuy(x));
+      this.quote = Enslaved.quote;
+      this.autoRelease = player.celestials.enslaved.isAutoReleasing;
+      this.autoReleaseSpeed = Enslaved.isAutoReleasing ? Enslaved.autoReleaseSpeed : new Decimal(0);
+      this.currentSpeedUp = Enslaved.currentBlackHoleStoreAmountPerMs;
+      this.hintsUnlocked = EnslavedProgress.hintsUnlocked.hasProgress;
+      this.canModifyGameTimeStorage = Enslaved.canModifyGameTimeStorage;
+      this.canChangeStoreTime = Enslaved.canModifyGameTimeStorage;
+      this.canChangeStoreRealTime = Enslaved.canModifyRealTimeStorage;
+      this.canDischarge = Enslaved.canRelease(false);
+      this.canAutoRelease = Enslaved.canRelease(true);
+      this.hasNoCharge = player.celestials.enslaved.stored === new Decimal(0);
+      this.hasReachedCurrentCap = this.storedReal === this.storedRealCap;
+    },
+    toggleStoreBlackHole() {
+      Enslaved.toggleStoreBlackHole();
+    },
+    toggleStoreReal() {
+      Enslaved.toggleStoreReal();
+    },
+    toggleAutoStoreReal() {
+      if (!this.offlineEnabled) return;
+      Enslaved.toggleAutoStoreReal();
+    },
+    useStored() {
+      Enslaved.useStoredTime(false);
+    },
+    timeDisplayShort(ms) {
+      return timeDisplayShort(ms);
+    },
+    timeUntilBuy(price) {
+      return Decimal.max((price.sub(this.storedBlackHole)).div(this.currentSpeedUp), 0);
+    },
+    buyUnlock(info) {
+      Enslaved.buyUnlock(info);
     },
     startRun() {
       if (this.isDoomed) return;
-      Modal.celestials.show({ name: "Effarig's", number: 1 });
+      Modal.celestials.show({ name: "The Nameless Ones'", number: 2 });
     },
-    createCursedGlyph() {
-      Glyphs.giveCursedGlyph();
+    hasUnlock(info) {
+      return Enslaved.has(info);
+    },
+    canBuyUnlock(info) {
+      // This (rather than just using Enslaved.canBuy(info) and removing this.buyableUnlocks)
+      // is needed for proper reactivity of button styles (e.g., if you get a level 5000 glyph
+      // while on the Nameless tab).
+      return this.buyableUnlocks[info.id];
+    },
+    unlockClassObject(info) {
+      return {
+        "o-enslaved-shop-button--bought": this.hasUnlock(info),
+        "o-enslaved-shop-button--available": this.canBuyUnlock(info)
+      };
+    },
+    glitchStyle(x) {
+      const xScale = 15 / 27;
+      const yScale = 5;
+      const dx = (x - 13) * xScale + (Math.random() * 2 - 1) * 0.85;
+      const dy = (Math.random() * 2 - 1) * yScale;
+      const height = (Math.pow(Math.random(), 1.5) + 0.25) * 3 * yScale;
+      return {
+        transform: `translate(${dx}rem, ${dy}rem)`,
+        height: `${height}rem`,
+      };
     }
-  }
+  },
 };
 </script>
 
 <template>
-  <div class="l-teresa-celestial-tab">
-    <CelestialQuoteHistory celestial="effarig" />
-    <div class="l-effarig-shop-and-run">
-      <div class="l-effarig-shop">
-        <div class="c-effarig-relics">
-          You have {{ quantify("Relic Shard", relicShards, 2, 0) }}.
-          <br>
-          <span v-if="relicShardRarityAlwaysMax">
-            The rarity of new Glyphs is being increased by +{{ formatPercents(shardRarityBoost, 2) }}.
-          </span>
-          <span v-else>
-            Each new Glyph will have its rarity increased
-            <br>
-            by a random value between +{{ formatPercents(0) }} and +{{ formatPercents(shardRarityBoost, 2) }}.
-          </span>
-          <span v-if="shardPower > 1">
-            <br>
-            Glyph Sacrifice gain is also being raised to {{ formatPow(shardPower, 0, 2) }}.
-          </span>
-        </div>
-        <div class="c-effarig-relic-description">
-          You will gain {{ quantify("Relic Shard", shardsGained, 2) }} next Reality
-          ({{ format(currentShardsRate, 2) }}/min).
-          <span v-if="amplification !== 0">
-            <br>
-            Due to amplification of your current Reality,
-            <br>
-            you will actually gain a total of
-            {{ quantify("Relic Shard", amplifiedShards, 2) }} ({{ format(amplifiedShardsRate, 2) }}/min).
-          </span>
-        </div>
-        <div class="c-effarig-relic-description">
-          <br>
-          More Eternity Points slightly increases Relic Shards
-          <br>
-          gained. More distinct Glyph effects significantly
-          <br>
-          increases Relic Shards gained.
-        </div>
-        <EffarigUnlockButton
-          v-for="(unlock, i) in shopUnlocks"
-          :key="i"
-          :unlock="unlock"
-        />
-        <EffarigUnlockButton
-          v-if="!runUnlocked"
-          :unlock="runUnlock"
-        />
-        <button
-          v-if="vIsFlipped"
-          class="c-effarig-shop-button c-effarig-shop-button--available"
-          @click="createCursedGlyph"
-        >
-          Get a Cursed Glyph...
-        </button>
-      </div>
-      <div
-        v-if="runUnlocked"
-        class="l-effarig-run"
-      >
-        <div class="c-effarig-run-description">
-          <span :class="{ 'o-pelle-disabled': isDoomed }">
-            Enter Effarig's Reality.
-          </span>
-        </div>
-        <div
-          :class="runButtonOuterClass"
-          @click="startRun"
-        >
-          <div
-            :class="runButtonInnerClass"
-            :button-symbol="symbol"
-          >
-            {{ symbol }}
+  <div class="l-enslaved-celestial-tab">
+    <CelestialQuoteHistory celestial="enslaved" />
+    <div
+      v-if="hasAutoRelease && canAutoRelease"
+      class="c-subtab-option-container"
+    >
+      <PrimaryToggleButton
+        v-model="autoRelease"
+        class="o-primary-btn--subtab-option"
+        label="Pulse Black Hole:"
+      />
+    </div>
+    <div class="l-enslaved-celestial-tab--inner">
+      <div class="l-enslaved-run-container">
+        <div v-if="hasUnlock(unlocksInfo.RUN)">
+          <div class="c-enslaved-run-button">
+            <div
+              class="c-enslaved-run-button__title"
+              :class="doomedDisabledClass"
+            >
+              {{ realityTitle }}
+            </div>
+            <div v-if="completed">
+              <b>(Completed)</b>
+            </div>
+            <div
+              :class="runButtonClassObject"
+              @click="startRun"
+            >
+              <div class="c-enslaved-run-button__icon__sigil">
+                {{ enslavedSymbol }}
+              </div>
+              <div
+                v-for="x in (isRunning ? 25 : 0)"
+                :key="x"
+                class="c-enslaved-run-button__icon__glitch"
+                :style="glitchStyle(x)"
+              />
+            </div>
+            <div
+              v-for="line in runDescription"
+              :key="line"
+              class="c-enslaved-run-description-line"
+            >
+              {{ line }}
+            </div>
+            <b>Reward: Unlock Tesseracts, which let you increase Infinity Dimension caps
+              (see Infinity Dimension tab)</b>
           </div>
         </div>
-        <div class="c-effarig-run-description">
-          {{ runDescription }}
+      </div>
+      <div class="l-enslaved-upgrades-column">
+        <PrimaryButton
+          v-if="hintsUnlocked"
+          class="o-primary-btn"
+          onclick="Modal.enslavedHints.show()"
+        >
+          Examine the Reality more closely...
+        </PrimaryButton>
+        <div class="l-enslaved-top-container">
+          <div class="l-enslaved-top-container__half">
+            While charging, game speed multipliers are {{ hasAutoRelease ? "decreased" : "disabled" }},
+            and the lost speed is converted into stored game time. Discharging the Black Hole allows you to skip
+            forward in time. Stored game time is also used to unlock certain upgrades.
+            <button
+              :class="storeGameTimeClass"
+              @click="toggleStoreBlackHole"
+            >
+              <div
+                class="o-enslaved-stored-time"
+                :class="doomedDisabledClass"
+              >
+                {{ storedBHDesc }}
+              </div>
+              <div>
+                {{ isStoringBlackHole ? "Charging Black Hole": "Charge Black Hole" }}
+              </div>
+            </button>
+            <button
+              :class="dischargeClass"
+              @click="useStored"
+            >
+              <span>Discharge Black Hole</span>
+              <p v-if="isRunning">
+                {{ nerfedBHTimeDesc }} in this Reality
+              </p>
+            </button>
+          </div>
+          <div class="l-enslaved-top-container__half">
+            Storing real time completely halts all production, setting game speed to {{ formatInt(0) }}.
+            You can use stored real time to "amplify" a Reality, simulating repeated runs of it.
+            Amplified Realities give all the rewards that normal Realities do.
+            <button
+              :class="[storeRealTimeClass,
+                       {'l-fixed-setting': hasReachedCurrentCap}]"
+              @click="toggleStoreReal"
+            >
+              <div class="o-enslaved-stored-time">
+                {{ storedRealDesc }}
+              </div>
+              <div>
+                {{ isStoringReal ? "Storing real time": "Store real time" }}
+              </div>
+            </button>
+            <button
+              :class="[mechanicButtonClass,
+                       {'o-enslaved-mechanic-button--storing-time': autoStoreReal && offlineEnabled,
+                        'l-fixed-setting': !canChangeStoreRealTime || !offlineEnabled},
+                       doomedDisabledClass]"
+              @click="toggleAutoStoreReal"
+            >
+              {{ realTimeButtonText }}
+            </button>
+            <div>
+              Efficiency: {{ storedRealEfficiencyDesc }}
+            </div>
+            <div>
+              Maximum stored real time: {{ storedRealCapDesc }}
+            </div>
+          </div>
         </div>
-        <EffarigRunUnlockReward
-          v-for="(unlock, i) in runUnlocks"
-          :key="i"
-          :unlock="unlock"
-        />
+        <BlackHoleChargingSliders />
+        <br>
+        <div class="l-enslaved-shop-container">
+          <button
+            v-for="unlock in unlocksInfo"
+            :key="unlock.id"
+            class="o-enslaved-shop-button"
+            :class="unlockClassObject(unlock)"
+            @click="buyUnlock(unlock)"
+          >
+            {{ unlock.description() }}
+            <div v-if="!hasUnlock(unlock)">
+              Costs: {{ timeDisplayShort(unlock.price) }}
+            </div>
+            <span v-if="isStoringBlackHole && !hasUnlock(unlock) && timeUntilBuy(unlock.price).gt(0)">
+              Time to obtain: {{ timeDisplayShort(timeUntilBuy(unlock.price)) }}
+            </span>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.c-effarig-relic-description {
-  width: 46rem;
+.c-enslaved-run-description-line {
+  margin-bottom: 1rem;
+}
+
+.l-fixed-setting {
+  cursor: pointer;
+  pointer-events: none;
+  filter: brightness(70%);
 }
 </style>

@@ -121,12 +121,10 @@ GameDatabase.celestials.descriptions = [
   {
     name: "Alpha",
     effects() {
-      return `Your game is consumed by darkness.
-      All multipliers are greatly reduced.
-      You cannot interact with previous Celestials.`;
+      return `AD Endgame Darkness for real`;
     },
     description() {
-      return `Alpha's Reality is the final challenge. Overcome the darkness and prove your strength.`;
+      return `Alpha's Reality`;
     }
   },
 

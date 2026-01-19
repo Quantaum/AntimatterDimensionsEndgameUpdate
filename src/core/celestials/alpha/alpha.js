@@ -2,6 +2,13 @@ import { DC } from "../../constants";
 
 import { Quotes } from "../quotes";
 
+export const ALPHA_STAGES = {
+    INFINITY: 1,
+    ETERNITY: 2,
+    REALITY: 3,
+    COMPLETED: 4
+};
+
 export const Alpha = {
     displayName: "Alpha",
     possessiveName: "Alpha's",
@@ -19,6 +26,29 @@ export const Alpha = {
     },
     get isRunning() {
         return this.celestial.run;
+    },
+    get currentStage() {
+        if (!EffarigUnlock.infinity.isUnlocked) {
+            return ALPHA_STAGES.INFINITY;
+        }
+        if (!EffarigUnlock.eternity.isUnlocked) {
+            return ALPHA_STAGES.ETERNITY;
+        }
+        if (!EffarigUnlock.reality.isUnlocked) {
+            return ALPHA_STAGES.REALITY;
+        }
+        return ALPHA_STAGES.COMPLETED;
+    },
+    get currentStageName() {
+        switch (this.currentStage) {
+            case ALPHA_STAGES.INFINITY:
+                return "Infinity";
+            case ALPHA_STAGES.ETERNITY:
+                return "Eternity";
+            case ALPHA_STAGES.REALITY:
+            default:
+                return "Reality";
+        }
     },
 }
 
