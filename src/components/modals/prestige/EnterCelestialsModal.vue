@@ -89,6 +89,7 @@ export default {
         case 4: return Ra.initializeRun();
         case 5: return Laitela.initializeRun();
         case 6: throw new Error(`Attempted to start Pelle through EnterCelestialsModal instead of ArmageddonModal`);
+        case 7: return Alpha.initializeRun();
         default: throw new Error(`Attempted to start an Unknown Celestial in Celestial Modal Confirmation.`);
       }
     },

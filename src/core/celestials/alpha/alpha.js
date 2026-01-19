@@ -13,4 +13,11 @@ export const Alpha = {
     get celestial() {
         return player.celestials.alpha;
     },
+    initializeRun() {
+        clearCelestialRuns();
+        this.celestial.run = true;
+    },
+    get isRunning() {
+        return this.celestial.run;
+    },
 };
