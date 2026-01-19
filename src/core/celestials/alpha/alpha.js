@@ -1,6 +1,6 @@
-import { DC } from "../constants";
+import { DC } from "../../constants";
 
-import { Quotes } from "./quotes";
+import { Quotes } from "../quotes";
 
 export const Alpha = {
     displayName: "Alpha",
