@@ -391,7 +391,7 @@ export const tabs = [
         name: "Imaginary Upgrades",
         symbol: "<i class='fas fa-level-up-alt'></i>",
         component: "ImaginaryUpgradesTab",
-        condition: () => PlayerProgress.endgameUnlocked() ||  MachineHandler.isIMUnlocked,
+        condition: () => PlayerProgress.endgameUnlocked() || MachineHandler.isIMUnlocked,
         id: 2,
         hidable: true,
       },
@@ -501,6 +501,15 @@ export const tabs = [
         component: "PelleTab",
         condition: () => Pelle.isUnlocked,
         id: 7,
+        hidable: true,
+      },
+      {
+        key: "alpha",
+        name: "Alpha",
+        symbol: "α",
+        component: "AlphaTab",
+        condition: () => Alpha.isUnlocked,
+        id: 8,
         hidable: true,
       }
     ]

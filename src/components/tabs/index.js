@@ -52,6 +52,7 @@ import TimeDilationTab from "./time-dilation/TimeDilationTab";
 import TimeDimensionsTab from "./time-dimensions/TimeDimensionsTab";
 import TimeStudiesTab from "./time-studies/TimeStudiesTab";
 import VTab from "./celestial-v/VTab";
+import AlphaTab from "./celestial-alpha/AlphaTab";
 
 const TabComponents = {
   AntimatterDimensionsTab,
@@ -77,6 +78,7 @@ const TabComponents = {
   RaTab,
   LaitelaTab,
   PelleTab,
+  AlphaTab,
   AutobuyersTab,
   AutomatorTab,
   NormalChallengesTab,

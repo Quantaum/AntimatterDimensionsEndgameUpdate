@@ -294,7 +294,7 @@ export function getOfflineEPGain(ms) {
 // eslint-disable-next-line max-params
 export function addRealityTime(time, realTime, rm, level, realities, ampFactor, projIM) {
   let reality = "";
-  const celestials = [Teresa, Effarig, Enslaved, V, Ra, Laitela];
+  const celestials = [Teresa, Effarig, Enslaved, V, Ra, Laitela, Alpha];
   for (const cel of celestials) {
     if (cel.isRunning) reality = cel.displayName;
   }
@@ -372,8 +372,8 @@ export function getGameSpeedupFactor(effectsToConsider, applyMaxThisEndgame = tr
   let effects;
   if (effectsToConsider === undefined) {
     effects = [GAME_SPEED_EFFECT.FIXED_SPEED, GAME_SPEED_EFFECT.TIME_GLYPH, GAME_SPEED_EFFECT.BLACK_HOLE,
-      GAME_SPEED_EFFECT.TIME_STORAGE, GAME_SPEED_EFFECT.SINGULARITY_MILESTONE, GAME_SPEED_EFFECT.NERFS,
-      GAME_SPEED_EFFECT.CELESTIAL_MATTER, GAME_SPEED_EFFECT.RA_BUFFS];
+    GAME_SPEED_EFFECT.TIME_STORAGE, GAME_SPEED_EFFECT.SINGULARITY_MILESTONE, GAME_SPEED_EFFECT.NERFS,
+    GAME_SPEED_EFFECT.CELESTIAL_MATTER, GAME_SPEED_EFFECT.RA_BUFFS];
   } else {
     effects = effectsToConsider;
   }
@@ -589,10 +589,10 @@ export function gameLoop(passedDiff, options = {}) {
     if (Enslaved.isStoringGameTime && !fixedSpeedActive) {
       // These variables are the actual game speed used and the game speed unaffected by time storage, respectively
       const reducedTimeFactor = getGameSpeedupFactor([GAME_SPEED_EFFECT.FIXED_SPEED, GAME_SPEED_EFFECT.TIME_GLYPH, GAME_SPEED_EFFECT.BLACK_HOLE,
-        GAME_SPEED_EFFECT.TIME_STORAGE, GAME_SPEED_EFFECT.SINGULARITY_MILESTONE, GAME_SPEED_EFFECT.NERFS,
-        GAME_SPEED_EFFECT.CELESTIAL_MATTER, GAME_SPEED_EFFECT.RA_BUFFS], false);
+      GAME_SPEED_EFFECT.TIME_STORAGE, GAME_SPEED_EFFECT.SINGULARITY_MILESTONE, GAME_SPEED_EFFECT.NERFS,
+      GAME_SPEED_EFFECT.CELESTIAL_MATTER, GAME_SPEED_EFFECT.RA_BUFFS], false);
       const totalTimeFactor = getGameSpeedupFactor([GAME_SPEED_EFFECT.FIXED_SPEED, GAME_SPEED_EFFECT.TIME_GLYPH, GAME_SPEED_EFFECT.BLACK_HOLE,
-        GAME_SPEED_EFFECT.SINGULARITY_MILESTONE, GAME_SPEED_EFFECT.CELESTIAL_MATTER, GAME_SPEED_EFFECT.RA_BUFFS], false);
+      GAME_SPEED_EFFECT.SINGULARITY_MILESTONE, GAME_SPEED_EFFECT.CELESTIAL_MATTER, GAME_SPEED_EFFECT.RA_BUFFS], false);
       const multiplicandFactor = EndgameUpgrade(7).isBought ? getGameSpeedupFactor() : totalTimeFactor.sub(reducedTimeFactor);
       const amplification = Ra.unlocks.improvedStoredTime.effects.gameTimeAmplification.effectOrDefault(1);
       const beforeStore = player.celestials.enslaved.stored;
@@ -754,7 +754,7 @@ export function gameLoop(passedDiff, options = {}) {
 
   const masteryGain = Effects.sum(EndgameMastery(11)) * Time.unscaledDeltaTime.totalSeconds.div(60).toNumber();
   Currency.perkPoints.add(masteryGain);
-  
+
   if (Perk.autocompleteEC1.canBeApplied || EndgameMastery(22).isBought) player.reality.lastAutoEC += realDiff;
 
   EternityChallenge(12).tryFail();
@@ -821,7 +821,7 @@ export function gameLoop(passedDiff, options = {}) {
   }
   player.celestials.laitela.darkMatter = Decimal.min(darkMatterProd, Laitela.darkMatterCap);
   player.celestials.laitela.maxDarkMatter = Decimal.max(player.celestials.laitela.darkMatter, player.celestials.laitela.maxDarkMatter);
-  
+
   if (EndgameMastery(111).isBought) {
     player.reality.imaginaryMachines = MachineHandler.currentIMCap;
   }
@@ -829,7 +829,7 @@ export function gameLoop(passedDiff, options = {}) {
   if (GalacticPower.isUnlocked) {
     Currency.galacticPower.add(getGalacticPowerGainPerSecond().times(realDiff).div(1000));
   }
-  
+
   player.records.bestAntimatterExponentOutsideDoom = Math.max(Decimal.log10(
     player.records.totalAntimatterOutsideDoom), player.records.bestAntimatterExponentOutsideDoom);
 
@@ -861,7 +861,7 @@ export function gameLoop(passedDiff, options = {}) {
     if (Tabs.current.isPermanentlyHidden) {
       const tab = Tabs.all.reverse().find(t => !t.isPermanentlyHidden && t.id !== 10);
       if (tab) tab.show(true);
-      else [...Tab.dimensions.subtabs].reverse().find(t => !t.isPermanentlyHidden).show(true);
+      else[...Tab.dimensions.subtabs].reverse().find(t => !t.isPermanentlyHidden).show(true);
     }
 
     if (Tabs.current.subtabs.find(t => t.isOpen).isPermanentlyHidden) {
@@ -1100,7 +1100,7 @@ function updateTachyonGalaxies() {
     .pow(player.dilation.baseTachyonGalaxies));
   player.dilation.totalTachyonGalaxies =
     Decimal.min(player.dilation.baseTachyonGalaxies.times(tachyonGalaxyMult), tachyonGalaxyThreshold).add(
-    Decimal.max(player.dilation.baseTachyonGalaxies.times(tachyonGalaxyMult).sub(tachyonGalaxyThreshold), 0)).div(tachyonGalaxyMult);
+      Decimal.max(player.dilation.baseTachyonGalaxies.times(tachyonGalaxyMult).sub(tachyonGalaxyThreshold), 0)).div(tachyonGalaxyMult);
 
   player.dilation.totalTachyonGalaxies = player.dilation.totalTachyonGalaxies.times(DilationUpgrade.galaxyMultiplier.effectValue);
 }
@@ -1334,7 +1334,7 @@ export function simulateTime(seconds, real, fast) {
   }
 }
 
-window.onload = function() {
+window.onload = function () {
   const supportedBrowser = browserCheck();
   GameUI.initialized = supportedBrowser;
   ui.view.initialized = supportedBrowser;
@@ -1349,11 +1349,11 @@ window.onload = function() {
   }
 };
 
-window.onfocus = function() {
+window.onfocus = function () {
   setShiftKey(false);
 };
 
-window.onblur = function() {
+window.onblur = function () {
   GameKeyboard.stopSpins();
 };
 
