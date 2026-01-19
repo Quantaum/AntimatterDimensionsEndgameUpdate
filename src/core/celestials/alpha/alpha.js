@@ -10,4 +10,4 @@ export const Alpha = {
     get isUnlocked() {
         return ImaginaryUpgrade(30).isBought;
     }
-}
+};
