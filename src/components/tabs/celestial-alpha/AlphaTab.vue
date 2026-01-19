@@ -210,18 +210,8 @@ export default {
 </script>
 
 <template>
-  <div class="l-enslaved-celestial-tab">
+  <div class="l-alpha-celestial-tab">
     <CelestialQuoteHistory celestial="alpha" />
-    <div
-      v-if="hasAutoRelease && canAutoRelease"
-      class="c-subtab-option-container"
-    >
-      <PrimaryToggleButton
-        v-model="autoRelease"
-        class="o-primary-btn--subtab-option"
-        label="Pulse Black Hole:"
-      />
-    </div>
     <div class="l-enslaved-celestial-tab--inner">
       <div class="l-enslaved-run-container">
         <div v-if="hasUnlock(unlocksInfo.RUN)">
