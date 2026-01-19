@@ -140,7 +140,7 @@ export default {
       this.storedRealCap = Enslaved.storedRealTimeCap;
       this.unlocks = Array.from(player.celestials.enslaved.unlocks);
       this.buyableUnlocks = Object.values(ENSLAVED_UNLOCKS).map(x => Enslaved.canBuy(x));
-      this.quote = Enslaved.quote;
+      this.quote = Alpha.quote;
       this.autoRelease = player.celestials.enslaved.isAutoReleasing;
       this.autoReleaseSpeed = Enslaved.isAutoReleasing ? Enslaved.autoReleaseSpeed : new Decimal(0);
       this.currentSpeedUp = Enslaved.currentBlackHoleStoreAmountPerMs;
@@ -211,7 +211,7 @@ export default {
 
 <template>
   <div class="l-enslaved-celestial-tab">
-    <CelestialQuoteHistory celestial="enslaved" />
+    <CelestialQuoteHistory celestial="alpha" />
     <div
       v-if="hasAutoRelease && canAutoRelease"
       class="c-subtab-option-container"
