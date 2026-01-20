@@ -327,6 +327,7 @@ export const alphaQuotes = {
     alphaDefeated: {
         id: 29,
         lines: [
+            "This isn't the right repository...",
             "...",
             "What!",
             "No!",
