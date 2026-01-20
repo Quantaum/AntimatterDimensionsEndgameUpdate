@@ -62,8 +62,8 @@ export default {
       return Enslaved.storedTimeInsideEnslaved(this.storedBlackHole);
     },
     realityTitle() {
-      if (this.isRunning) return "You are inside The Nameless Ones' Reality";
-      return "Start The Nameless Ones' Reality";
+      if (this.isRunning) return "You are inside Alpha's Reality";
+      return "Start Alpha's Reality";
     },
     runButtonClassObject() {
       return {
@@ -82,7 +82,7 @@ export default {
       return "Offline time used for production";
     },
     // Use this here since Nameless has a fairly non-standard character, and SFCs don't support using \uf0c1
-    enslavedSymbol: () => Enslaved.symbol,
+    alphaSymbol: () => Alpha.symbol,
     isDoomed: () => Pelle.isDoomed,
     storeGameTimeClass() {
       return {
@@ -177,7 +177,7 @@ export default {
     },
     startRun() {
       if (this.isDoomed) return;
-      Modal.celestials.show({ name: "The Nameless Ones'", number: 2 });
+      Modal.celestials.show({ name: "Alpha's", number: 7 });
     },
     hasUnlock(info) {
       return Enslaved.has(info);
@@ -212,16 +212,6 @@ export default {
 <template>
   <div class="l-enslaved-celestial-tab">
     <CelestialQuoteHistory celestial="enslaved" />
-    <div
-      v-if="hasAutoRelease && canAutoRelease"
-      class="c-subtab-option-container"
-    >
-      <PrimaryToggleButton
-        v-model="autoRelease"
-        class="o-primary-btn--subtab-option"
-        label="Pulse Black Hole:"
-      />
-    </div>
     <div class="l-enslaved-celestial-tab--inner">
       <div class="l-enslaved-run-container">
         <div v-if="hasUnlock(unlocksInfo.RUN)">
@@ -240,7 +230,7 @@ export default {
               @click="startRun"
             >
               <div class="c-enslaved-run-button__icon__sigil">
-                {{ enslavedSymbol }}
+                {{ alphaSymbol }}
               </div>
               <div
                 v-for="x in (isRunning ? 25 : 0)"
