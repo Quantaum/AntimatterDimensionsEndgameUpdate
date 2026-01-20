@@ -98,7 +98,7 @@ const ALPHA_STAGE_REQUIREMENTS = {
     26: () => Currency.timeTheorems?.value?.gt?.(0),
     27: () => (player.timeDimensions && player.timeDimensions[8] && player.timeDimensions[8].amount?.gt?.(0)),
     28: () => false,
-    29: () => Alpha.isCompleted,
+    29: () => Boolean(player.celestials?.alpha?.completed),
 };
 
 Alpha.checkStageRequirements = function () {
