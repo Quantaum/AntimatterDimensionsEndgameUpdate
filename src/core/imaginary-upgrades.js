@@ -73,7 +73,7 @@ class ImaginaryUpgradeState extends BitPurchasableMechanicState {
   }
 
   get canBeApplied() {
-    return super.canBeApplied && !this.pelleDisabled;
+    return super.canBeApplied && !this.pelleDisabled && !this.alphaDisabled;
   }
 
   get pelleDisabled() {
@@ -134,7 +134,7 @@ class RebuyableImaginaryUpgradeState extends RebuyableMechanicState {
   }
 
   get canBeApplied() {
-    return super.canBeApplied && !this.pelleDisabled;
+    return super.canBeApplied && !this.pelleDisabled && !this.alphaDisabled;
   }
 
   get pelleDisabled() {
