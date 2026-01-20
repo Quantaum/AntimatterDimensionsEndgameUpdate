@@ -5,7 +5,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
-  name: "AlphaTab",
+  name: "EnslavedTab",
   components: {
     CelestialQuoteHistory,
     PrimaryButton,
@@ -82,7 +82,7 @@ export default {
       return "Offline time used for production";
     },
     // Use this here since Nameless has a fairly non-standard character, and SFCs don't support using \uf0c1
-    symbol: () => "α",
+    enslavedSymbol: () => Enslaved.symbol,
     isDoomed: () => Pelle.isDoomed,
     storeGameTimeClass() {
       return {
@@ -211,7 +211,17 @@ export default {
 
 <template>
   <div class="l-enslaved-celestial-tab">
-    <CelestialQuoteHistory celestial="alpha" />
+    <CelestialQuoteHistory celestial="enslaved" />
+    <div
+      v-if="hasAutoRelease && canAutoRelease"
+      class="c-subtab-option-container"
+    >
+      <PrimaryToggleButton
+        v-model="autoRelease"
+        class="o-primary-btn--subtab-option"
+        label="Pulse Black Hole:"
+      />
+    </div>
     <div class="l-enslaved-celestial-tab--inner">
       <div class="l-enslaved-run-container">
         <div v-if="hasUnlock(unlocksInfo.RUN)">
@@ -230,7 +240,7 @@ export default {
               @click="startRun"
             >
               <div class="c-enslaved-run-button__icon__sigil">
-                {{ symbol }}
+                {{ enslavedSymbol }}
               </div>
               <div
                 v-for="x in (isRunning ? 25 : 0)"
