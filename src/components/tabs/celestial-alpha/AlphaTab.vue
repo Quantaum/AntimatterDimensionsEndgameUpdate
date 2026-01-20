@@ -5,7 +5,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
-  name: "EnslavedTab",
+  name: "AlphaTab",
   components: {
     CelestialQuoteHistory,
     PrimaryButton,
@@ -178,7 +178,7 @@ export default {
 </script>
 
 <template>
-  <div class="l-alpha-celestial-tab">
+  <div class="l-teresa-celestial-tab">
     <CelestialQuoteHistory celestial="alpha" />
           <div class="c-alpha-run-button">
             <div
@@ -197,12 +197,6 @@ export default {
               <div class="c-alpha-run-button__icon__sigil">
                 {{ enslavedSymbol }}
               </div>
-              <div
-                v-for="x in (isRunning ? 25 : 0)"
-                :key="x"
-                class="c-alpha-run-button__icon__glitch"
-                :style="glitchStyle(x)"
-              />
             </div>
             <div
               v-for="line in runDescription"
