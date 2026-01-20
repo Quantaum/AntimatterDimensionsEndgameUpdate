@@ -19,8 +19,7 @@ export const imaginaryUpgrades = [
     description: () => `Increase Temporal Amplifier multiplier by +${format(0.15, 2, 2)}`,
     effect: 0.15,
     scaleStart: 9,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.temporalIntensifier.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.temporalIntensifier.isBought
   }),
   rebuyable({
     name: "Replicative Intensifier",
@@ -30,8 +29,7 @@ export const imaginaryUpgrades = [
     description: () => `Increase Replicative Amplifier multiplier by +${format(0.15, 2, 2)}`,
     effect: 0.15,
     scaleStart: 9,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.replicativeIntensifier.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.replicativeIntensifier.isBought
   }),
   rebuyable({
     name: "Eternal Intensifier",
@@ -41,8 +39,7 @@ export const imaginaryUpgrades = [
     description: () => `Increase Eternal Amplifier multiplier by +${format(0.4, 2, 2)}`,
     effect: 0.4,
     scaleStart: 10,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.eternalIntensifier.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.eternalIntensifier.isBought
   }),
   rebuyable({
     name: "Superluminal Intensifier",
@@ -52,8 +49,7 @@ export const imaginaryUpgrades = [
     description: () => `Increase Superluminal Amplifier multiplier by +${format(0.15, 2, 2)}`,
     effect: 0.15,
     scaleStart: 8,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.superluminalIntensifier.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.superluminalIntensifier.isBought
   }),
   rebuyable({
     name: "Boundless Intensifier",
@@ -63,8 +59,7 @@ export const imaginaryUpgrades = [
     description: () => `Increase Boundless Amplifier multiplier by +${format(0.6, 2, 2)}`,
     effect: 0.6,
     scaleStart: 11,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.boundlessIntensifier.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.boundlessIntensifier.isBought
   }),
   rebuyable({
     name: "Elliptic Materiality",
@@ -76,8 +71,7 @@ export const imaginaryUpgrades = [
     scaleStart: 5,
     formatEffect: value => `${formatX(EndgameMastery(153).isBought ? value.powEffectsOf(EndgameMastery(153)) : value)}`,
     isDecimal: true,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.ellipticMateriality.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.ellipticMateriality.isBought
   }),
   rebuyable({
     name: "Runic Assurance",
@@ -88,8 +82,7 @@ export const imaginaryUpgrades = [
     effect: 200,
     scaleStart: 4,
     formatEffect: value => `+${formatInt(value)} levels`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.runicAssurance.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.runicAssurance.isBought
   }),
   rebuyable({
     name: "Hyperbolic Apeirogon",
@@ -101,8 +94,7 @@ export const imaginaryUpgrades = [
     scaleStart: 3,
     formatEffect: value => `${formatX(value)}`,
     isDecimal: true,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.hyperbolicApeirogon.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.hyperbolicApeirogon.isBought
   }),
   rebuyable({
     name: "Cosmic Filament",
@@ -113,8 +105,7 @@ export const imaginaryUpgrades = [
     effect: 0.03,
     scaleStart: 2,
     formatEffect: value => `+${formatPercents(value)}`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.cosmicFilament.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.cosmicFilament.isBought
   }),
   rebuyable({
     name: "Entropic Condensing",
@@ -125,8 +116,7 @@ export const imaginaryUpgrades = [
     effect: 1,
     scaleStart: 2,
     formatEffect: value => `${formatX(EndgameMastery(131).isBought ? Decimal.pow(1 + value, value) : new Decimal(1 + value), 2)}`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.entropicCondensing.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.entropicCondensing.isBought
   }),
   {
     name: "Suspicion of Interference",
@@ -140,8 +130,7 @@ export const imaginaryUpgrades = [
     description: "Time Dimension power based on total antimatter",
     effect: () => 1 + Math.log10(player.records.totalEndgameAntimatter.log10()) / 100,
     formatEffect: value => `${formatPow(value, 0, 4)}`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.suspicionOfInterference.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.suspicionOfInterference.isBought
   },
   {
     name: "Consequences of Illusions",
@@ -156,8 +145,7 @@ export const imaginaryUpgrades = [
     description: "Gain free Dimboosts based on Imaginary rebuyable count",
     effect: () => 2e4 * ImaginaryUpgrades.totalRebuyables,
     formatEffect: value => `${format(value, 1)}`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.consequencesOfIllusions.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.consequencesOfIllusions.isBought
   },
   {
     name: "Transience of Information",
@@ -173,8 +161,7 @@ export const imaginaryUpgrades = [
     description: "Increase Imaginary Machine Cap based on Imaginary Upgrades purchased",
     effect: () => Math.pow(1 + ImaginaryUpgrades.totalRebuyables / 20 + ImaginaryUpgrades.totalSinglePurchase / 2, EndgameMastery(154).effectOrDefault(1)),
     formatEffect: value => `${formatX(value, 2, 1)}`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.transienceOfInformation.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.transienceOfInformation.isBought
   },
   {
     name: "Recollection of Intrusion",
@@ -187,8 +174,7 @@ export const imaginaryUpgrades = [
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: () => `Raise all Dimension per-purchase multipliers to ${formatPow(1.5, 0, 1)}`,
     effect: 1.5,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.recollectionOfIntrusion.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.recollectionOfIntrusion.isBought
   },
   {
     name: "Fabrication of Ideals",
@@ -268,8 +254,7 @@ export const imaginaryUpgrades = [
     description: () => `Unlock Autobuyers for repeatable Imaginary Upgrades and generate Imaginary Machines
       ${formatInt(10)} times faster`,
     effect: 10,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.vacuumAcceleration.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.vacuumAcceleration.isBought
   },
   {
     name: "Existential Elimination",
@@ -285,8 +270,7 @@ export const imaginaryUpgrades = [
     description: "Annihilation multiplier gain is improved based on Imaginary Machines",
     effect: () => Math.clampMin(Math.pow(Decimal.log10(Currency.imaginaryMachines.value) - 10, 3), 1),
     formatEffect: value => `${formatX(value, 2, 1)}`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.existentialElimination.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.existentialElimination.isBought
   },
   {
     name: "Total Termination",
@@ -302,8 +286,7 @@ export const imaginaryUpgrades = [
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: () => `All Glyph Sacrifice totals are increased to ${format(1e100)}`,
     effect: new Decimal(1e100),
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.totalTermination.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.totalTermination.isBought
   },
   {
     name: "Planar Purification",
@@ -318,8 +301,7 @@ export const imaginaryUpgrades = [
     description: "Increase free Dimboost count based on Tesseract count",
     effect: () => Math.floor(0.25 * Math.pow(Tesseracts.effectiveCount, 2)),
     formatEffect: value => `${formatX(value)}`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.planarPurification.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.planarPurification.isBought
   },
   {
     name: "Absolute Annulment",
@@ -339,8 +321,7 @@ export const imaginaryUpgrades = [
     description: "Increase free Dimboost strength based on Singularity count",
     effect: () => Decimal.pow(player.celestials.laitela.singularities, 300),
     formatEffect: value => `${formatX(value, 2, 1)}`,
-    isDisabledInDoomed: () => !PelleImaginaryUpgrade.absoluteAnnulment.isBought,
-    isDisabledInDarkened: true
+    isDisabledInDoomed: () => !PelleImaginaryUpgrade.absoluteAnnulment.isBought
   },
   {
     name: "Omnipresent Obliteration",
