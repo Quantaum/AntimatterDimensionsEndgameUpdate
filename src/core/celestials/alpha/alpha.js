@@ -24,6 +24,13 @@ export const Alpha = {
         clearCelestialRuns();
         this.celestial.run = true;
     },
+    completeRun() {
+        player.celestials.alpha.completed = true;
+        this.quotes.alphaDefeated.show();
+    },
+    get isCompleted() {
+        return player.celestials.alpha.completed;
+    },
     get isRunning() {
         return this.celestial.run;
     },
