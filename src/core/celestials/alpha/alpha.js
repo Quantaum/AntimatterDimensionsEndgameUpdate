@@ -23,6 +23,7 @@ export const Alpha = {
     initializeRun() {
         clearCelestialRuns();
         this.celestial.run = true;
+        this.quotes.realityEnter.show();
     },
     completeRun() {
         player.celestials.alpha.completed = true;
