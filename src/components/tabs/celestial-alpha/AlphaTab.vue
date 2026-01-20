@@ -5,7 +5,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
-  name: "AlphaTab",
+  name: "EnslavedTab",
   components: {
     CelestialQuoteHistory,
     PrimaryButton,
@@ -82,7 +82,7 @@ export default {
       return "Offline time used for production";
     },
     // Use this here since Nameless has a fairly non-standard character, and SFCs don't support using \uf0c1
-    enslavedSymbol: () => Enslaved.symbol,
+    symbol: () => "α",
     isDoomed: () => Pelle.isDoomed,
     doomedDisabledClass() {
       return { "o-pelle-disabled": this.isDoomed };
@@ -121,28 +121,6 @@ export default {
       this.hasNoCharge = player.celestials.enslaved.stored === new Decimal(0);
       this.hasReachedCurrentCap = this.storedReal === this.storedRealCap;
     },
-    toggleStoreBlackHole() {
-      Enslaved.toggleStoreBlackHole();
-    },
-    toggleStoreReal() {
-      Enslaved.toggleStoreReal();
-    },
-    toggleAutoStoreReal() {
-      if (!this.offlineEnabled) return;
-      Enslaved.toggleAutoStoreReal();
-    },
-    useStored() {
-      Enslaved.useStoredTime(false);
-    },
-    timeDisplayShort(ms) {
-      return timeDisplayShort(ms);
-    },
-    timeUntilBuy(price) {
-      return Decimal.max((price.sub(this.storedBlackHole)).div(this.currentSpeedUp), 0);
-    },
-    buyUnlock(info) {
-      Enslaved.buyUnlock(info);
-    },
     startRun() {
       if (this.isDoomed) return;
       Modal.celestials.show({ name: "Alpha's", number: 7 });
@@ -155,12 +133,6 @@ export default {
       // is needed for proper reactivity of button styles (e.g., if you get a level 5000 glyph
       // while on the Nameless tab).
       return this.buyableUnlocks[info.id];
-    },
-    unlockClassObject(info) {
-      return {
-        "o-enslaved-shop-button--bought": this.hasUnlock(info),
-        "o-enslaved-shop-button--available": this.canBuyUnlock(info)
-      };
     },
     glitchStyle(x) {
       const xScale = 15 / 27;
@@ -178,8 +150,11 @@ export default {
 </script>
 
 <template>
-  <div class="l-teresa-celestial-tab">
+  <div class="l-alpha-celestial-tab">
     <CelestialQuoteHistory celestial="alpha" />
+    <div class="l-alpha-celestial-tab--inner">
+      <div class="l-alpha-run-container">
+        <div v-if="hasUnlock(unlocksInfo.RUN)">
           <div class="c-alpha-run-button">
             <div
               class="c-alpha-run-button__title"
@@ -191,11 +166,14 @@ export default {
               <b>(Completed)</b>
             </div>
             <div
-              :class="runButtonClassObject"
+              :class="runButtonOuterClass"
               @click="startRun"
             >
-              <div class="c-alpha-run-button__icon__sigil">
-                {{ enslavedSymbol }}
+              <div
+                :class="runButtonInnerClass"
+                :button-symbol="symbol"
+              >
+                {{ symbol }}
               </div>
             </div>
             <div
@@ -207,11 +185,14 @@ export default {
             </div>
             <b>placeholder text</b>
           </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.c-alpha-run-description-line {
+.c-enslaved-run-description-line {
   margin-bottom: 1rem;
 }
 
