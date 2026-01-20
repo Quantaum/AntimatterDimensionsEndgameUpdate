@@ -80,6 +80,10 @@ class ImaginaryUpgradeState extends BitPurchasableMechanicState {
     return Pelle.isDoomed && this.isDisabledInDoomed;
   }
 
+  get alphaDisabled() {
+    return Alpha.isDarkened && this.config.isDisabledInDarkened;
+  }
+
   get isDisabledInDoomed() {
     return this.config.isDisabledInDoomed ? this.config.isDisabledInDoomed() : false;
   }
@@ -126,11 +130,15 @@ class RebuyableImaginaryUpgradeState extends RebuyableMechanicState {
   }
 
   get canBeApplied() {
-    return super.canBeApplied && !this.pelleDisabled;
+    return super.canBeApplied && !this.pelleDisabled && !this.alphaDisabled;
   }
 
   get pelleDisabled() {
     return Pelle.isDoomed && this.isDisabledInDoomed;
+  }
+
+  get alphaDisabled() {
+    return Alpha.isDarkened;
   }
 
   get isDisabledInDoomed() {

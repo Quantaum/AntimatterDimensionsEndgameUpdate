@@ -40,8 +40,8 @@ export default {
     },
     classObject() {
       return {
-        "c-reality-upgrade-btn--useless": this.upgrade.pelleDisabled,
-        "c-reality-upgrade-btn--bought": this.isBought && !this.upgrade.pelleDisabled,
+        "c-reality-upgrade-btn--useless": this.upgrade.pelleDisabled || this.upgrade.alphaDisabled,
+        "c-reality-upgrade-btn--bought": this.isBought && !this.upgrade.pelleDisabled && !this.upgrade.alphaDisabled,
         "c-reality-upgrade-btn--unavailable": !this.isBought && !this.canBeBought && this.isAvailableForPurchase,
         "c-reality-upgrade-btn--possible": !this.isAvailableForPurchase && this.isPossible,
         "c-reality-upgrade-btn--locked": !this.isAvailableForPurchase && !this.isPossible,
@@ -56,6 +56,7 @@ export default {
       return this.config.canLock && !(this.isAvailableForPurchase || this.isBought);
     },
     isDoomed: () => Pelle.isDoomed,
+    iDarkened: () => Alpha.isDarkened,
   },
   watch: {
     isAutobuyerOn(newValue) {
@@ -77,7 +78,7 @@ export default {
       this.etaText = this.getETAText();
     },
     getETAText() {
-      if (this.canBeBought || !this.isAvailableForPurchase || this.isBought || Pelle.isDoomed) return "";
+      if (this.canBeBought || !this.isAvailableForPurchase || this.isBought || Pelle.isDoomed || Alpha.isDarkened) return "";
       const time = MachineHandler.estimateIMTimer(this.upgrade.cost);
       if (isFinite(new Decimal(time).toNumber())) return TimeSpan.fromSeconds(new Decimal(time)).toString();
       return "Never affordable";
