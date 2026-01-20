@@ -62,8 +62,8 @@ export default {
       return Enslaved.storedTimeInsideEnslaved(this.storedBlackHole);
     },
     realityTitle() {
-      if (this.isRunning) return "You are inside Alpha's Reality";
-      return "Start Alpha's Reality";
+      if (this.isRunning) return "The Darkness Takes Hold";
+      return "Be Consumed by Darkness";
     },
     runButtonClassObject() {
       return {

@@ -95,7 +95,11 @@ export default {
       if (this.inPelle && this.activeChallengeNames.length > 0) {
         return `${this.activeChallengeNames.join(" + ")} in a Doomed Reality. Good luck.`;
       }
+      if (this.inAlpha && this.activeChallengeNames.length > 0) {
+        return `${this.activeChallengeNames.join(" + ")} while consumed by darkness. Good luck.`;
+      }
       if (this.inPelle) return "a Doomed Reality. Good luck.";
+      if (this.inAlpha) return "consumed by darkness. Good luck.";
       if (this.activeChallengeNames.length === 0) {
         return "the Antimatter Universe (no active challenges)";
       }
