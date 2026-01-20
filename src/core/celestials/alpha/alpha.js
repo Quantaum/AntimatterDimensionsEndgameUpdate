@@ -101,24 +101,6 @@ const ALPHA_STAGE_REQUIREMENTS = {
     29: () => Boolean(player.celestials?.alpha?.completed),
 };
 
-Alpha.checkStageRequirements = function () {
-    try {
-        const stage = this.currentStage;
-        const check = ALPHA_STAGE_REQUIREMENTS[stage];
-        if (typeof check !== 'function') return false;
-        if (!check()) return false;
-        // show quote if present
-        const q = ALPHA_STAGE_QUOTE[stage];
-        if (q && this.quotes[q]) this.quotes[q].show();
-        this.exitAndAdvanceStage();
-        return true;
-    } catch (e) {
-        // swallow errors to avoid breaking game loop
-        console.error(e);
-        return false;
-    }
-};
-
 // Hook into common events that can advance stages (registered after `Alpha` is declared)
 
 export const Alpha = {
@@ -311,6 +293,25 @@ export const Alpha = {
 EventHub.logic.on(GAME_EVENT.TAB_CHANGED, () => {
     if (Tab.celestials.alpha.isOpen) Alpha.quotes.initial.show();
 });
+
+// Define the stage-checking function after `Alpha` exists
+Alpha.checkStageRequirements = function () {
+    try {
+        const stage = this.currentStage;
+        const check = ALPHA_STAGE_REQUIREMENTS[stage];
+        if (typeof check !== 'function') return false;
+        if (!check()) return false;
+        // show quote if present
+        const q = ALPHA_STAGE_QUOTE[stage];
+        if (q && this.quotes[q]) this.quotes[q].show();
+        this.exitAndAdvanceStage();
+        return true;
+    } catch (e) {
+        // swallow errors to avoid breaking game loop
+        console.error(e);
+        return false;
+    }
+};
 
 // Register stage-checking hooks now that `Alpha` has been defined
 EventHub.logic.on(GAME_EVENT.BIG_CRUNCH_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
