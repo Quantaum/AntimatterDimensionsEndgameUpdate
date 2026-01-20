@@ -3,10 +3,35 @@ import { DC } from "../../constants";
 import { Quotes } from "../quotes";
 
 export const ALPHA_STAGES = {
-    INFINITY: 1,
-    ETERNITY: 2,
-    REALITY: 3,
-    COMPLETED: 4
+    FOURTH_DIMBOOST: 1,
+    FIFTH_DIMBOOST: 2,
+    GALAXY: 3,
+    INFINITY: 4,
+    C12: 5,
+    BREAK_INFINITY: 6,
+    FIVE_ELEVEN_IP: 7,
+    ALL_BIUS: 8,
+    ALL_ICS: 9,
+    REPLICANTI: 10,
+    EIGHTH_ID: 11,
+    ETERNITY: 12,
+    TS61: 13,
+    FOURTH_TD: 14,
+    THIRD_EU: 15,
+    ONEHUNDREDFIFTEEN_TT: 16,
+    FIRST_EC: 17,
+    FIRST_EC_FULL: 18,
+    TS181: 19,
+    EC10: 20,
+    TS192: 21,
+    UNLOCK_EC11: 22,
+    COMPLETE_EC11: 23,
+    DILATION: 24,
+    ETERNITY_WHILE_DILATED: 25,
+    GENERATE_TT: 26,
+    EIGHTH_TD: 27,
+    REALITY: 28,
+    COMPLETED: 29
 };
 
 export const Alpha = {
@@ -38,27 +63,74 @@ export const Alpha = {
         return player.celestials.alpha.run;
     },
     get currentStage() {
-        if (!EffarigUnlock.infinity.isUnlocked) {
-            return ALPHA_STAGES.INFINITY;
-        }
-        if (!EffarigUnlock.eternity.isUnlocked) {
-            return ALPHA_STAGES.ETERNITY;
-        }
-        if (!EffarigUnlock.reality.isUnlocked) {
-            return ALPHA_STAGES.REALITY;
-        }
-        return ALPHA_STAGES.COMPLETED;
+        const layer = Number(player.celestials.alpha.alphaLayer || 0);
+        if (layer <= 0) return ALPHA_STAGES["4TH_DIMBOOST"];
+        if (layer >= ALPHA_STAGES.COMPLETED) return ALPHA_STAGES.COMPLETED;
+        return layer;
     },
     get currentStageName() {
-        switch (this.currentStage) {
-            case ALPHA_STAGES.INFINITY:
-                return "Infinity";
-            case ALPHA_STAGES.ETERNITY:
-                return "Eternity";
-            case ALPHA_STAGES.REALITY:
-            default:
-                return "Reality";
+        const names = [
+            null,
+            "Fourth Dimboost",
+            "Fifth Dimboost",
+            "Galaxy",
+            "Infinity",
+            "C12",
+            "Break Infinity",
+            "5e11 IP",
+            "All BIUs",
+            "All ICs",
+            "Replicanti",
+            "8th ID",
+            "Eternity",
+            "TS61",
+            "4th TD",
+            "3rd EU",
+            "115 TT",
+            "First EC",
+            "First EC Full",
+            "TS181",
+            "EC10",
+            "TS192",
+            "Unlock EC11",
+            "Complete EC11",
+            "Dilation",
+            "Eternity while Dilated",
+            "Generate TT",
+            "8th TD",
+            "Reality",
+            "Completed"
+        ];
+        return names[this.currentStage] || "Unknown";
+    },
+    // Advance alpha stage by one (clamped). Does not perform a reality reset.
+    advanceStage() {
+        const next = Math.min(ALPHA_STAGES.COMPLETED, this.currentStage + 1);
+        player.celestials.alpha.alphaLayer = next;
+        EventHub.dispatch?.(GAME_EVENT.ALPHA_STAGE_ADVANCED, next);
+        Modal.message.show(`You advanced to ${this.currentStageName}.`, {}, 2);
+        return next;
+    },
+
+    // If currently running Alpha, exit the reality (perform a reality reset) and advance the stage.
+    // If not running, simply advance the stage.
+    exitAndAdvanceStage() {
+        const next = Math.min(ALPHA_STAGES.COMPLETED, this.currentStage + 1);
+        player.celestials.alpha.alphaLayer = next;
+        if (this.isRunning) {
+            // This will perform the reality reset and clear the run flag.
+            beginProcessReality(getRealityProps(true));
+        } else {
+            EventHub.dispatch?.(GAME_EVENT.ALPHA_STAGE_ADVANCED, next);
+            Modal.message.show(`You advanced to ${this.currentStageName}.`, {}, 2);
         }
+        return next;
+    },
+
+    // Convenience: check a boolean condition and exit/advance if true.
+    checkAndAdvanceIf(condition) {
+        if (condition) return this.exitAndAdvanceStage();
+        return false;
     },
     isDisabled(mechanic) {
         if (!this.isDarkened) return false;
