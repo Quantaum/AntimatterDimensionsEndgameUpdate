@@ -74,7 +74,7 @@ export default {
       };
     },
     runDescription() {
-      return GameDatabase.celestials.descriptions[2].effects().split("\n");
+      return GameDatabase.celestials.descriptions[7].effects().split("\n");
     },
     realTimeButtonText() {
       if (!this.offlineEnabled) return "Offline Progress is disabled";
