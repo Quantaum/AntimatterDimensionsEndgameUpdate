@@ -33,7 +33,7 @@ export const Alpha = {
         return player.celestials.alpha.completed;
     },
     get isRunning() {
-        return this.celestial.run;
+        return player.celestials.alpha.run;
     },
     get currentStage() {
         if (!EffarigUnlock.infinity.isUnlocked) {
