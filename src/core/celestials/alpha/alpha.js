@@ -34,7 +34,48 @@ export const ALPHA_STAGES = {
     COMPLETED: 29
 };
 
-// Map stage -> quote key
+const disabledMechanicUnlocks = {
+    achievements: () => ({}),
+    IPMults: () => ({}),
+    EPMults: () => ({}),
+    galaxies: () => ({}),
+    InfinitiedMults: () => ({}),
+    infinitiedGen: () => ({}),
+    eternityGain: () => ({}),
+    eternityMults: () => ({}),
+    studies: () => ({}),
+    EPgen: () => ({}),
+    autoec: () => ({}),
+    replicantiIntervalMult: () => ({}),
+    tpMults: () => ({}),
+    glyphs: () => !PelleRifts.vacuum.milestones[0].canBeApplied,
+    V: () => ({}),
+    singularity: () => ({}),
+    alchemy: () => ({}),
+    achievementMult: () => ({}),
+    blackhole: () => ({}),
+    effarig: () => ({}),
+    imaginaryUpgrades: () => ({}),
+    glyphsac: () => ({}),
+    antimatterDimAutobuyer1: () => PelleUpgrade.antimatterDimAutobuyers1,
+    antimatterDimAutobuyer2: () => PelleUpgrade.antimatterDimAutobuyers1,
+    antimatterDimAutobuyer3: () => PelleUpgrade.antimatterDimAutobuyers1,
+    antimatterDimAutobuyer4: () => PelleUpgrade.antimatterDimAutobuyers1,
+    antimatterDimAutobuyer5: () => PelleUpgrade.antimatterDimAutobuyers2,
+    antimatterDimAutobuyer6: () => PelleUpgrade.antimatterDimAutobuyers2,
+    antimatterDimAutobuyer7: () => PelleUpgrade.antimatterDimAutobuyers2,
+    antimatterDimAutobuyer8: () => PelleUpgrade.antimatterDimAutobuyers2,
+    tickspeedAutobuyer: () => PelleUpgrade.tickspeedAutobuyer,
+    dimBoostAutobuyer: () => PelleUpgrade.dimBoostAutobuyer,
+    galaxyAutobuyer: () => PelleUpgrade.galaxyAutobuyer,
+    timeTheoremAutobuyer: () => ({}),
+    rupg10: () => ({}),
+    dtMults: () => ({}),
+    chargedInfinityUpgrades: () => ({}),
+    alteration: () => ({}),
+    timeTheorems: () => ({})
+};
+
 const ALPHA_STAGE_QUOTE = {
     1: 'dimBoost4',
     2: 'dimBoost5',
