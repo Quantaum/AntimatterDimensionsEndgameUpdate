@@ -348,7 +348,7 @@ export const PerkNetwork = {
         };
       }
       if (alphaUseless) {
-        const backgroundColor = "#00bcd4";
+        const backgroundColor = "#000000";
         const hoverColor = "black";
         const borderColor = secondaryColor;
         return {
