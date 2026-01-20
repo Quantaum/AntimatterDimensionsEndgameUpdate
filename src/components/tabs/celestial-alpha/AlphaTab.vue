@@ -133,7 +133,7 @@ export default {
       this.autoStoreReal = player.celestials.enslaved.autoStoreReal;
       this.offlineEnabled = player.options.offlineProgress;
       this.hasAutoRelease = Ra.unlocks.autoPulseTime.canBeApplied;
-      this.isRunning = Enslaved.isRunning;
+      this.isRunning = Alpha.isRunning;
       this.completed = Enslaved.isCompleted && !this.isDoomed;
       this.storedReal = player.celestials.enslaved.storedReal;
       this.storedRealEffiency = Enslaved.storedRealTimeEfficiency;
@@ -211,7 +211,7 @@ export default {
 
 <template>
   <div class="l-enslaved-celestial-tab">
-    <CelestialQuoteHistory celestial="enslaved" />
+    <CelestialQuoteHistory celestial="alpha" />
     <div class="l-enslaved-celestial-tab--inner">
       <div class="l-enslaved-run-container">
         <div v-if="hasUnlock(unlocksInfo.RUN)">
