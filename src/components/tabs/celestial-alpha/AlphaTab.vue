@@ -5,7 +5,7 @@ import PrimaryButton from "@/components/PrimaryButton";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 
 export default {
-  name: "EnslavedTab",
+  name: "AlphaTab",
   components: {
     CelestialQuoteHistory,
     PrimaryButton,
