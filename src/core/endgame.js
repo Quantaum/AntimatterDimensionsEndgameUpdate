@@ -476,14 +476,14 @@ export const Endgame = {
       player.celestials.laitela.quoteBits = 0;
     }
     player.celestials.laitela.dimensions = Array.range(0, 8).map(() =>
-      ({
-        amount: DC.D0,
-        intervalUpgrades: DC.D0,
-        powerDMUpgrades: DC.D0,
-        powerDEUpgrades: DC.D0,
-        timeSinceLastUpdate: 0,
-        ascensionCount: DC.D0
-      }));
+    ({
+      amount: DC.D0,
+      intervalUpgrades: DC.D0,
+      powerDMUpgrades: DC.D0,
+      powerDEUpgrades: DC.D0,
+      timeSinceLastUpdate: 0,
+      ascensionCount: DC.D0
+    }));
     if (ImaginaryUpgrade(15).isBought) DarkMatterDimension(1).amount = DC.D1;
     if (ImaginaryUpgrade(16).isBought) DarkMatterDimension(2).amount = DC.D1;
     if (ImaginaryUpgrade(17).isBought) DarkMatterDimension(3).amount = DC.D1;
@@ -518,7 +518,7 @@ export const Endgame = {
     player.celestials.pelle.records.totalInfinityPoints = DC.D0;
     player.celestials.pelle.records.totalEternityPoints = DC.D0;
     player.celestials.pelle.rebuyables.antimatterDimensionMult = 0;
-    player.celestials.pelle.rebuyables.timeSpeedMult = 0;      
+    player.celestials.pelle.rebuyables.timeSpeedMult = 0;
     player.celestials.pelle.rebuyables.glyphLevels = 0;
     player.celestials.pelle.rebuyables.infConversion = 0;
     player.celestials.pelle.rebuyables.galaxyPower = 0;
@@ -554,6 +554,7 @@ export const Endgame = {
     player.celestials.pelle.collapsed.rifts = false;
     player.celestials.pelle.collapsed.galaxies = false;
     player.celestials.pelle.showBought = false;
+    player.celestials.alpha.darkened = false;
     player.dilation.studies = [];
     player.dilation.active = false;
     player.dilation.upgrades.clear();

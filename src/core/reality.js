@@ -840,7 +840,7 @@ export function clearCelestialRuns() {
   player.celestials.v.run = false;
   player.celestials.ra.run = false;
   player.celestials.laitela.run = false;
-  player.celestials.alpha.run = false;
+  player.celestials.alpha.darkened = false;
   return saved;
 }
 

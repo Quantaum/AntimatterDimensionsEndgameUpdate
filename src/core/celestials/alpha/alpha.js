@@ -167,7 +167,7 @@ export const Alpha = {
     completeRun() {
         player.celestials.alpha.completed = true;
         this.quotes.alphaDefeated.show();
-        player.celestials.alpha.darkened = true;
+        player.celestials.alpha.darkened = false;
     },
     get isCompleted() {
         return player.celestials.alpha.completed;
