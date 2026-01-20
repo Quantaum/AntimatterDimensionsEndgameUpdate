@@ -40,8 +40,8 @@ export default {
     },
     classObject() {
       return {
-        "c-reality-upgrade-btn--useless": this.upgrade.pelleDisabled || this.upgrade.alphaDisabled,
-        "c-reality-upgrade-btn--bought": this.isBought && !this.upgrade.pelleDisabled && !this.upgrade.alphaDisabled,
+        "c-reality-upgrade-btn--useless": this.upgrade.pelleDisabled,
+        "c-reality-upgrade-btn--bought": this.isBought && !this.upgrade.pelleDisabled,
         "c-reality-upgrade-btn--unavailable": !this.isBought && !this.canBeBought && this.isAvailableForPurchase,
         "c-reality-upgrade-btn--possible": !this.isAvailableForPurchase && this.isPossible,
         "c-reality-upgrade-btn--locked": !this.isAvailableForPurchase && !this.isPossible,

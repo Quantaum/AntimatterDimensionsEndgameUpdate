@@ -1,4 +1,5 @@
 <script>
+import { Alpha } from "../../core/globals";
 import FailableEcText from "./FailableEcText";
 import PrimaryButton from "@/components/PrimaryButton";
 
@@ -37,6 +38,7 @@ export default {
         celestialReality(V, "V's", "v"),
         celestialReality(Ra, "Ra's", "ra"),
         celestialReality(Laitela, "Lai'tela's", "laitela"),
+        celestialReality(Alpha, "Alpha's", "alpha"),
         {
           name: () => "Time Dilation",
           isActive: token => token,
