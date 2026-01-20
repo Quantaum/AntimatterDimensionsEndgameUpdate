@@ -56,7 +56,7 @@ export default {
       return this.config.canLock && !(this.isAvailableForPurchase || this.isBought);
     },
     isUseless() {
-      return Pelle.disabledRUPGs.includes(this.upgrade.id) && Pelle.isDoomed;
+      return (Pelle.disabledRUPGs.includes(this.upgrade.id) && Pelle.isDoomed) || (Alpha.disabledRUPGs.includes(this.upgrade.id) && Alpha.isDarkened);
     },
   },
   watch: {

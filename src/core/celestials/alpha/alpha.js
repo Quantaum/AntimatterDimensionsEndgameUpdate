@@ -119,6 +119,9 @@ export const Alpha = {
         player.celestials.alpha.run = true;
         player.celestials.alpha.darkened = true;
         this.quotes.realityEnter.show();
+        CelestialDimensions.resetAmount();
+        player.records.thisEndgame.peakGameSpeed = DC.D1;
+        player.celestials.enslaved.stored = DC.D0;
     },
     completeRun() {
         player.celestials.alpha.completed = true;
@@ -223,64 +226,11 @@ export const Alpha = {
         return player.celestials.alpha.darkened;
     },
     get disabledAchievements() {
-        let remainingAchs = [];
-        remainingAchs.push(37);
-        remainingAchs.push(54);
-        remainingAchs.push(55);
-        remainingAchs.push(65);
-        remainingAchs.push(74);
-        remainingAchs.push(76);
-        remainingAchs.push(78);
-        remainingAchs.push(81);
-        remainingAchs.push(85);
-        remainingAchs.push(87);
-        remainingAchs.push(91);
-        remainingAchs.push(92);
-        remainingAchs.push(93);
-        remainingAchs.push(95);
-        remainingAchs.push(102);
-        remainingAchs.push(103);
-        remainingAchs.push(104);
-        remainingAchs.push(111);
-        remainingAchs.push(113);
-        remainingAchs.push(116);
-        remainingAchs.push(117);
-        remainingAchs.push(118);
-        remainingAchs.push(125);
-        remainingAchs.push(131);
-        remainingAchs.push(132);
-        remainingAchs.push(133);
-        remainingAchs.push(134);
-        remainingAchs.push(137);
-        remainingAchs.push(141);
-        remainingAchs.push(142);
-        remainingAchs.push(143);
-        remainingAchs.push(156);
-        remainingAchs.push(164);
+        let remainingAchs = [37, 54, 55, 65, 74, 76, 78, 81, 85, 87, 91, 92, 93, 95, 102, 103, 104, 111, 113, 116, 117, 118, 125, 131, 132, 133, 134, 137, 141, 142, 143, 156, 164, 178, 183, 187, 193, 194];
         return remainingAchs;
     },
     get disabledRUPGs() {
-        let remainingRUs = [];
-        if (!PelleRealityUpgrade.temporalAmplifier.isBought) remainingRUs.push(1);
-        if (!PelleRealityUpgrade.replicativeAmplifier.isBought) remainingRUs.push(2);
-        if (!PelleRealityUpgrade.eternalAmplifier.isBought) remainingRUs.push(3);
-        if (!PelleRealityUpgrade.superluminalAmplifier.isBought) remainingRUs.push(4);
-        if (!PelleRealityUpgrade.boundlessAmplifier.isBought) remainingRUs.push(5);
-        if (!PelleRealityUpgrade.cosmicallyDuplicate.isBought) remainingRUs.push(6);
-        if (!PelleRealityUpgrade.innumerablyConstruct.isBought) remainingRUs.push(7);
-        if (!PelleRealityUpgrade.paradoxicallyAttain.isBought) remainingRUs.push(8);
-        if (!PelleRealityUpgrade.linguisticallyExpand.isBought) remainingRUs.push(9);
-        if (!PelleRealityUpgrade.existentiallyProlong.isBought) remainingRUs.push(10);
-        if (!PelleRealityUpgrade.boundlessFlow.isBought) remainingRUs.push(11);
-        if (!PelleRealityUpgrade.knowingExistence.isBought) remainingRUs.push(12);
-        if (!PelleRealityUpgrade.telemechanicalProcess.isBought) remainingRUs.push(13);
-        if (!PelleRealityUpgrade.eternalFlow.isBought) remainingRUs.push(14);
-        if (!PelleRealityUpgrade.paradoxicalForever.isBought) remainingRUs.push(15);
-        if (!PelleRealityUpgrade.scourToEmpower.isBought) remainingRUs.push(19);
-        if (!PelleRealityUpgrade.parityOfSingularity.isBought) remainingRUs.push(20);
-        if (!PelleRealityUpgrade.temporalTranscendence.isBought) remainingRUs.push(22);
-        if (!PelleRealityUpgrade.replicativeRapidity.isBought) remainingRUs.push(23);
-        if (!PelleRealityUpgrade.syntheticSymbolism.isBought) remainingRUs.push(24);
+        let remainingRUs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 19, 20, 22, 23, 24];
         return remainingRUs;
     },
 

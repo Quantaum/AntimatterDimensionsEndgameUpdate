@@ -80,8 +80,16 @@ class ImaginaryUpgradeState extends BitPurchasableMechanicState {
     return Pelle.isDoomed && this.isDisabledInDoomed;
   }
 
+  get alphaDisabled() {
+    return Alpha.isDarkened && this.isDisabledInDarkened;
+  }
+
   get isDisabledInDoomed() {
     return this.config.isDisabledInDoomed ? this.config.isDisabledInDoomed() : false;
+  }
+
+  get isDisabledInDarkened() {
+    return this.config.isDisabledInDarkened ? this.config.isDisabledInDarkened() : false;
   }
 
   tryUnlock() {
@@ -133,8 +141,16 @@ class RebuyableImaginaryUpgradeState extends RebuyableMechanicState {
     return Pelle.isDoomed && this.isDisabledInDoomed;
   }
 
+  get alphaDisabled() {
+    return Alpha.isDarkened && this.isDisabledInDarkened;
+  }
+
   get isDisabledInDoomed() {
     return this.config.isDisabledInDoomed ? this.config.isDisabledInDoomed() : false;
+  }
+
+  get isDisabledInDarkened() {
+    return this.config.isDisabledInDarkened ? this.config.isDisabledInDarkened() : false;
   }
 
   set boughtAmount(value) {
