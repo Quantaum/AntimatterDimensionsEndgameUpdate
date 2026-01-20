@@ -350,7 +350,7 @@ export const PerkNetwork = {
       if (alphaUseless) {
         const backgroundColor = "#000000";
         const hoverColor = "black";
-        const borderColor = secondaryColor;
+        const borderColor = "#000000";
         return {
           background: backgroundColor,
           border: borderColor,
