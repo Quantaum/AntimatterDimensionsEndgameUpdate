@@ -119,11 +119,7 @@ Alpha.checkStageRequirements = function () {
     }
 };
 
-// Hook into common events that can advance stages
-EventHub.logic.on(GAME_EVENT.BIG_CRUNCH_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.ETERNITY_RESET_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.REALITY_RESET_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.GAME_TICK_AFTER, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
+// Hook into common events that can advance stages (registered after `Alpha` is declared)
 
 export const Alpha = {
     displayName: "Alpha",
@@ -315,3 +311,9 @@ export const Alpha = {
 EventHub.logic.on(GAME_EVENT.TAB_CHANGED, () => {
     if (Tab.celestials.alpha.isOpen) Alpha.quotes.initial.show();
 });
+
+// Register stage-checking hooks now that `Alpha` has been defined
+EventHub.logic.on(GAME_EVENT.BIG_CRUNCH_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
+EventHub.logic.on(GAME_EVENT.ETERNITY_RESET_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
+EventHub.logic.on(GAME_EVENT.REALITY_RESET_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
+EventHub.logic.on(GAME_EVENT.GAME_TICK_AFTER, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
