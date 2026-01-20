@@ -62,13 +62,13 @@ export default {
       return Enslaved.storedTimeInsideEnslaved(this.storedBlackHole);
     },
     realityTitle() {
-      if (this.isRunning) return "You are inside The Nameless Ones' Reality";
-      return "Start The Nameless Ones' Reality";
+      if (this.isRunning) return "You are inside Alpha's Reality";
+      return "Start Alpha's Reality";
     },
     runButtonClassObject() {
       return {
-        "c-enslaved-run-button__icon": true,
-        "c-enslaved-run-button__icon--running": this.isRunning,
+        "c-alpha-run-button__icon": true,
+        "c-alpha-run-button__icon--running": this.isRunning,
         "c-celestial-run-button--clickable": !this.isDoomed,
         "o-pelle-disabled-pointer": this.isDoomed
       };
@@ -84,41 +84,9 @@ export default {
     // Use this here since Nameless has a fairly non-standard character, and SFCs don't support using \uf0c1
     enslavedSymbol: () => Enslaved.symbol,
     isDoomed: () => Pelle.isDoomed,
-    storeGameTimeClass() {
-      return {
-        "o-enslaved-mechanic-button": true,
-        "o-enslaved-mechanic-button--clickable": this.canModifyGameTimeStorage,
-        "o-enslaved-mechanic-button--storing-time": this.isStoringBlackHole,
-        "l-fixed-setting": !this.canModifyGameTimeStorage,
-        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
-      };
-    },
-    storeRealTimeClass() {
-      return {
-        "o-enslaved-mechanic-button": true,
-        "o-enslaved-mechanic-button--clickable": !this.isDoomed,
-        "o-enslaved-mechanic-button--storing-time": this.isStoringReal,
-        "l-fixed-setting": !this.canChangeStoreRealTime,
-        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
-      };
-    },
-    dischargeClass() {
-      return {
-        "o-enslaved-mechanic-button": true,
-        "o-enslaved-mechanic-button--clickable": !this.isDoomed,
-        "l-fixed-setting": !this.canDischarge || this.hasNoCharge,
-        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
-      };
-    },
     doomedDisabledClass() {
       return { "o-pelle-disabled": this.isDoomed };
     },
-    mechanicButtonClass() {
-      return {
-        "o-enslaved-mechanic-button": true,
-        "o-enslaved-mechanic-button--clickable": !this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
-      };
-    }
   },
   watch: {
     autoRelease(newValue) {
@@ -177,7 +145,7 @@ export default {
     },
     startRun() {
       if (this.isDoomed) return;
-      Modal.celestials.show({ name: "The Nameless Ones'", number: 2 });
+      Modal.celestials.show({ name: "Alpha's", number: 7 });
     },
     hasUnlock(info) {
       return Enslaved.has(info);
@@ -249,7 +217,7 @@ export default {
 </template>
 
 <style scoped>
-.c-enslaved-run-description-line {
+.c-alpha-run-description-line {
   margin-bottom: 1rem;
 }
 
