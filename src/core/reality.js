@@ -362,7 +362,7 @@ function giveRealityRewards(realityProps) {
 
   if (V.isRunning) V.quotes.realityComplete.show();
 
-  if (Alpha.isRunning) Alpha.completeRun();
+  if (Alpha.isDarkened) Alpha.completeRun();
 }
 
 // Due to simulated realities taking a long time in late game, this function might not immediately
@@ -823,7 +823,6 @@ export function clearCelestialRuns() {
     v: player.celestials.v.run,
     ra: player.celestials.ra.run,
     laitela: player.celestials.laitela.run,
-    alpha: player.celestials.alpha.run,
   };
   player.celestials.teresa.run = false;
   player.celestials.effarig.run = false;
@@ -841,8 +840,6 @@ export function clearCelestialRuns() {
   player.celestials.v.run = false;
   player.celestials.ra.run = false;
   player.celestials.laitela.run = false;
-  player.celestials.alpha.run = false;
-  player.celestials.alpha.darkened = false;
   return saved;
 }
 

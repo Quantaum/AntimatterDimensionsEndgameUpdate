@@ -156,9 +156,8 @@ export const Alpha = {
         return player.celestials.alpha;
     },
     initializeRun() {
-        clearCelestialRuns();
-        player.celestials.alpha.run = true;
         player.celestials.alpha.darkened = true;
+        clearCelestialRuns();
         this.quotes.realityEnter.show();
         CelestialDimensions.resetAmount();
         player.records.thisEndgame.peakGameSpeed = DC.D1;

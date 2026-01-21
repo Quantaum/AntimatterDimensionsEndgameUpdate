@@ -16,6 +16,7 @@ export default {
       exitText: "",
       resetCelestial: false,
       inPelle: false,
+      inAlpha: false,
     };
   },
   computed: {
@@ -98,7 +99,7 @@ export default {
         return `${this.activeChallengeNames.join(" + ")} while consumed by darkness. Good luck.`;
       }
       if (this.inPelle) return "a Doomed Reality. Good luck.";
-      if (this.inAlpha) return "consumed by darkness. Good luck.";
+      if (this.inAlpha) return "the darkness. Good luck.";
       if (this.activeChallengeNames.length === 0) {
         return "the Antimatter Universe (no active challenges)";
       }
@@ -116,6 +117,7 @@ export default {
       this.exitText = this.exitDisplay();
       this.resetCelestial = player.options.retryCelestial;
       this.inPelle = Pelle.isDoomed;
+      this.inAlpha = Alpha.isDarkened;
     },
     // Process exit requests from the inside out; Challenges first, then dilation, then Celestial Reality. If the
     // relevant option is toggled, we pass a bunch of information over to a modal - otherwise we immediately exit
