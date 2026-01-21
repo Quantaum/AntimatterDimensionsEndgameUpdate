@@ -345,8 +345,7 @@ export const InfinityDimensions = {
 
   get compressionMagnitude() {
     const extraReduction = ExpansionPack.enslavedPack.isBought ? Math.pow(1 / Math.log10(Tesseracts.effectiveCount + 1), 0.2) : 1;
-    const endgameUpgrade2Effect = EndgameUpgrade(2).canBeApplied ? EndgameUpgrade(2) : 1;
-    const reduction = Effects.product(EndgameMastery(82), endgameUpgrade2Effect) * extraReduction;
+    const reduction = Effects.product(EndgameMastery(82), EndgameUpgrade(2)) * extraReduction;
     return 10 * reduction;
   },
 

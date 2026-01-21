@@ -4,8 +4,7 @@ import { DimensionState } from "./dimension";
 
 export function celestialDimensionCommonMultiplier() {
   let mult = DC.D1;
-  const endgameUpgrade11Effect = EndgameUpgrade(11).canBeApplied ? EndgameUpgrade(11) : 1;
-  mult = mult.timesEffectsOf(endgameUpgrade11Effect);
+  mult = mult.timesEffectsOf(EndgameUpgrade(11));
 
   return mult;
 }

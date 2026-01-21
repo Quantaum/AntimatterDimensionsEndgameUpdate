@@ -369,8 +369,7 @@ export const TimeDimensions = {
   },
 
   get compressionMagnitude() {
-    const endgameUpgrade3Effect = EndgameUpgrade(3).canBeApplied ? EndgameUpgrade(3) : 1;
-    const reduction = Effects.product(EndgameMastery(83), endgameUpgrade3Effect);
+    const reduction = Effects.product(EndgameMastery(83), EndgameUpgrade(3));
     return 10 * reduction;
   },
 
