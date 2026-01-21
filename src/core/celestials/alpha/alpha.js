@@ -179,9 +179,6 @@ export const Alpha = {
     get isCompleted() {
         return player.celestials.alpha.completed;
     },
-    get isRunning() {
-        return player.celestials.alpha.run;
-    },
     get currentStage() {
         const layer = Number(player.celestials.alpha.alphaLayer || 0);
         if (layer <= 0) return ALPHA_STAGES["4TH_DIMBOOST"];
@@ -232,26 +229,6 @@ export const Alpha = {
         return next;
     },
 
-    // If currently running Alpha, exit the reality (perform a reality reset) and advance the stage.
-    // If not running, simply advance the stage.
-    exitAndAdvanceStage() {
-        const next = Math.min(ALPHA_STAGES.COMPLETED, this.currentStage + 1);
-        player.celestials.alpha.alphaLayer = next;
-        if (this.isRunning) {
-            // This will perform the reality reset and clear the run flag.
-            beginProcessReality(getRealityProps(true));
-        } else {
-            EventHub.dispatch?.(GAME_EVENT.ALPHA_STAGE_ADVANCED, next);
-            Modal.message.show(`You advanced to ${this.currentStageName}.`, {}, 2);
-        }
-        return next;
-    },
-
-    // Convenience: check a boolean condition and exit/advance if true.
-    checkAndAdvanceIf(condition) {
-        if (condition) return this.exitAndAdvanceStage();
-        return false;
-    },
     isDisabled(mechanic) {
         if (!this.isDarkened) return false;
 
@@ -294,28 +271,3 @@ export const Alpha = {
 EventHub.logic.on(GAME_EVENT.TAB_CHANGED, () => {
     if (Tab.celestials.alpha.isOpen) Alpha.quotes.initial.show();
 });
-
-// Define the stage-checking function after `Alpha` exists
-Alpha.checkStageRequirements = function () {
-    try {
-        const stage = this.currentStage;
-        const check = ALPHA_STAGE_REQUIREMENTS[stage];
-        if (typeof check !== 'function') return false;
-        if (!check()) return false;
-        // show quote if present
-        const q = ALPHA_STAGE_QUOTE[stage];
-        if (q && this.quotes[q]) this.quotes[q].show();
-        this.exitAndAdvanceStage();
-        return true;
-    } catch (e) {
-        // swallow errors to avoid breaking game loop
-        console.error(e);
-        return false;
-    }
-};
-
-// Register stage-checking hooks now that `Alpha` has been defined
-EventHub.logic.on(GAME_EVENT.BIG_CRUNCH_BEFORE, () => { if (Alpha.isDarkened) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.ETERNITY_RESET_BEFORE, () => { if (Alpha.isDarkened) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.REALITY_RESET_BEFORE, () => { if (Alpha.isDarkened) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.GAME_TICK_AFTER, () => { if (Alpha.isDarkened) Alpha.checkStageRequirements(); });

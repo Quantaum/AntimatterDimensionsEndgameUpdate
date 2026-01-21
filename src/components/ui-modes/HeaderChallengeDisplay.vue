@@ -163,7 +163,7 @@ export default {
           {
             challengeName: names.chall,
             normalName: names.normal,
-            hasHigherLayers: this.inPelle || this.activeChallengeNames.length > 1,
+            hasHigherLayers: this.inPelle || this.inAlpha || this.activeChallengeNames.length > 1,
             exitFn: clickFn
           }
         );
