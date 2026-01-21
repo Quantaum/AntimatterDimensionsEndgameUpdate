@@ -264,7 +264,7 @@ export const Alpha = {
         return Boolean(!upgrade.canBeApplied);
     },
     get isDarkened() {
-        return player.celestials.alpha.darkened;
+        return this.cel.darkened;
     },
     get disabledAchievements() {
         let remainingAchs = [37, 54, 55, 65, 74, 76, 78, 81, 85, 87, 91, 92, 93, 95, 102, 103, 104, 111, 113, 116, 117, 118, 125, 131, 132, 133, 134, 137, 141, 142, 143, 156, 164, 178, 183, 187, 193, 194];
@@ -278,6 +278,9 @@ export const Alpha = {
     get uselessPerks() {
         let remainingPerks = [0, 10, 12, 13, 14, 15, 16, 17, 30, 31, 40, 41, 42, 43, 44, 45, 46, 51, 52, 53, 54, 55, 56, 57, 60, 61, 62, 70, 71, 72, 73, 80, 81, 82, 83, 100, 101, 102, 103, 104, 105, 106, 107, 201, 202, 203, 204];
         return remainingPerks;
+    },
+    get cel() {
+        return player.celestials.alpha;
     },
 }
 
