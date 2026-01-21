@@ -40,7 +40,8 @@ export default {
     },
     classObject() {
       return {
-        "c-reality-upgrade-btn--useless": this.isUseless,
+        "c-reality-upgrade-btn--useless": this.isUseless && celestials.pelle.isDoomed,
+        "c-reality-upgrade-btn--shrouded": this.isUseless && celestials.alpha.isDarkened,
         "c-reality-upgrade-btn--bought": this.isBought && !this.isUseless,
         "c-reality-upgrade-btn--unavailable": !this.isBought && !this.canBeBought && this.isAvailableForPurchase,
         "c-reality-upgrade-btn--possible": !this.isAvailableForPurchase && this.isPossible,

@@ -9943,10 +9943,22 @@ kbd {
   cursor: default;
 }
 
+.c-reality-upgrade-btn--shrouded {
+  background-color: #000000;
+  border-color: #000000;
+  cursor: default;
+}
+
 .c-reality-upgrade-btn--useless:hover {
   color: var(--color-reality-light);
   background-color: var(--color-pelle--base);
   filter: grayscale(50%);
+}
+
+.c-reality-upgrade-btn--shrouded:hover {
+  background-color: #000000;
+  border-color: #000000;
+  cursor: default;
 }
 
 .c-reality-upgrade-btn--bought {
