@@ -156,9 +156,17 @@ export const Alpha = {
         return player.celestials.alpha;
     },
     initializeRun() {
+        player.reality.automator.state.repeat = false;
+        player.reality.automator.state.forceRestart = false;
+        if (BlackHoles.arePaused) BlackHoles.togglePause();
         player.celestials.alpha.darkened = true;
+        respecTimeStudies(true);
+        Currency.infinityPoints.reset();
+        player.IPMultPurchases = 0;
+        Autobuyer.bigCrunch.mode = AUTO_CRUNCH_MODE.AMOUNT;
+        disChargeAll();
         clearCelestialRuns();
-        this.quotes.realityEnter.show();
+        Alpha.quotes.realityEnter.show();
         CelestialDimensions.resetAmount();
         player.records.thisEndgame.peakGameSpeed = DC.D1;
         player.celestials.enslaved.stored = DC.D0;

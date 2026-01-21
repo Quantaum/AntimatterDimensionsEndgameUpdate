@@ -53,6 +53,7 @@ export const Endgame = {
     // We set this ASAP so that the AD tab is immediately recreated without END formatting, and any lag which could
     // happen is instead hidden by the overlay from the credits rollback
     player.celestials.pelle.doomed = false;
+    player.celestials.alpha.darkened = false;
 
     // This is where we "confirm" a speedrun as completed and store all its information into the previous run prop
     // before resetting everything.
@@ -113,6 +114,7 @@ export const Endgame = {
     // We set this ASAP so that the AD tab is immediately recreated without END formatting, and any lag which could
     // happen is instead hidden by the overlay from the credits rollback
     player.celestials.pelle.doomed = false;
+    player.celestials.alpha.darkened = false;
 
     // This is where we "confirm" a speedrun as completed and store all its information into the previous run prop
     // before resetting everything.
