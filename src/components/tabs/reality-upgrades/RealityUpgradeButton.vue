@@ -40,8 +40,8 @@ export default {
     },
     classObject() {
       return {
-        "c-reality-upgrade-btn--useless": this.isUseless && celestials.pelle.isDoomed,
-        "c-reality-upgrade-btn--shrouded": this.isUseless && celestials.alpha.isDarkened,
+        "c-reality-upgrade-btn--useless": this.isUseless,
+        "c-reality-upgrade-btn--shrouded": this.isShrouded,
         "c-reality-upgrade-btn--bought": this.isBought && !this.isUseless,
         "c-reality-upgrade-btn--unavailable": !this.isBought && !this.canBeBought && this.isAvailableForPurchase,
         "c-reality-upgrade-btn--possible": !this.isAvailableForPurchase && this.isPossible,
@@ -57,8 +57,11 @@ export default {
       return this.config.canLock && !(this.isAvailableForPurchase || this.isBought);
     },
     isUseless() {
-      return (Pelle.disabledRUPGs.includes(this.upgrade.id) && Pelle.isDoomed) || (Alpha.disabledRUPGs.includes(this.upgrade.id) && Alpha.isDarkened);
+      return (Pelle.disabledRUPGs.includes(this.upgrade.id) && Pelle.isDoomed);
     },
+    isShrouded() {
+      return (Alpha.disabledRUPGs.includes(this.upgrade.id) && Alpha.isDarkened);
+    }
   },
   watch: {
     isAutobuyerOn(newValue) {
@@ -101,7 +104,12 @@ export default {
       >
         {{ config.name }}
       </HintText>
-      <span :class="{ 'o-pelle-disabled': isUseless }">
+      <span 
+        :class="{
+          'o-pelle-disabled': isUseless,
+          'o-alpha-disabled': isShrouded
+        }"
+      >
         <DescriptionDisplay :config="config" />
         <template v-if="($viewModel.shiftDown === isAvailableForPurchase) && !isRebuyable">
           <br>

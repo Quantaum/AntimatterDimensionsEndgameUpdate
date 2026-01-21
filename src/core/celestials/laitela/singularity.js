@@ -95,7 +95,7 @@ class SingularityMilestoneState extends GameMechanicState {
   }
 
   get canBeApplied() {
-    return this.isUnlocked && (!Pelle.isDisabled("singularity") || PelleDestructionUpgrade.singularityMilestones.isBought);
+    return this.isUnlocked && (!Pelle.isDisabled("singularity") || PelleDestructionUpgrade.singularityMilestones.isBought) && !Alpha.isDarkened;
   }
 }
 
@@ -203,7 +203,7 @@ export const SingularityMilestones = {
 };
 
 // Sorted list of all the values where a singularity milestone exists, used for "new milestone" styling
-const SingularityMilestoneThresholds = (function() {
+const SingularityMilestoneThresholds = (function () {
   return SingularityMilestones.all
     .map(m => Array.range(0, Math.min(50, m.limit))
       .filter(r => !m.increaseThreshold || new Decimal(r).lte(m.increaseThreshold) ||
