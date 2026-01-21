@@ -307,7 +307,7 @@ Alpha.checkStageRequirements = function () {
 };
 
 // Register stage-checking hooks now that `Alpha` has been defined
-EventHub.logic.on(GAME_EVENT.BIG_CRUNCH_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.ETERNITY_RESET_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.REALITY_RESET_BEFORE, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
-EventHub.logic.on(GAME_EVENT.GAME_TICK_AFTER, () => { if (Alpha.isRunning) Alpha.checkStageRequirements(); });
+EventHub.logic.on(GAME_EVENT.BIG_CRUNCH_BEFORE, () => { if (Alpha.isDarkened) Alpha.checkStageRequirements(); });
+EventHub.logic.on(GAME_EVENT.ETERNITY_RESET_BEFORE, () => { if (Alpha.isDarkened) Alpha.checkStageRequirements(); });
+EventHub.logic.on(GAME_EVENT.REALITY_RESET_BEFORE, () => { if (Alpha.isDarkened) Alpha.checkStageRequirements(); });
+EventHub.logic.on(GAME_EVENT.GAME_TICK_AFTER, () => { if (Alpha.isDarkened) Alpha.checkStageRequirements(); });
