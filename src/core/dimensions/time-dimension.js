@@ -165,7 +165,7 @@ export function timeDimensionCommonMultiplier() {
         4)
         .clampMin(1));
   }
-  
+
   return mult;
 }
 
@@ -283,7 +283,7 @@ class TimeDimensionState extends DimensionState {
 
   get productionPerSecond() {
     if (EternityChallenge(1).isRunning || EternityChallenge(10).isRunning ||
-    (Laitela.isRunning && this.tier > Laitela.maxAllowedDimension)) {
+      (Laitela.isRunning && this.tier > Laitela.maxAllowedDimension)) {
       return DC.D0;
     }
     if (EternityChallenge(11).isRunning) {
@@ -369,7 +369,8 @@ export const TimeDimensions = {
   },
 
   get compressionMagnitude() {
-    const reduction = Effects.product(EndgameMastery(83), EndgameUpgrade(3));
+    const endgameUpgrade3Effect = EndgameUpgrade(3).canBeApplied ? EndgameUpgrade(3).effectValue : 1;
+    const reduction = Effects.product(EndgameMastery(83), endgameUpgrade3Effect);
     return 10 * reduction;
   },
 

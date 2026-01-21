@@ -135,7 +135,8 @@ export const infinityUpgrades = {
     effect: () => {
       const divisor = EndgameMastery(81).isBought ? 5 : 10;
       const subtrahend = EndgameMastery(81).isBought ? 1.5 : 0;
-      return Decimal.min(Currency.infinityPoints.value.dividedBy(2), Decimal.pow(DC.E1E15, EndgameUpgrade(1).effectOrDefault(1))).pow(Math.max((Math.log10(Currency.infinityPoints.value.log10()) / divisor) - subtrahend, 1.5)).plus(1);
+      const endgameUpgrade1Effect = EndgameUpgrade(1).canBeApplied ? EndgameUpgrade(1).effectValue : 1;
+      return Decimal.min(Currency.infinityPoints.value.dividedBy(2), Decimal.pow(DC.E1E15, endgameUpgrade1Effect)).pow(Math.max((Math.log10(Currency.infinityPoints.value.log10()) / divisor) - subtrahend, 1.5)).plus(1);
     },
     formatEffect: value => formatX(value, 2, 2),
     charged: {
@@ -143,7 +144,8 @@ export const infinityUpgrades = {
       effect: () => {
         const divisor = EndgameMastery(81).isBought ? 5 : 10;
         const subtrahend = EndgameMastery(81).isBought ? 1.5 : 0;
-        return Decimal.min(Currency.infinityPoints.value.dividedBy(2), Decimal.pow(DC.E1E15, EndgameUpgrade(1).effectOrDefault(1))).pow(Math.sqrt(Ra.pets.teresa.level * Ra.unlocks.chargeBoost.effectOrDefault(1)) * Math.max((Math.log10(Currency.infinityPoints.value.log10()) / divisor) - subtrahend, 1.5)).plus(1);
+        const endgameUpgrade1Effect = EndgameUpgrade(1).canBeApplied ? EndgameUpgrade(1).effectValue : 1;
+        return Decimal.min(Currency.infinityPoints.value.dividedBy(2), Decimal.pow(DC.E1E15, endgameUpgrade1Effect)).pow(Math.sqrt(Ra.pets.teresa.level * Ra.unlocks.chargeBoost.effectOrDefault(1)) * Math.max((Math.log10(Currency.infinityPoints.value.log10()) / divisor) - subtrahend, 1.5)).plus(1);
       },
       formatEffect: value => formatX(value, 2, 2)
     }
@@ -229,7 +231,7 @@ export const infinityUpgrades = {
     cost: () => InfinityUpgrade.ipMult.cost,
     checkRequirement: () => Achievement(41).isUnlocked,
     costCap: () => BreakEternityUpgrade.doubleIPUncap.isBought ? DC.E1E300 : DC.E6E6,
-    costIncreaseThreshold: () => EndgameUpgrade(21).isBought ? DC.E1E300 : DC.E3E6,
+    costIncreaseThreshold: () => EndgameUpgrade(21).canBeApplied ? DC.E1E300 : DC.E3E6,
     description: () => `Multiply Infinity Points from all sources by ${formatX(2)}`,
     // Normally the multiplier caps at e993k or so with 3300000 purchases, but if the cost is capped then we just give
     // an extra e7k to make the multiplier look nice

@@ -923,7 +923,7 @@ function globalPassivePrestigeGen(realDiff) {
   endgameMult = (ExpansionPack.enslavedPack.isBought
     ? Math.floor(1 + Math.pow(Math.log10(Tesseracts.effectiveCount + 1), Math.log10(player.endgames + 1)))
     : 1);
-  if (EndgameUpgrade(8).isBought) {
+  if (EndgameUpgrade(8).canBeApplied) {
     endgamedGain = endgameMult * Time.unscaledDeltaTime.totalMilliseconds.div(Decimal.clampMin(1000, EndgameUpgrade(8).effectValue)).toNumber();
     player.endgame.partEndgamed += endgamedGain;
     Currency.endgames.add(Math.floor(player.endgame.partEndgamed));

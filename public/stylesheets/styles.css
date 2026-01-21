@@ -10136,8 +10136,8 @@ kbd {
 }
 
 .c-endgame-upgrade-btn--shrouded {
-  color: black;
-  background-color: black;
+  color: black !important;
+  background-color: black !important;
 }
 
 .c-endgame-upgrade-btn__requirement {

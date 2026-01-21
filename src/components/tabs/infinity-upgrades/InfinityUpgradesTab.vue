@@ -90,7 +90,7 @@ export default {
       this.eternityUnlocked = PlayerProgress.current.isEternityUnlocked;
       this.bottomRowUnlocked = Achievement(41).isUnlocked;
       this.isUncapped = BreakEternityUpgrade.doubleIPUncap.isBought;
-      this.isSoftcapApplicable = !EndgameUpgrade(21).isBought;
+      this.isSoftcapApplicable = !EndgameUpgrade(21).canBeApplied;
     },
     btnClassObject(column) {
       const classObject = {

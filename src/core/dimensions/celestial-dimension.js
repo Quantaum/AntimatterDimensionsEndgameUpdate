@@ -4,8 +4,9 @@ import { DimensionState } from "./dimension";
 
 export function celestialDimensionCommonMultiplier() {
   let mult = DC.D1;
-  mult = mult.timesEffectsOf(EndgameUpgrade(11));
-  
+  const endgameUpgrade11Effect = EndgameUpgrade(11).canBeApplied ? EndgameUpgrade(11).effectValue : 1;
+  mult = mult.timesEffectsOf(endgameUpgrade11Effect);
+
   return mult;
 }
 
@@ -175,7 +176,7 @@ class CelestialDimensionState extends DimensionState {
     if (!this.isAvailableForPurchase) return false;
 
     let purchasesUntilHardcap = this.purchaseCap.toNumber() - this.purchases;
-    
+
     const costScaling = new LinearCostScaling(
       Currency.celestialPoints.value,
       this.cost,
@@ -207,6 +208,7 @@ export const CelestialDimensions = {
    */
   all: CelestialDimension.index.compact(),
   HARDCAP_PURCHASES: DC.C2P1024,
+
   get SOFTCAP() {
     return DC.E100.timesEffectsOf(EndgameMastery(94), EndgameUpgrade(5));
   },

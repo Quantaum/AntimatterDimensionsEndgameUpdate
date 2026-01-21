@@ -123,7 +123,7 @@ export function getTachyonGalaxyMult(thresholdUpgrade) {
   const glyphReduction = glyphEffect === 0 ? 1 : glyphEffect;
   const pelleExclusivePower = DilationUpgrade.galaxyThresholdPelle.canBeApplied ? DilationUpgrade.galaxyThresholdPelle.effectValue : 1;
   const extraPower = GalacticPowers.tachyonGalaxies.isUnlocked ? 1 / GalacticPowers.tachyonGalaxies.reward : 1;
-  const power = pelleExclusivePower * EndgameUpgrade(22).effectOrDefault(1) * extraPower;
+  const power = EndgameUpgrade(22).canBeApplied ? pelleExclusivePower * EndgameUpgrade(22).effectOrDefault(1) * extraPower : pelleExclusivePower * extraPower;
   return (1 + thresholdMult * glyphReduction) ** power;
 }
 
@@ -200,7 +200,7 @@ export function tachyonGainMultiplier() {
     );
 
   mult = mult.pow(pow);
-  
+
   return mult;
 }
 
