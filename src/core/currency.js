@@ -331,6 +331,9 @@ Currency.eternities = new class extends DecimalCurrency {
       if (PelleRealityUpgrade.existentiallyProlong.isBought) return Effects.max(0, RealityUpgrade(10)).toDecimal();
       return new Decimal(0);
     }
+    if (Alpha.isDarkened) {
+      return new Decimal(0);
+    }
     return Effects.max(
       0,
       RealityUpgrade(10)

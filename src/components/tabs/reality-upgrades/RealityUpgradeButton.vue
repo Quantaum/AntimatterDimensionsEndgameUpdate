@@ -60,7 +60,7 @@ export default {
       return (Pelle.disabledRUPGs.includes(this.upgrade.id) && Pelle.isDoomed);
     },
     isShrouded() {
-      return Alpha.isDarkened;
+      return (Alpha.disabledRUPGS.includes(this.upgrade.id) && Alpha.isDarkened);
     }
   },
   watch: {
