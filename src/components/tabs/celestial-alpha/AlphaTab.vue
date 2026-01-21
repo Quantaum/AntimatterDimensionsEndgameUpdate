@@ -62,7 +62,7 @@ export default {
       return Enslaved.storedTimeInsideEnslaved(this.storedBlackHole);
     },
     realityTitle() {
-      if (this.isRunning) return "The Darkness Takes Hold";
+      if (this.isDarkened) return "The Darkness Takes Hold";
       return "Be Consumed by Darkness";
     },
     runButtonClassObject() {
@@ -133,7 +133,7 @@ export default {
       this.autoStoreReal = player.celestials.enslaved.autoStoreReal;
       this.offlineEnabled = player.options.offlineProgress;
       this.hasAutoRelease = Ra.unlocks.autoPulseTime.canBeApplied;
-      this.isRunning = Alpha.isRunning;
+      this.isRunning = Alpha.isDarkened;
       this.completed = Alpha.isCompleted && !this.isDoomed;
       this.storedReal = player.celestials.enslaved.storedReal;
       this.storedRealEffiency = Enslaved.storedRealTimeEfficiency;

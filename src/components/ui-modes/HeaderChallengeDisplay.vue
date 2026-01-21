@@ -27,7 +27,7 @@ export default {
         return {
           name: () => `${name} Reality`,
           isActive: token => token,
-          activityToken: () => celestial.isRunning,
+          activityToken: () => celestial == Alpha ? celestial.isDarkened : celestial.isRunning,
           tabName: () => tab,
         };
       }
