@@ -9944,6 +9944,7 @@ kbd {
 }
 
 .c-reality-upgrade-btn--shrouded {
+  color: #000000;
   background-color: #000000;
   border-color: #000000;
   cursor: default;
@@ -11041,7 +11042,8 @@ input.o-automator-block-input {
 }
 
 .o-alpha-disabled {
-  color: #000000
+  color: #000000;
+  background: #000000;
 }
 
 .o-pelle-disabled-pointer {
