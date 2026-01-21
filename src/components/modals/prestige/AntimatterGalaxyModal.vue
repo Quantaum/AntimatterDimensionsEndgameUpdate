@@ -70,7 +70,7 @@ export default {
       }
       this.keepAntimatter = Achievement(111).isUnlocked;
       this.perkANRBought = Perk.antimatterNoReset.canBeApplied;
-      this.keepDimBoost = (Achievement(143).isUnlocked && (!Pelle.isDoomed || PelleAchievementUpgrade.achievement143.isBought)) ||
+      this.keepDimBoost = (Achievement(143).isUnlocked && (!Pelle.isDoomed || PelleAchievementUpgrade.achievement143.isBought) && !Alpha.isDarkened) ||
         PelleUpgrade.galaxyNoResetDimboost.canBeApplied;
     },
     handleYesClick() {

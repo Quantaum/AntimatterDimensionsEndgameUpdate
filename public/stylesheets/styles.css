@@ -11028,6 +11028,10 @@ input.o-automator-block-input {
   text-decoration: line-through;
 }
 
+.o-alpha-disabled {
+  color: #000000
+}
+
 .o-pelle-disabled-pointer {
   cursor: not-allowed;
 }

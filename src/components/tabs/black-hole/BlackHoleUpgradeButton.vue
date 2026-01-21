@@ -24,7 +24,8 @@ export default {
       isCapped: false,
       isAutoUnlocked: false,
       isAutobuyerOn: false,
-      isDoomed: false
+      isDoomed: false,
+      isDarkened: false
     };
   },
   computed: {
@@ -56,6 +57,7 @@ export default {
   methods: {
     update() {
       this.isDoomed = Pelle.isDoomed;
+      this.isDarkened = Alpha.isDarkened;
       this.isCapped = this.config.upgrade.value === 0;
       this.isAffordable = this.config.upgrade.isAffordable && !this.isCapped;
       const hasAutobuyer = this.config.upgrade.hasAutobuyer;
