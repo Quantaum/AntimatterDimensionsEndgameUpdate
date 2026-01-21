@@ -213,7 +213,7 @@ class BlackHoleState {
   }
 
   get isActive() {
-    return this.isCharged && (this.id === 1 || BlackHole(this.id - 1).isActive) && (!Pelle.isDisabled("blackhole") || PelleDestructionUpgrade.blackHole.isBought);
+    return this.isCharged && (this.id === 1 || BlackHole(this.id - 1).isActive) && (!Pelle.isDisabled("blackhole") || PelleDestructionUpgrade.blackHole.isBought) && !Alpha.isDarkened;
   }
 
   // Proportion of active time, scaled 0 to 1
@@ -491,8 +491,8 @@ export const BlackHoles = {
    */
   calculateSpeedups() {
     const effectsToConsider = [GAME_SPEED_EFFECT.FIXED_SPEED, GAME_SPEED_EFFECT.TIME_GLYPH,
-      GAME_SPEED_EFFECT.SINGULARITY_MILESTONE, GAME_SPEED_EFFECT.NERFS, GAME_SPEED_EFFECT.CELESTIAL_MATTER,
-      GAME_SPEED_EFFECT.RA_BUFFS];
+    GAME_SPEED_EFFECT.SINGULARITY_MILESTONE, GAME_SPEED_EFFECT.NERFS, GAME_SPEED_EFFECT.CELESTIAL_MATTER,
+    GAME_SPEED_EFFECT.RA_BUFFS];
     const speedupWithoutBlackHole = getGameSpeedupFactor(effectsToConsider);
     const speedups = [speedupWithoutBlackHole];
     effectsToConsider.push(GAME_SPEED_EFFECT.BLACK_HOLE);
