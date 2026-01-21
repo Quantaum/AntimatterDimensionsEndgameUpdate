@@ -39,7 +39,7 @@ export class DilationTimeStudyState extends TimeStudyState {
       if (Perk.autounlockDilation2.canBeApplied) {
         for (const id of [7, 8, 9]) player.dilation.upgrades.add(id);
       }
-      if (!Pelle.isDoomed || PellePerkUpgrade.perkSTP.isBought) Currency.tachyonParticles.bumpTo(Perk.startTP.effectOrDefault(0));
+      if ((!Pelle.isDoomed || PellePerkUpgrade.perkSTP.isBought) && !Alpha.isDarkened) Currency.tachyonParticles.bumpTo(Perk.startTP.effectOrDefault(0));
       if (Ra.unlocks.unlockDilationStartingTP.canBeApplied && !isInCelestialReality() && !Pelle.isDoomed) {
         Currency.tachyonParticles.bumpTo(getTP(Ra.unlocks.unlockDilationStartingTP.effectOrDefault(0), false));
       }
@@ -77,7 +77,7 @@ TimeStudy.dilation = DilationTimeStudyState.studies[1];
  * @param {number} tier
  * @returns {DilationTimeStudyState}
  */
-TimeStudy.timeDimension = function(tier) {
+TimeStudy.timeDimension = function (tier) {
   return DilationTimeStudyState.studies[tier - 3];
 };
 
@@ -86,6 +86,6 @@ TimeStudy.timeDimension = function(tier) {
  */
 TimeStudy.reality = DilationTimeStudyState.studies[6];
 
-TimeStudy.boughtDilationTS = function() {
+TimeStudy.boughtDilationTS = function () {
   return player.dilation.studies.map(id => DilationTimeStudyState.studies[id]);
 };
