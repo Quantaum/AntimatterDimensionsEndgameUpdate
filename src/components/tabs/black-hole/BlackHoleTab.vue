@@ -16,6 +16,7 @@ export default {
   data() {
     return {
       isDoomed: false,
+      isDarkened: false,
       isUnlocked: false,
       isPaused: false,
       isEnslaved: false,
