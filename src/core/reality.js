@@ -759,6 +759,8 @@ export function finishProcessReality(realityProps) {
   if (Pelle.isDoomed && PelleUpgrade.keepAutobuyers.canBeApplied && Autobuyer.bigCrunch.hasMaxedInterval) {
     player.break = true;
   }
+
+  Alpha.darkened = false;
 }
 
 function restoreCelestialRuns(celestialRunState) {
