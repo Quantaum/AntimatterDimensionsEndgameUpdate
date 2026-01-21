@@ -1,5 +1,4 @@
 <script>
-import { Alpha } from "../../core/globals";
 import FailableEcText from "./FailableEcText";
 import PrimaryButton from "@/components/PrimaryButton";
 
