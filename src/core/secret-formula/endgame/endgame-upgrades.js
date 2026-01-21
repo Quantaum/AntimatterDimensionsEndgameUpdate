@@ -29,7 +29,8 @@ export const endgameUpgrades = [
     costMult: 60,
     textTemplate: "Delay the Infinity Upgrade 23 Softcap start by a factor of {value}",
     effect: 1.2,
-    isDecimal: true
+    isDecimal: true,
+    isDisabledInDarkened: true
   }),
   rebuyable({
     name: "Infinity Ameliorator",
@@ -37,7 +38,8 @@ export const endgameUpgrades = [
     initialCost: 1e42,
     costMult: 300,
     textTemplate: "Reduce the Infinity Dimension Compression Softcap by a factor of {value}",
-    effect: 0.99
+    effect: 0.99,
+    isDisabledInDarkened: true
   }),
   rebuyable({
     name: "Time Ameliorator",
@@ -45,7 +47,8 @@ export const endgameUpgrades = [
     initialCost: 1e44,
     costMult: 150,
     textTemplate: "Reduce the Time Dimension Compression Softcap by a factor of {value}",
-    effect: 0.99
+    effect: 0.99,
+    isDisabledInDarkened: true
   }),
   rebuyable({
     name: "Darkness Ameliorator",
@@ -54,7 +57,8 @@ export const endgameUpgrades = [
     costMult: 480,
     textTemplate: "Increase the Dark Matter hardcap by a factor of {value}",
     effect: 1e25,
-    isDecimal: true
+    isDecimal: true,
+    isDisabledInDarkened: true
   }),
   rebuyable({
     name: "Celestial Ameliorator",
@@ -63,7 +67,8 @@ export const endgameUpgrades = [
     costMult: 120,
     textTemplate: "Delay the Celestial Matter Softcap start by a factor of {value}",
     effect: 2,
-    isDecimal: true
+    isDecimal: true,
+    isDisabledInDarkened: true
   }),
   {
     name: "Resourceful Rebirth",
@@ -71,7 +76,7 @@ export const endgameUpgrades = [
     cost: new Decimal(1e45),
     requirement: () => `Have ${format(Decimal.NUMBER_MAX_VALUE)} Reality Shards without purchasing the 6th Galaxy Generator Upgrade`,
     hasFailed: () => GalaxyGeneratorUpgrades.RSMult.boughtAmount > 0,
-    checkRequirement: () => GalaxyGeneratorUpgrades.RSMult.boughtAmount === 0 && Currency.realityShards.gte(Decimal.NUMBER_MAX_VALUE) && 
+    checkRequirement: () => GalaxyGeneratorUpgrades.RSMult.boughtAmount === 0 && Currency.realityShards.gte(Decimal.NUMBER_MAX_VALUE) &&
       player.endgames >= 20,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     canLock: true,
@@ -87,7 +92,8 @@ export const endgameUpgrades = [
     requirement: () => `Play for ${formatPostBreak("1e666")} Years`,
     checkRequirement: () => Time.totalTimePlayed.totalYears.gt(Decimal.pow(10, 666)),
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
-    description: "Outside of Celestial Realities, Game Speed is equal to maximum Game Speed this Endgame"
+    description: "Outside of Celestial Realities, Game Speed is equal to maximum Game Speed this Endgame",
+    isDisabledInDarkened: true
   },
   {
     name: "Endgame Emolument",
@@ -147,7 +153,8 @@ export const endgameUpgrades = [
     description: () =>
       `Delay the Infinity Challenge 8 Reward Hardcap by ${formatPow(9)},
       and multiply all Celestial Dimensions by ${formatX(9)}`,
-    effect: 9
+    effect: 9,
+    isDisabledInDarkened: true
   },
   {
     name: "Unstable Undermining",
@@ -174,7 +181,7 @@ export const endgameUpgrades = [
     cost: new Decimal(1e84),
     requirement: () => `Reach ${format(1e40)} Galaxies without purchasing the 6th Galaxy Generator Upgrade`,
     hasFailed: () => GalaxyGeneratorUpgrades.RSMult.boughtAmount > 0,
-    checkRequirement: () => GalaxyGeneratorUpgrades.RSMult.boughtAmount === 0 && GalaxyGenerator.galaxies.gte(1e40) && 
+    checkRequirement: () => GalaxyGeneratorUpgrades.RSMult.boughtAmount === 0 && GalaxyGenerator.galaxies.gte(1e40) &&
       player.endgames >= 20,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     canLock: true,
@@ -192,7 +199,8 @@ export const endgameUpgrades = [
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: () => `Gain a power to the Antimatter Exponent based on Imaginary Machines`,
     effect: () => 1 + (Math.pow(Math.log10(Decimal.log10(player.reality.imaginaryMachines.add(1)) + 1), 2) / 200),
-    formatEffect: value => formatPow(value, 2, 3)
+    formatEffect: value => formatPow(value, 2, 3),
+    isDisabledInDarkened: true
   },
   {
     name: "Currency Collections",
@@ -255,7 +263,8 @@ export const endgameUpgrades = [
     hasFailed: () => !BreakEternityUpgrade.doubleIPUncap.isBought,
     checkRequirement: () => BreakEternityUpgrade.doubleIPUncap.isBought,
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
-    description: "Remove the x2 Infinity Point Softcap"
+    description: "Remove the x2 Infinity Point Softcap",
+    isDisabledInDarkened: true
   },
   {
     name: "Tachyon Transcendence",
@@ -267,7 +276,8 @@ export const endgameUpgrades = [
     checkEvent: GAME_EVENT.GAME_TICK_AFTER,
     description: () => `Apply a power to the Tachyon Galaxy Threshold based on Endgames`,
     effect: () => 1 / Math.log10(player.endgames + 1),
-    formatEffect: value => formatPow(value, 2, 3)
+    formatEffect: value => formatPow(value, 2, 3),
+    isDisabledInDarkened: true
   },
   {
     name: "Quaternary Quantification",
