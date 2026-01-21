@@ -27,7 +27,7 @@ export default {
         return {
           name: () => `${name} Reality`,
           isActive: token => token,
-          activityToken: () => celestial == Alpha ? celestial.isDarkened : celestial.isRunning,
+          activityToken: () => celestial.isRunning,
           tabName: () => tab,
         };
       }
@@ -38,7 +38,6 @@ export default {
         celestialReality(V, "V's", "v"),
         celestialReality(Ra, "Ra's", "ra"),
         celestialReality(Laitela, "Lai'tela's", "laitela"),
-        celestialReality(Alpha, "Alpha's", "alpha"),
         {
           name: () => "Time Dilation",
           isActive: token => token,
@@ -144,26 +143,16 @@ export default {
           if (player.options.retryChallenge) oldChall.requestStart();
         };
       } else {
-        names = {
-          chall: this.inAlpha ? "Alpha's Reality" : this.activeChallengeNames[0],
-          normal: this.inAlpha ? "Alpha Reality" : "Reality"
-        };
-
-        clickFn = () => {
-          if (this.inAlpha) {
-            Alpha.darkened = false;
-            beginProcessReality(getRealityProps(true));
-          } else {
-            beginProcessReality(getRealityProps(true));
-          }
-        };
+        names = { chall: this.activeChallengeNames[0], normal: "Reality" };
+        clickFn = () => beginProcessReality(getRealityProps(true));
       }
+
       if (player.options.confirmations.exitChallenge) {
         Modal.exitChallenge.show(
           {
             challengeName: names.chall,
             normalName: names.normal,
-            hasHigherLayers: this.inPelle || this.inAlpha || this.activeChallengeNames.length > 1,
+            hasHigherLayers: this.inPelle || this.activeChallengeNames.length > 1,
             exitFn: clickFn
           }
         );
