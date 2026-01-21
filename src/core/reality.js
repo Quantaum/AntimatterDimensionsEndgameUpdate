@@ -787,6 +787,7 @@ export function applyRUPG10() {
     Replicanti.unlock(true);
   }
   if (Pelle.isDisabled("rupg10")) return;
+  if (Alpha.isDarkened) return;
 
   player.auto.antimatterDims.all = player.auto.antimatterDims.all.map(current => ({
     isUnlocked: true,

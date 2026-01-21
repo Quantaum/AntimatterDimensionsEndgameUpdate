@@ -79,7 +79,7 @@ export class DimBoost {
   static get canBeBought() {
     if (DimBoost.purchasedBoosts.gte(this.maxBoosts)) return false;
     if (player.records.thisInfinity.maxAM.gt(Player.infinityGoal) &&
-       (!player.break || Player.isInAntimatterChallenge)) return false;
+      (!player.break || Player.isInAntimatterChallenge)) return false;
     return true;
   }
 
@@ -298,7 +298,7 @@ function maxBuyDimBoosts() {
     calcBoosts = calcBoosts.add(NormalChallenge(10).isRunning ? 2 : 4);
     // Dimension boosts 1-4 dont use 8th dims, 1-2 dont use 6th dims, so add those extras afterwards.
   }
-  
+
   // Add one cause (x-b)/i is off by one otherwise
   if (calcBoosts.floor().add(1).lte(DimBoost.purchasedBoosts)) return;
   calcBoosts = calcBoosts.sub(DimBoost.purchasedBoosts);
