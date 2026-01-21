@@ -143,13 +143,21 @@ export default {
           Player.anyChallenge.exit(false);
           if (player.options.retryChallenge) oldChall.requestStart();
         };
-      } else if (this.inAlpha){
-        Alpha.isDarkened = false;
       } else {
-        names = { chall: this.activeChallengeNames[0], normal: "Reality" };
-        clickFn = () => beginProcessReality(getRealityProps(true));
-      }
+        names = {
+          chall: this.inAlpha ? "Alpha's Reality" : this.activeChallengeNames[0],
+          normal: this.inAlpha ? "Alpha Reality" : "Reality"
+        };
 
+        clickFn = () => {
+          if (this.inAlpha) {
+            Alpha.darkened = false;
+            beginProcessReality(getRealityProps(true));
+          } else {
+            beginProcessReality(getRealityProps(true));
+          }
+        };
+      }
       if (player.options.confirmations.exitChallenge) {
         Modal.exitChallenge.show(
           {
