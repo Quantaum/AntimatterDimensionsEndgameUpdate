@@ -91,7 +91,7 @@ export const Pelle = {
     player.IPMultPurchases = 0;
     Autobuyer.bigCrunch.mode = AUTO_CRUNCH_MODE.AMOUNT;
     disChargeAll();
-    if (Alpha.isDarkened) Alpha.darkened = false;
+    if (Alpha.isDarkened) player.celestials.alpha.darkened = false;
     clearCelestialRuns();
     CelestialDimensions.resetAmount();
     player.records.thisEndgame.peakGameSpeed = DC.D1;

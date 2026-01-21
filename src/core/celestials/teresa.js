@@ -31,7 +31,7 @@ export const Teresa = {
     }
   },
   initializeRun() {
-    if (Alpha.isDarkened) Alpha.darkened = false;
+    if (Alpha.isDarkened) player.celestials.alpha.darkened = false;
     clearCelestialRuns();
     player.celestials.teresa.run = true;
   },

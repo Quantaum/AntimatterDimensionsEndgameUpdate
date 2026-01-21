@@ -144,7 +144,13 @@ export default {
         };
       } else {
         names = { chall: this.activeChallengeNames[0], normal: "Reality" };
-        clickFn = () => beginProcessReality(getRealityProps(true));
+        clickFn = () => {
+          if (this.inAlpha) {
+            player.celestials.alpha.darkened = false;
+          } else {
+            beginProcessReality(getRealityProps(true));
+          }
+        };
       }
 
       if (player.options.confirmations.exitChallenge) {
