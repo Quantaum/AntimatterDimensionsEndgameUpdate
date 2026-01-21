@@ -337,6 +337,7 @@ export const Ra = {
     }
   },
   initializeRun() {
+    if (Alpha.isDarkened) Alpha.darkened = false;
     clearCelestialRuns();
     player.celestials.ra.run = true;
     this.quotes.realityEnter.show();

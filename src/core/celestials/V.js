@@ -79,7 +79,7 @@ class VRunUnlockState extends GameMechanicState {
     }
 
     while (this.completions < this.config.values.length &&
-    Decimal.gte(playerData.runRecords[this.id], this.conditionValue)) {
+      Decimal.gte(playerData.runRecords[this.id], this.conditionValue)) {
       if (!V.isFlipped && this.config.isHard) break;
       this.completions++;
       GameUI.notify.success(`You have unlocked V-Achievement
@@ -215,6 +215,7 @@ export const V = {
     V.quotes.unlock.show();
   },
   initializeRun() {
+    if (Alpha.isDarkened) Alpha.darkened = false;
     clearCelestialRuns();
     player.celestials.v.run = true;
     this.quotes.realityEnter.show();

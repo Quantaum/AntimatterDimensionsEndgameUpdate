@@ -121,7 +121,7 @@ export const Laitela = {
         [d.rawPowerDMCost, d.powerDMCostIncrease, Decimal.MAX_VALUE, x => d.buyManyPowerDM(x)],
         [d.rawPowerDECost, d.powerDECostIncrease, Decimal.MAX_VALUE, x => d.buyManyPowerDE(x)]])
       .flat(1);
-    const buy = function(upgrade, purchases) {
+    const buy = function (upgrade, purchases) {
       upgrade[3](purchases);
       upgrade[0] = upgrade[0].times(Decimal.pow(upgrade[1], purchases));
       upgrade[2] = upgrade[2].sub(purchases);

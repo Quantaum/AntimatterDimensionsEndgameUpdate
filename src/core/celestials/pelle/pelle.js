@@ -91,6 +91,7 @@ export const Pelle = {
     player.IPMultPurchases = 0;
     Autobuyer.bigCrunch.mode = AUTO_CRUNCH_MODE.AMOUNT;
     disChargeAll();
+    if (Alpha.isDarkened) Alpha.darkened = false;
     clearCelestialRuns();
     CelestialDimensions.resetAmount();
     player.records.thisEndgame.peakGameSpeed = DC.D1;
@@ -448,7 +449,7 @@ export const Pelle = {
     ) ** 8.2;
 
     const gain = EndgameMilestone.remnantFormula.isReached ? gainNew : gainOld;
-    
+
     return gain < 1 ? gain : Math.floor(gain - this.cel.remnants);
   },
 
@@ -510,7 +511,7 @@ export const Pelle = {
     }
     return zalgo(str, Math.floor(stage ** 2 * 7));
   },
-  
+
   get endTabNames() {
     if (Achievement(191).isUnlocked) {
       return "Destruction Has Come A New Beginning Has Arrived We'll Meet Again".split(" ");
@@ -518,7 +519,7 @@ export const Pelle = {
       return "It's Not Over We Will Return We'll Ω Soon Meet Again".split(" ");
     }
   },
-  
+
   quotes: Quotes.pelle,
 };
 

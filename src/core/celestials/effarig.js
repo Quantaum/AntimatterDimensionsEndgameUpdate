@@ -16,6 +16,7 @@ export const Effarig = {
   displayName: "Effarig",
   possessiveName: "Effarig's",
   initializeRun() {
+    if (Alpha.isDarkened) Alpha.darkened = false;
     clearCelestialRuns();
     player.celestials.effarig.run = true;
     recalculateAllGlyphs();

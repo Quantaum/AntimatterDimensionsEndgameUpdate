@@ -151,6 +151,7 @@ export const Enslaved = {
     return true;
   },
   initializeRun() {
+    if (Alpha.isDarkened) Alpha.darkened = false;
     clearCelestialRuns();
     player.celestials.enslaved.run = true;
     player.celestials.enslaved.hasSecretStudy = false;
@@ -198,7 +199,7 @@ export const Enslaved = {
     if (this.feltEternity) {
       Modal.message.show(`You have already exposed this crack in the Reality. Time in this Eternity is being multiplied
         by your Eternity count, up to a maximum of ${formatX(1e66)}.`,
-      { closeEvent: GAME_EVENT.REALITY_RESET_AFTER }, 1);
+        { closeEvent: GAME_EVENT.REALITY_RESET_AFTER }, 1);
     } else {
       EnslavedProgress.feelEternity.giveProgress();
       this.feltEternity = true;
