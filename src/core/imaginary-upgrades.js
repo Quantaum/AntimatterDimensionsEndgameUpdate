@@ -138,7 +138,7 @@ class RebuyableImaginaryUpgradeState extends RebuyableMechanicState {
   }
 
   get alphaDisabled() {
-    return Alpha.isDarkened;
+    return Alpha.isDarkened && this.config.isDisabledInDarkened;
   }
 
   get isDisabledInDoomed() {

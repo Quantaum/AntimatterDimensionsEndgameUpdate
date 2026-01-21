@@ -38,6 +38,7 @@ export default {
     classObject() {
       return {
         "c-endgame-upgrade-btn--bought": this.isBought,
+        "c-endgame-upgrade-btn--shrouded": this.upgrade.alphaDisabled,
         "c-endgame-upgrade-btn--unavailable": !this.isBought && !this.canBeBought && this.isAvailableForPurchase,
         "c-endgame-upgrade-btn--possible": !this.isAvailableForPurchase && this.isPossible,
         "c-endgame-upgrade-btn--locked": !this.isAvailableForPurchase && !this.isPossible,

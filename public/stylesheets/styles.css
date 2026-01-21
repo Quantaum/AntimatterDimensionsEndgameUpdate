@@ -10135,6 +10135,11 @@ kbd {
   color: var(--color-celestials);
 }
 
+.c-endgame-upgrade-btn--shrouded {
+  color: black;
+  background-color: black;
+}
+
 .c-endgame-upgrade-btn__requirement {
   font-weight: bold;
 }

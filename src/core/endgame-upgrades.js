@@ -84,6 +84,14 @@ class EndgameUpgradeState extends BitPurchasableMechanicState {
     EventHub.dispatch(GAME_EVENT.ENDGAME_UPGRADE_BOUGHT);
     const id = this.id;
   }
+
+  get canBeApplied() {
+    return super.canBeApplied && !this.alphaDisabled;
+  }
+
+  get alphaDisabled() {
+    return Alpha.isDarkened && this.config.isDisabledInDarkened;
+  }
 }
 
 class RebuyableEndgameUpgradeState extends RebuyableMechanicState {
@@ -97,6 +105,14 @@ class RebuyableEndgameUpgradeState extends RebuyableMechanicState {
 
   set boughtAmount(value) {
     player.endgame.rebuyables[this.id] = value;
+  }
+
+  get canBeApplied() {
+    return super.canBeApplied && !this.alphaDisabled;
+  }
+
+  get alphaDisabled() {
+    return Alpha.isDarkened && this.config.isDisabledInDarkened;
   }
 }
 
