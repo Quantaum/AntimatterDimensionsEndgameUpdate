@@ -73,8 +73,8 @@ export default {
     isDoomed() {
       return Pelle.isDoomed && this.resource.destroyed;
     },
-    isDarkened() {
-      return Alpha.isDarkened
+    isRunning() {
+      return Alpha.isRunning
     }
   },
   methods: {
@@ -87,7 +87,7 @@ export default {
       this.isUnlocked = resource.isUnlocked;
       this.unlockRequirement = resource.lockText;
       if (!this.isBaseResource) {
-        this.isReactionActive = !this.isDoomed && this.reaction.isActive && !this.isDarkened;
+        this.isReactionActive = !this.isDoomed && this.reaction.isActive && !this.isRunning;
         this.reactionProduction = this.reaction.reactionProduction;
       }
     }
@@ -106,7 +106,7 @@ export default {
     <span v-if="isDoomed">
       Destroyed by Pelle
     </span>
-    <span v-else-if="isDarkened">
+    <span v-else-if="isRunning">
       Shrouded by Darkness
     </span>
     <span v-else>
@@ -118,7 +118,7 @@ export default {
     <span
       :class="{
       'o-pelle-disabled': isDoomed,
-      'o-alpha-disabled': isDarkened
+      'o-alpha-disabled': isRunning
       }"
     >
       <EffectDisplay

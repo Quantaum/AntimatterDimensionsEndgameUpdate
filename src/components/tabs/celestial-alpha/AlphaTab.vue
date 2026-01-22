@@ -3,6 +3,7 @@ import BlackHoleChargingSliders from "@/components/tabs/black-hole/BlackHoleChar
 import CelestialQuoteHistory from "@/components/CelestialQuoteHistory";
 import PrimaryButton from "@/components/PrimaryButton";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
+import { ALPHA_STAGES } from "../../../core/celestials/alpha/alpha-stages";
 
 export default {
   name: "AlphaTab",
@@ -13,62 +14,22 @@ export default {
     BlackHoleChargingSliders
   },
   data: () => ({
-    isStoringBlackHole: false,
-    isStoringReal: false,
-    autoStoreReal: false,
-    offlineEnabled: false,
-    hasAutoRelease: false,
     isRunning: false,
     completed: false,
-    storedBlackHole: new Decimal(0),
-    storedReal: 0,
-    storedRealEffiency: 0,
-    storedRealCap: 0,
-    autoRelease: false,
-    autoReleaseSpeed: new Decimal(0),
-    unlocks: [],
-    buyableUnlocks: [],
     quote: "",
-    currentSpeedUp: new Decimal(0),
-    hintsUnlocked: false,
-    canModifyGameTimeStorage: false,
-    canChangeStoreTime: false,
-    canChangeStoreRealTime: false,
-    canDischarge: false,
-    canAutoRelease: false,
-    hasNoCharge: true,
-    hasReachedCurrentCap: false,
   }),
   computed: {
-    storedRealEfficiencyDesc() {
-      return formatPercents(this.storedRealEffiency);
-    },
-    storedRealCapDesc() {
-      return timeDisplayShort(new Decimal(this.storedRealCap));
-    },
-    storedBHDesc() {
-      return timeDisplayShort(new Decimal(this.storedBlackHole));
-    },
-    nerfedBHTimeDesc() {
-      return timeDisplayShort(new Decimal(this.nerfedBlackHoleTime));
-    },
-    storedRealDesc() {
-      return timeDisplayShort(new Decimal(this.storedReal));
-    },
-    unlocksInfo() {
-      return ENSLAVED_UNLOCKS;
-    },
-    nerfedBlackHoleTime() {
-      return Enslaved.storedTimeInsideEnslaved(this.storedBlackHole);
+    stageInfo() {
+      return ALPHA_STAGES[Alpha.currentStage];
     },
     realityTitle() {
-      if (this.isDarkened) return "The Darkness Takes Hold";
+      if (this.isRunning) return "The Darkness Takes Hold";
       return "Be Consumed by Darkness";
     },
     runButtonClassObject() {
       return {
-        "c-enslaved-run-button__icon": true,
-        "c-enslaved-run-button__icon--running": this.isRunning,
+        "c-alpha-run-button__icon": true,
+        "c-alpha-run-button__icon--running": this.isRunning,
         "c-celestial-run-button--clickable": !this.isDoomed,
         "o-pelle-disabled-pointer": this.isDoomed
       };
@@ -76,148 +37,34 @@ export default {
     runDescription() {
       return GameDatabase.celestials.descriptions[7].effects().split("\n");
     },
-    realTimeButtonText() {
-      if (!this.offlineEnabled) return "Offline Progress is disabled";
-      if (this.autoStoreReal) return "Offline time stored";
-      return "Offline time used for production";
-    },
-    // Use this here since Nameless has a fairly non-standard character, and SFCs don't support using \uf0c1
     alphaSymbol: () => Alpha.symbol,
     isDoomed: () => Pelle.isDoomed,
-    storeGameTimeClass() {
-      return {
-        "o-enslaved-mechanic-button": true,
-        "o-enslaved-mechanic-button--clickable": this.canModifyGameTimeStorage,
-        "o-enslaved-mechanic-button--storing-time": this.isStoringBlackHole,
-        "l-fixed-setting": !this.canModifyGameTimeStorage,
-        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
-      };
-    },
-    storeRealTimeClass() {
-      return {
-        "o-enslaved-mechanic-button": true,
-        "o-enslaved-mechanic-button--clickable": !this.isDoomed,
-        "o-enslaved-mechanic-button--storing-time": this.isStoringReal,
-        "l-fixed-setting": !this.canChangeStoreRealTime,
-        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
-      };
-    },
-    dischargeClass() {
-      return {
-        "o-enslaved-mechanic-button": true,
-        "o-enslaved-mechanic-button--clickable": !this.isDoomed,
-        "l-fixed-setting": !this.canDischarge || this.hasNoCharge,
-        "o-pelle-disabled": this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
-      };
-    },
     doomedDisabledClass() {
       return { "o-pelle-disabled": this.isDoomed };
     },
-    mechanicButtonClass() {
-      return {
-        "o-enslaved-mechanic-button": true,
-        "o-enslaved-mechanic-button--clickable": !this.isDoomed && !PelleDestructionUpgrade.blackHole.isBought
-      };
-    }
-  },
-  watch: {
-    autoRelease(newValue) {
-      player.celestials.enslaved.isAutoReleasing = newValue;
-    }
   },
   methods: {
     update() {
-      this.isStoringBlackHole = Enslaved.isStoringGameTime;
-      this.storedBlackHole.copyFrom(player.celestials.enslaved.stored);
-      this.isStoringReal = Enslaved.isStoringRealTime;
-      this.autoStoreReal = player.celestials.enslaved.autoStoreReal;
-      this.offlineEnabled = player.options.offlineProgress;
-      this.hasAutoRelease = Ra.unlocks.autoPulseTime.canBeApplied;
-      this.isRunning = Alpha.isDarkened;
+      this.isRunning = Alpha.isRunning;
       this.completed = Alpha.isCompleted && !this.isDoomed;
-      this.storedReal = player.celestials.enslaved.storedReal;
-      this.storedRealEffiency = Enslaved.storedRealTimeEfficiency;
-      this.storedRealCap = Enslaved.storedRealTimeCap;
-      this.unlocks = Array.from(player.celestials.enslaved.unlocks);
-      this.buyableUnlocks = Object.values(ENSLAVED_UNLOCKS).map(x => Enslaved.canBuy(x));
-      this.quote = Enslaved.quote;
-      this.autoRelease = player.celestials.enslaved.isAutoReleasing;
-      this.autoReleaseSpeed = Enslaved.isAutoReleasing ? Enslaved.autoReleaseSpeed : new Decimal(0);
-      this.currentSpeedUp = Enslaved.currentBlackHoleStoreAmountPerMs;
-      this.hintsUnlocked = EnslavedProgress.hintsUnlocked.hasProgress;
-      this.canModifyGameTimeStorage = Enslaved.canModifyGameTimeStorage;
-      this.canChangeStoreTime = Enslaved.canModifyGameTimeStorage;
-      this.canChangeStoreRealTime = Enslaved.canModifyRealTimeStorage;
-      this.canDischarge = Enslaved.canRelease(false);
-      this.canAutoRelease = Enslaved.canRelease(true);
-      this.hasNoCharge = player.celestials.enslaved.stored === new Decimal(0);
-      this.hasReachedCurrentCap = this.storedReal === this.storedRealCap;
-    },
-    toggleStoreBlackHole() {
-      Enslaved.toggleStoreBlackHole();
-    },
-    toggleStoreReal() {
-      Enslaved.toggleStoreReal();
-    },
-    toggleAutoStoreReal() {
-      if (!this.offlineEnabled) return;
-      Enslaved.toggleAutoStoreReal();
-    },
-    useStored() {
-      Enslaved.useStoredTime(false);
-    },
-    timeDisplayShort(ms) {
-      return timeDisplayShort(ms);
-    },
-    timeUntilBuy(price) {
-      return Decimal.max((price.sub(this.storedBlackHole)).div(this.currentSpeedUp), 0);
-    },
-    buyUnlock(info) {
-      Enslaved.buyUnlock(info);
+      this.quote = Alpha.quote;
     },
     startRun() {
       if (this.isDoomed) return;
       Modal.celestials.show({ name: "Alpha's", number: 7 });
     },
-    hasUnlock(info) {
-      return Enslaved.has(info);
-    },
-    canBuyUnlock(info) {
-      // This (rather than just using Enslaved.canBuy(info) and removing this.buyableUnlocks)
-      // is needed for proper reactivity of button styles (e.g., if you get a level 5000 glyph
-      // while on the Nameless tab).
-      return this.buyableUnlocks[info.id];
-    },
-    unlockClassObject(info) {
-      return {
-        "o-enslaved-shop-button--bought": this.hasUnlock(info),
-        "o-enslaved-shop-button--available": this.canBuyUnlock(info)
-      };
-    },
-    glitchStyle(x) {
-      const xScale = 15 / 27;
-      const yScale = 5;
-      const dx = (x - 13) * xScale + (Math.random() * 2 - 1) * 0.85;
-      const dy = (Math.random() * 2 - 1) * yScale;
-      const height = (Math.pow(Math.random(), 1.5) + 0.25) * 3 * yScale;
-      return {
-        transform: `translate(${dx}rem, ${dy}rem)`,
-        height: `${height}rem`,
-      };
-    }
   },
 };
 </script>
 
 <template>
-  <div class="l-enslaved-celestial-tab">
+  <div class="l-alpha-celestial-tab">
     <CelestialQuoteHistory celestial="alpha" />
-    <div class="l-enslaved-celestial-tab--inner">
-      <div class="l-enslaved-run-container">
-        <div v-if="hasUnlock(unlocksInfo.RUN)">
-          <div class="c-enslaved-run-button">
+    <div class="l-alpha-celestial-tab--inner">
+      <div class="l-alpha-run-container">
+          <div class="c-alpha-run-button">
             <div
-              class="c-enslaved-run-button__title"
+              class="c-alpha-run-button__title"
               :class="doomedDisabledClass"
             >
               {{ realityTitle }}
@@ -229,124 +76,27 @@ export default {
               :class="runButtonClassObject"
               @click="startRun"
             >
-              <div class="c-enslaved-run-button__icon__sigil">
+              <div class="c-alpha-run-button__icon__sigil">
                 {{ alphaSymbol }}
               </div>
-              <div
-                v-for="x in (isRunning ? 25 : 0)"
-                :key="x"
-                class="c-enslaved-run-button__icon__glitch"
-                :style="glitchStyle(x)"
-              />
             </div>
             <div
               v-for="line in runDescription"
               :key="line"
-              class="c-enslaved-run-description-line"
+              class="c-alpha-run-description-line"
             >
               {{ line }}
             </div>
-            <b>Reward: Unlock Tesseracts, which let you increase Infinity Dimension caps
-              (see Infinity Dimension tab)</b>
+            <b>Each milestone reached applies a nerf while inside Alpha and a buff outside Alpha.</b>
+
           </div>
-        </div>
-      </div>
-      <div class="l-enslaved-upgrades-column">
-        <PrimaryButton
-          v-if="hintsUnlocked"
-          class="o-primary-btn"
-          onclick="Modal.enslavedHints.show()"
-        >
-          Examine the Reality more closely...
-        </PrimaryButton>
-        <div class="l-enslaved-top-container">
-          <div class="l-enslaved-top-container__half">
-            While charging, game speed multipliers are {{ hasAutoRelease ? "decreased" : "disabled" }},
-            and the lost speed is converted into stored game time. Discharging the Black Hole allows you to skip
-            forward in time. Stored game time is also used to unlock certain upgrades.
-            <button
-              :class="storeGameTimeClass"
-              @click="toggleStoreBlackHole"
-            >
-              <div
-                class="o-enslaved-stored-time"
-                :class="doomedDisabledClass"
-              >
-                {{ storedBHDesc }}
-              </div>
-              <div>
-                {{ isStoringBlackHole ? "Charging Black Hole": "Charge Black Hole" }}
-              </div>
-            </button>
-            <button
-              :class="dischargeClass"
-              @click="useStored"
-            >
-              <span>Discharge Black Hole</span>
-              <p v-if="isRunning">
-                {{ nerfedBHTimeDesc }} in this Reality
-              </p>
-            </button>
-          </div>
-          <div class="l-enslaved-top-container__half">
-            Storing real time completely halts all production, setting game speed to {{ formatInt(0) }}.
-            You can use stored real time to "amplify" a Reality, simulating repeated runs of it.
-            Amplified Realities give all the rewards that normal Realities do.
-            <button
-              :class="[storeRealTimeClass,
-                       {'l-fixed-setting': hasReachedCurrentCap}]"
-              @click="toggleStoreReal"
-            >
-              <div class="o-enslaved-stored-time">
-                {{ storedRealDesc }}
-              </div>
-              <div>
-                {{ isStoringReal ? "Storing real time": "Store real time" }}
-              </div>
-            </button>
-            <button
-              :class="[mechanicButtonClass,
-                       {'o-enslaved-mechanic-button--storing-time': autoStoreReal && offlineEnabled,
-                        'l-fixed-setting': !canChangeStoreRealTime || !offlineEnabled},
-                       doomedDisabledClass]"
-              @click="toggleAutoStoreReal"
-            >
-              {{ realTimeButtonText }}
-            </button>
-            <div>
-              Efficiency: {{ storedRealEfficiencyDesc }}
-            </div>
-            <div>
-              Maximum stored real time: {{ storedRealCapDesc }}
-            </div>
-          </div>
-        </div>
-        <BlackHoleChargingSliders />
-        <br>
-        <div class="l-enslaved-shop-container">
-          <button
-            v-for="unlock in unlocksInfo"
-            :key="unlock.id"
-            class="o-enslaved-shop-button"
-            :class="unlockClassObject(unlock)"
-            @click="buyUnlock(unlock)"
-          >
-            {{ unlock.description() }}
-            <div v-if="!hasUnlock(unlock)">
-              Costs: {{ timeDisplayShort(unlock.price) }}
-            </div>
-            <span v-if="isStoringBlackHole && !hasUnlock(unlock) && timeUntilBuy(unlock.price).gt(0)">
-              Time to obtain: {{ timeDisplayShort(timeUntilBuy(unlock.price)) }}
-            </span>
-          </button>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <style scoped>
-.c-enslaved-run-description-line {
+.c-alpha-run-description-line {
   margin-bottom: 1rem;
 }
 

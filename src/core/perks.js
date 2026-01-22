@@ -38,7 +38,7 @@ class PerkState extends SetPurchasableMechanicState {
   }
 
   get canBeApplied() {
-    return this.isBought && !(Pelle.isDoomed && Pelle.uselessPerks.includes(this.id)) && !(Alpha.isDarkened && Alpha.uselessPerks.includes(this.id));
+    return this.isBought && !(Pelle.isDoomed && Pelle.uselessPerks.includes(this.id)) && !(Alpha.isRunning && Alpha.uselessPerks.includes(this.id));
   }
 
   initializeConnections() {

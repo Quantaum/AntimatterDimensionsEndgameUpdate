@@ -11087,3 +11087,111 @@ input.o-automator-block-input {
   width: 100%;
   height: 100%;
 }
+
+/* #startregion alpha tab */
+
+.l-alpha-celestial-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.l-alpha-celestial-tab--inner {
+  display: flex;
+}
+
+.l-alpha-run-container {
+  display: block;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.c-alpha-run-button {
+  display: flex;
+  flex-direction: column;
+  width: 34rem;
+  align-items: center;
+  font-family: Typewriter;
+  font-size: 1.2rem;
+  background: none;
+  border: var(--var-border-width, 0.2rem) solid #03fe00;
+  border-radius: var(--var-border-radius, 0.5rem);
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  padding: 2rem 1rem;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.c-alpha-run-button__title {
+  font-size: larger;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.c-alpha-run-button__icon {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  width: 16rem;
+  height: 16rem;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  color: var(--color-alpha--base);
+  background: black;
+  border: var(--var-border-width, 0.4rem) solid var(--color-alpha--base);
+  border-radius: 50%;
+  margin: 1.5rem;
+  transition-duration: 0.2s;
+  animation: a-alpha-run-button--darken 10s linear infinite;
+}
+
+.c-alpha-run-button__icon__sigil {
+  position: absolute;
+  top: -6rem;
+  right: +4rem;
+  font-size: 14.8rem;
+}
+
+.c-alpha-run-button__icon--running {
+  animation: a-alpha-run-button--darken 10s linear infinite;
+}
+
+@keyframes a-alpha-run-button--darken {
+  0% {
+    background-color: transparent;
+    color: #03fe00;
+    border-color: #03fe00;
+  }
+
+  30% {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #017f00;
+    border-color: #03fe00;
+  }
+
+  45% {
+    background-color: #000;
+    color: #000;
+    border-color: #03fe00;
+  }
+
+  65% {
+    background-color: #000;
+    color: #000;
+    border-color: #03fe00;
+  }
+
+  80% {
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #017f00;
+    border-color: #03fe00;
+  }
+
+  100% {
+    background-color: transparent;
+    color: #03fe00;
+    border-color: #03fe00;
+  }
+}

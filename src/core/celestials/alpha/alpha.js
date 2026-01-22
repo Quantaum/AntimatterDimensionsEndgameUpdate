@@ -2,37 +2,7 @@ import { DC } from "../../constants";
 
 import { Quotes } from "../quotes";
 
-export const ALPHA_STAGES = {
-    FOURTH_DIMBOOST: 1,
-    FIFTH_DIMBOOST: 2,
-    GALAXY: 3,
-    INFINITY: 4,
-    C12: 5,
-    BREAK_INFINITY: 6,
-    FIVE_ELEVEN_IP: 7,
-    ALL_BIUS: 8,
-    ALL_ICS: 9,
-    REPLICANTI: 10,
-    EIGHTH_ID: 11,
-    ETERNITY: 12,
-    TS61: 13,
-    FOURTH_TD: 14,
-    THIRD_EU: 15,
-    ONEHUNDREDFIFTEEN_TT: 16,
-    FIRST_EC: 17,
-    FIRST_EC_FULL: 18,
-    TS181: 19,
-    EC10: 20,
-    TS192: 21,
-    UNLOCK_EC11: 22,
-    COMPLETE_EC11: 23,
-    DILATION: 24,
-    ETERNITY_WHILE_DILATED: 25,
-    GENERATE_TT: 26,
-    EIGHTH_TD: 27,
-    REALITY: 28,
-    COMPLETED: 29
-};
+import { ALPHA_STAGES } from "./alpha-stages";
 
 const disabledMechanicUnlocks = {
     achievements: () => ({}),
@@ -149,6 +119,7 @@ export const Alpha = {
     possessiveName: "Alpha's",
     quotes: Quotes.alpha,
     symbol: "α",
+    resetAlpha: true,
     get isUnlocked() {
         return ImaginaryUpgrade(30).isBought;
     },
@@ -156,12 +127,16 @@ export const Alpha = {
         return player.celestials.alpha;
     },
     initializeRun() {
+        player.celestials.alpha.resetAlpha = false;
+        player.celestials.alpha.run = true;
+        clearCelestialRuns();
         player.reality.automator.state.repeat = false;
         player.reality.automator.state.forceRestart = false;
         if (BlackHoles.arePaused) BlackHoles.togglePause();
-        player.celestials.alpha.darkened = true;
         respecTimeStudies(true);
         Currency.infinityPoints.reset();
+        Currency.eternityPoints.reset();
+        Currency.antimatter.reset();
         player.IPMultPurchases = 0;
         Autobuyer.bigCrunch.mode = AUTO_CRUNCH_MODE.AMOUNT;
         disChargeAll();
@@ -170,11 +145,22 @@ export const Alpha = {
         CelestialDimensions.resetAmount();
         player.records.thisEndgame.peakGameSpeed = DC.D1;
         player.celestials.enslaved.stored = DC.D0;
+        player.celestials.alpha.resetAlpha = true;
+        player.infinities = DC.D0;
+        player.eternities = DC.D0;
+        player.infinityUpgrades.clear();
+        player.infinityRebuyables = [0, 0, 0];
+        player.eternityUpgrades.clear();
+        player.eternityRebuyables = [0, 0, 0, 0, 0];
+        player.dimensionBoosts = 0;
+        player.galaxies = 0;
+        player.break = false;
+        Replicanti.reset();
     },
     completeRun() {
         player.celestials.alpha.completed = true;
         this.quotes.alphaDefeated.show();
-        player.celestials.alpha.darkened = false;
+        player.celestials.alpha.run = false;
     },
     get isCompleted() {
         return player.celestials.alpha.completed;
@@ -184,6 +170,9 @@ export const Alpha = {
         if (layer <= 0) return ALPHA_STAGES["4TH_DIMBOOST"];
         if (layer >= ALPHA_STAGES.COMPLETED) return ALPHA_STAGES.COMPLETED;
         return layer;
+    },
+    get isRunning() {
+        return player.celestials.alpha.run;
     },
     get currentStageName() {
         const names = [
@@ -230,7 +219,7 @@ export const Alpha = {
     },
 
     isDisabled(mechanic) {
-        if (!this.isDarkened) return false;
+        if (!this.isRunning) return false;
 
         if (!mechanic) return true;
         if (!disabledMechanicUnlocks[mechanic]) {
@@ -246,9 +235,6 @@ export const Alpha = {
         }
 
         return Boolean(!upgrade.canBeApplied);
-    },
-    get isDarkened() {
-        return this.cel.darkened;
     },
     get disabledAchievements() {
         let remainingAchs = [37, 54, 55, 65, 74, 76, 78, 81, 85, 87, 91, 92, 93, 95, 102, 103, 104, 111, 113, 116, 117, 118, 125, 131, 132, 133, 134, 137, 141, 142, 143, 156, 164, 178, 183, 187, 193, 194];

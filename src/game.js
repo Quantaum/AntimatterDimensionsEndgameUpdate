@@ -68,7 +68,7 @@ export function playerInfinityUpgradesOnReset() {
     player.infinityRebuyables = [0, 0, 0];
   }
 
-  if (Alpha.isDarkened) {
+  if (Alpha.isRunning) {
     player.infinityUpgrades.clear();
     player.infinityRebuyables = [0, 0, 0];
   }
@@ -332,7 +332,7 @@ export function gainedInfinities() {
     if (PelleDestructionUpgrade.singularityMilestones.isBought) pelleInfs = pelleInfs.powEffectOf(SingularityMilestone.infinitiedPow);
     return pelleInfs;
   }
-  if (Alpha.isDarkened) {
+  if (Alpha.isRunning) {
     return DC.D1;
   }
   let infGain = Effects.max(
@@ -799,7 +799,7 @@ export function gameLoop(passedDiff, options = {}) {
     Currency.timeTheorems.max.gte(TimeStudy.dilation.totalTimeTheoremRequirement) &&
     !isInCelestialReality() &&
     !Pelle.isDoomed &&
-    !Alpha.isDarkened) {
+    !Alpha.isRunning) {
     Currency.timeTheorems.add(TimeStudy.dilation.cost);
     TimeStudy.dilation.purchase(true);
   }
@@ -811,7 +811,7 @@ export function gameLoop(passedDiff, options = {}) {
   // dilation, but the TP gain function is also coded to behave differently if it's active
   const teresa1 = player.dilation.active && (Ra.unlocks.autoTP.canBeApplied || EndgameMastery(53).isBought);
   const teresa25 = !isInCelestialReality() && Ra.unlocks.unlockDilationStartingTP.canBeApplied;
-  if ((teresa1 || teresa25) && !Pelle.isDoomed && !Alpha.isDarkened) rewardTP();
+  if ((teresa1 || teresa25) && !Pelle.isDoomed && !Alpha.isRunning) rewardTP();
 
   const uncapped = Decimal.min(player.endgame.unnerfedCelestialMatter, CelestialDimensions.SOFTCAP);
   const instability = Decimal.pow(Decimal.max(player.endgame.unnerfedCelestialMatter.div(CelestialDimensions.SOFTCAP), 1), 1 / CelestialDimensions.softcapPow);
@@ -932,7 +932,7 @@ function globalPassivePrestigeGen(realDiff) {
 
 function passivePrestigeGen(realDiff) {
   let eternitiedGain = DC.D0;
-  if (RealityUpgrade(14).isBought && (!Pelle.isDoomed || PelleRealityUpgrade.eternalFlow.isBought) && !Alpha.isDarkened) {
+  if (RealityUpgrade(14).isBought && (!Pelle.isDoomed || PelleRealityUpgrade.eternalFlow.isBought) && !Alpha.isRunning) {
     eternitiedGain = DC.D1.timesEffectsOf(
       Achievement(113),
       RealityUpgrade(3),
@@ -948,7 +948,7 @@ function passivePrestigeGen(realDiff) {
 
   if (!EternityChallenge(4).isRunning) {
     let infGen = DC.D0;
-    if (BreakInfinityUpgrade.infinitiedGen.isBought && (!Pelle.isDoomed || PelleDestructionUpgrade.passiveInfGen.isBought) && !Alpha.isDarkened) {
+    if (BreakInfinityUpgrade.infinitiedGen.isBought && (!Pelle.isDoomed || PelleDestructionUpgrade.passiveInfGen.isBought) && !Alpha.isRunning) {
       // Multipliers are done this way to explicitly exclude ach87 and TS32
       infGen = infGen.plus(new Decimal(0.5).times(Time.deltaTimeMs).div(Decimal.clampMin(50, player.records.bestInfinity.time)));
       infGen = infGen.timesEffectsOf(
@@ -958,10 +958,10 @@ function passivePrestigeGen(realDiff) {
       );
       infGen = infGen.times(getAdjustedGlyphEffect("infinityinfmult"));
     }
-    if (RealityUpgrade(11).isBought && (!Pelle.isDoomed || PelleRealityUpgrade.boundlessFlow.isBought) && !Alpha.isDarkened) {
+    if (RealityUpgrade(11).isBought && (!Pelle.isDoomed || PelleRealityUpgrade.boundlessFlow.isBought) && !Alpha.isRunning) {
       infGen = infGen.plus(RealityUpgrade(11).effectValue.times(Time.deltaTime));
     }
-    if (EffarigUnlock.eternity.isUnlocked && (!Pelle.isDoomed || PelleCelestialUpgrade.effarigRewards.isBought) && !Alpha.isDarkened) {
+    if (EffarigUnlock.eternity.isUnlocked && (!Pelle.isDoomed || PelleCelestialUpgrade.effarigRewards.isBought) && !Alpha.isRunning) {
       // We consider half of the eternities we gained above this tick
       // to have been gained before the infinities, and thus not to
       // count here. This gives us the desirable behavior that
@@ -1132,7 +1132,7 @@ export function getTTPerSecond() {
   if (PelleCelestialUpgrade.raTeresa3.isBought) pelleTTMult *= getSecondaryGlyphEffect("dilationTTgen");
 
   // Glyph TT generation
-  const glyphTT = Teresa.isRunning || Enslaved.isRunning || (Pelle.isDoomed && !PelleDestructionUpgrade.destroyedGlyphEffects.isBought) || Alpha.isDarkened
+  const glyphTT = Teresa.isRunning || Enslaved.isRunning || (Pelle.isDoomed && !PelleDestructionUpgrade.destroyedGlyphEffects.isBought) || Alpha.isRunning
     ? 0
     : getAdjustedGlyphEffect("dilationTTgen") * (Pelle.isDoomed ? pelleTTMult : ttMult);
 
@@ -1144,7 +1144,7 @@ export function getTTPerSecond() {
   // Lai'tela TT power
   let finalTT = dilationTT.add(glyphTT);
   if (finalTT.gt(1)) {
-    if ((!Pelle.isDoomed || PelleDestructionUpgrade.singularityMilestones.isBought) && !Alpha.isDarkened) {
+    if ((!Pelle.isDoomed || PelleDestructionUpgrade.singularityMilestones.isBought) && !Alpha.isRunning) {
       finalTT = finalTT.pow(SingularityMilestone.theoremPowerFromSingularities.effectOrDefault(1));
     }
   }

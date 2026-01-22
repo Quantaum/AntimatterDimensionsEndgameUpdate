@@ -28,7 +28,7 @@ export default {
     message() {
       const resetResouces = [];
       if (Pelle.isDoomed) resetResouces.push("Antimatter", "Antimatter Dimensions", "Tickspeed");
-      if (Alpha.isDarkened) resetResouces.push("Antimatter", "Antimatter Dimensions", "Tickspeed");
+      if (Alpha.isRunning) resetResouces.push("Antimatter", "Antimatter Dimensions", "Tickspeed");
       if (!this.perkANRBought) resetResouces.push("Antimatter Dimensions", "Tickspeed");
       if (!this.keepDimBoost) resetResouces.push("Dimension Boosts");
       if (!this.keepAntimatter && !this.perkANRBought) resetResouces.push("Antimatter");
@@ -70,7 +70,7 @@ export default {
       }
       this.keepAntimatter = Achievement(111).isUnlocked;
       this.perkANRBought = Perk.antimatterNoReset.canBeApplied;
-      this.keepDimBoost = (Achievement(143).isUnlocked && (!Pelle.isDoomed || PelleAchievementUpgrade.achievement143.isBought) && !Alpha.isDarkened) ||
+      this.keepDimBoost = (Achievement(143).isUnlocked && (!Pelle.isDoomed || PelleAchievementUpgrade.achievement143.isBought) && !Alpha.isRunning) ||
         PelleUpgrade.galaxyNoResetDimboost.canBeApplied;
     },
     handleYesClick() {

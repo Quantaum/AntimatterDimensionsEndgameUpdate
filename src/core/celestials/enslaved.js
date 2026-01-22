@@ -151,7 +151,6 @@ export const Enslaved = {
     return true;
   },
   initializeRun() {
-    if (Alpha.isDarkened) player.celestials.alpha.darkened = false;
     clearCelestialRuns();
     player.celestials.enslaved.run = true;
     player.celestials.enslaved.hasSecretStudy = false;

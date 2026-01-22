@@ -138,7 +138,7 @@ class BlackHoleState {
   }
 
   get isUnlocked() {
-    return this._data.unlocked && !Enslaved.isRunning && (!Pelle.isDisabled("blackhole") || PelleDestructionUpgrade.blackHole.isBought) && !Alpha.isDarkened;
+    return this._data.unlocked && !Enslaved.isRunning && (!Pelle.isDisabled("blackhole") || PelleDestructionUpgrade.blackHole.isBought) && !Alpha.isRunning;
   }
 
   get isCharged() {
@@ -213,7 +213,7 @@ class BlackHoleState {
   }
 
   get isActive() {
-    return this.isCharged && (this.id === 1 || BlackHole(this.id - 1).isActive) && (!Pelle.isDisabled("blackhole") || PelleDestructionUpgrade.blackHole.isBought) && !Alpha.isDarkened;
+    return this.isCharged && (this.id === 1 || BlackHole(this.id - 1).isActive) && (!Pelle.isDisabled("blackhole") || PelleDestructionUpgrade.blackHole.isBought) && !Alpha.isRunning;
   }
 
   // Proportion of active time, scaled 0 to 1

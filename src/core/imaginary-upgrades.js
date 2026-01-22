@@ -81,7 +81,7 @@ class ImaginaryUpgradeState extends BitPurchasableMechanicState {
   }
 
   get alphaDisabled() {
-    return Alpha.isDarkened && this.config.isDisabledInDarkened;
+    return Alpha.isRunning && this.config.isDisabledInDarkened;
   }
 
   get isDisabledInDoomed() {
@@ -138,7 +138,7 @@ class RebuyableImaginaryUpgradeState extends RebuyableMechanicState {
   }
 
   get alphaDisabled() {
-    return Alpha.isDarkened && this.config.isDisabledInDarkened;
+    return Alpha.isRunning && this.config.isDisabledInDarkened;
   }
 
   get isDisabledInDoomed() {

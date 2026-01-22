@@ -1,5 +1,4 @@
 <script>
-import { Alpha } from "../../../core/globals";
 import { AlchemyCircleLayout } from "./alchemy-circle-layout";
 import AlchemyCircleNode from "./AlchemyCircleNode";
 import AlchemyResourceInfo from "./AlchemyResourceInfo";
@@ -57,8 +56,8 @@ export default {
     isDoomed() {
       return Pelle.isDoomed;
     },
-    isDarkened() {
-      return Alpha.isDarkened;
+    isRunning() {
+      return Alpha.isRunning;
     },
     pelleSymbol() {
       return Pelle.symbol;
@@ -115,11 +114,11 @@ export default {
         reactionArrow.reagent.cost < reactionArrow.reagent.resource.cap;
     },
     isActiveReaction(reactionArrow) {
-      return reactionArrow.reaction.isActive && !this.isDoomed && !Alpha.isDarkened;
+      return reactionArrow.reaction.isActive && !this.isDoomed && !Alpha.isRunning;
     },
     isFocusedReaction(reactionArrow) {
       if (this.isDoomed) return false;
-      if (this.isDarkened) return false;
+      if (this.isRunning) return false;
       return this.isUnlocked(reactionArrow) && (reactionArrow.product.resource.id === this.focusedResourceId ||
         reactionArrow.reagent.resource.id === this.focusedResourceId);
     },
@@ -193,7 +192,7 @@ export default {
     nodeClass(node) {
       const resource = node.resource;
       return {
-        "o-clickable": resource.isUnlocked && !resource.isBaseResource && !this.isDoomed && !this.isDarkened,
+        "o-clickable": resource.isUnlocked && !resource.isBaseResource && !this.isDoomed && !this.isRunning,
       };
     },
   }

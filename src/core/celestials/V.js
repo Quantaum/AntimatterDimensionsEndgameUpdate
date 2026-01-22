@@ -215,7 +215,6 @@ export const V = {
     V.quotes.unlock.show();
   },
   initializeRun() {
-    if (Alpha.isDarkened) player.celestials.alpha.darkened = false;
     clearCelestialRuns();
     player.celestials.v.run = true;
     this.quotes.realityEnter.show();

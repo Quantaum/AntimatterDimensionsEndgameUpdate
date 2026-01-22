@@ -14,7 +14,6 @@ export const Laitela = {
     return ImaginaryUpgrade(15).isBought;
   },
   initializeRun() {
-    if (Alpha.isDarkened) player.celestials.alpha.darkened = false;
     clearCelestialRuns();
     this.celestial.run = true;
   },

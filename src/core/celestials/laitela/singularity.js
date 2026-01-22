@@ -95,7 +95,7 @@ class SingularityMilestoneState extends GameMechanicState {
   }
 
   get canBeApplied() {
-    return this.isUnlocked && (!Pelle.isDisabled("singularity") || PelleDestructionUpgrade.singularityMilestones.isBought) && !Alpha.isDarkened;
+    return this.isUnlocked && (!Pelle.isDisabled("singularity") || PelleDestructionUpgrade.singularityMilestones.isBought) && !Alpha.isRunning;
   }
 }
 

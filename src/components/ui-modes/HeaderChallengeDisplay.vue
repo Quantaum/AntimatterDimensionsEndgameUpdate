@@ -1,4 +1,5 @@
 <script>
+import { Alpha } from "../../core/globals";
 import FailableEcText from "./FailableEcText";
 import PrimaryButton from "@/components/PrimaryButton";
 
@@ -16,7 +17,6 @@ export default {
       exitText: "",
       resetCelestial: false,
       inPelle: false,
-      inAlpha: false,
     };
   },
   computed: {
@@ -38,6 +38,7 @@ export default {
         celestialReality(V, "V's", "v"),
         celestialReality(Ra, "Ra's", "ra"),
         celestialReality(Laitela, "Lai'tela's", "laitela"),
+        celestialReality(Alpha, "Alpha's", "alpha"),
         {
           name: () => "Time Dilation",
           isActive: token => token,
@@ -94,11 +95,7 @@ export default {
       if (this.inPelle && this.activeChallengeNames.length > 0) {
         return `${this.activeChallengeNames.join(" + ")} in a Doomed Reality. Good luck.`;
       }
-      if (this.inAlpha && this.activeChallengeNames.length > 0) {
-        return `${this.activeChallengeNames.join(" + ")} while consumed by darkness. Good luck.`;
-      }
       if (this.inPelle) return "a Doomed Reality. Good luck.";
-      if (this.inAlpha) return "the darkness. Good luck.";
       if (this.activeChallengeNames.length === 0) {
         return "the Antimatter Universe (no active challenges)";
       }
@@ -116,7 +113,6 @@ export default {
       this.exitText = this.exitDisplay();
       this.resetCelestial = player.options.retryCelestial;
       this.inPelle = Pelle.isDoomed;
-      this.inAlpha = Alpha.isDarkened;
     },
     // Process exit requests from the inside out; Challenges first, then dilation, then Celestial Reality. If the
     // relevant option is toggled, we pass a bunch of information over to a modal - otherwise we immediately exit
@@ -145,11 +141,9 @@ export default {
       } else {
         names = { chall: this.activeChallengeNames[0], normal: "Reality" };
         clickFn = () => {
-          if (this.inAlpha) {
-            player.celestials.alpha.darkened = false;
-          } else {
-            beginProcessReality(getRealityProps(true));
-          }
+          player.celestials.alpha.run = false;
+          player.celestials.alpha.resetAlpha = true;
+          beginProcessReality(getRealityProps(true));
         };
       }
 

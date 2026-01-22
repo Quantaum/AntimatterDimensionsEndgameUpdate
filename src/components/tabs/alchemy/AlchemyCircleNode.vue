@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     update() {
-      this.isReactionActive = !Pelle.isDoomed && !this.isBaseResource && this.node.resource.reaction.isActive && !Alpha.isDarkened;
+      this.isReactionActive = !Pelle.isDoomed && !this.isBaseResource && this.node.resource.reaction.isActive && !Alpha.isRunning;
       this.amount = this.resource.amount;
       this.flow = this.resource.flow;
       this.isUnlocked = this.resource.isUnlocked;

@@ -90,7 +90,7 @@ class EndgameUpgradeState extends BitPurchasableMechanicState {
   }
 
   get alphaDisabled() {
-    return Alpha.isDarkened && this.config.isDisabledInDarkened;
+    return Alpha.isRunning && this.config.isDisabledInDarkened;
   }
 }
 
@@ -112,7 +112,7 @@ class RebuyableEndgameUpgradeState extends RebuyableMechanicState {
   }
 
   get alphaDisabled() {
-    return Alpha.isDarkened && this.config.isDisabledInDarkened;
+    return Alpha.isRunning && this.config.isDisabledInDarkened;
   }
 }
 

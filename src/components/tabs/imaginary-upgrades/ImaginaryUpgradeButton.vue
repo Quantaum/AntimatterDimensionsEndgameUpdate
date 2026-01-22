@@ -57,7 +57,6 @@ export default {
       return this.config.canLock && !(this.isAvailableForPurchase || this.isBought);
     },
     isDoomed: () => Pelle.isDoomed,
-    iDarkened: () => Alpha.isDarkened,
   },
   watch: {
     isAutobuyerOn(newValue) {
@@ -79,7 +78,7 @@ export default {
       this.etaText = this.getETAText();
     },
     getETAText() {
-      if (this.canBeBought || !this.isAvailableForPurchase || this.isBought || Pelle.isDoomed || Alpha.isDarkened) return "";
+      if (this.canBeBought || !this.isAvailableForPurchase || this.isBought || Pelle.isDoomed || Alpha.isRunning) return "";
       const time = MachineHandler.estimateIMTimer(this.upgrade.cost);
       if (isFinite(new Decimal(time).toNumber())) return TimeSpan.fromSeconds(new Decimal(time)).toString();
       return "Never affordable";
