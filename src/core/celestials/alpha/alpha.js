@@ -4,6 +4,8 @@ import { Quotes } from "../quotes";
 
 import { ALPHA_STAGES } from "./alpha-stages";
 
+import { ALPHA_MILESTONES } from "./alpha-milestones";
+
 const disabledMechanicUnlocks = {
     achievements: () => ({}),
     IPMults: () => ({}),
@@ -45,74 +47,6 @@ const disabledMechanicUnlocks = {
     alteration: () => ({}),
     timeTheorems: () => ({})
 };
-
-const ALPHA_STAGE_QUOTE = {
-    1: 'dimBoost4',
-    2: 'dimBoost5',
-    3: 'galaxyUnlock',
-    4: 'infinity',
-    5: 'c12Complete',
-    6: 'breakInfinity',
-    7: 'ipUpgrade5e11',
-    8: 'allBreakUpgrades',
-    9: 'infinityChallengesComplete',
-    10: 'replicantiUnlock',
-    11: 'infinity8Unlock',
-    12: 'eternity',
-    13: 'ts61Purchase',
-    14: 'timeDimension4',
-    15: 'eternityUpgrade3',
-    16: 'theorems115',
-    17: 'eternityChallenge1',
-    18: 'eternityChallenge5',
-    19: 'ts181Purchase',
-    20: 'eternityChallenge10',
-    21: 'replicantiUncap',
-    22: 'eternityChallenge11Unlock',
-    23: 'eternityChallenge11Complete',
-    24: 'timeDilation',
-    25: 'eternityDilated',
-    26: 'theoremGeneration',
-    27: 'timeDimension8',
-    29: 'alphaDefeated'
-};
-
-// Per-stage requirement checks. Return true when requirement met and player should advance.
-const ALPHA_STAGE_REQUIREMENTS = {
-    1: () => player.dimensionBoosts?.gte?.(4),
-    2: () => player.dimensionBoosts?.gte?.(5),
-    3: () => player.galaxies?.gte?.(1),
-    4: () => Currency.infinities?.gt?.(0),
-    5: () => typeof EternityChallenge === 'function' && EternityChallenge(12).completions > 0,
-    6: () => Boolean(player.break),
-    7: () => Currency.infinityPoints?.value?.gte?.(5e11),
-    8: () => {
-        try { return Object.values(BreakInfinityUpgrade).every(u => u.isBought); } catch (e) { return false; }
-    },
-    9: () => false, // placeholder: define specific condition for "All ICs"
-    10: () => typeof Replicanti !== 'undefined' && Replicanti.isUnlocked,
-    11: () => Currency.infinityPower?.value?.gt?.(1),
-    12: () => Currency.eternityPoints?.value?.gt?.(0),
-    13: () => typeof TimeStudy === 'function' && TimeStudy(61).isBought,
-    14: () => (player.timeDimensions && player.timeDimensions[4] && player.timeDimensions[4].amount?.gt?.(0)) || (typeof TimeStudy === 'function' && TimeStudy(4)?.isBought),
-    15: () => (typeof EternityUpgrade === 'function' && EternityUpgrade.fromId?.(3)?.isBought) || false,
-    16: () => Currency.timeTheorems?.max?.gte?.(115) || Currency.timeTheorems?.value?.gte?.(115),
-    17: () => EternityChallenge(1).completions > 0,
-    18: () => EternityChallenge(5).completions > 0,
-    19: () => typeof TimeStudy === 'function' && TimeStudy(181).isBought,
-    20: () => EternityChallenge(10).completions > 0,
-    21: () => typeof Replicanti !== 'undefined' && (Replicanti.cap?.gt?.(Decimal.MAX_VALUE) || Replicanti.isUncapped),
-    22: () => EternityChallenge(11).completions > 0,
-    23: () => EternityChallenge(11).completions > 0 && EternityChallenge(11).isCompleted,
-    24: () => player.dilation?.active === true,
-    25: () => Currency.eternities?.value?.gt?.(0),
-    26: () => Currency.timeTheorems?.value?.gt?.(0),
-    27: () => (player.timeDimensions && player.timeDimensions[8] && player.timeDimensions[8].amount?.gt?.(0)),
-    28: () => false,
-    29: () => Boolean(player.celestials?.alpha?.completed),
-};
-
-// Hook into common events that can advance stages (registered after `Alpha` is declared)
 
 export const Alpha = {
     displayName: "Alpha",
@@ -208,14 +142,6 @@ export const Alpha = {
             "Completed"
         ];
         return names[this.currentStage] || "Unknown";
-    },
-    // Advance alpha stage by one (clamped). Does not perform a reality reset.
-    advanceStage() {
-        const next = Math.min(ALPHA_STAGES.COMPLETED, this.currentStage + 1);
-        player.celestials.alpha.alphaLayer = next;
-        EventHub.dispatch?.(GAME_EVENT.ALPHA_STAGE_ADVANCED, next);
-        Modal.message.show(`You advanced to ${this.currentStageName}.`, {}, 2);
-        return next;
     },
 
     isDisabled(mechanic) {

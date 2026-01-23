@@ -81,6 +81,7 @@ import SwitchAutomatorEditorModal from "@/components/modals/SwitchAutomatorEdito
 import UiChoiceModal from "@/components/modals/UiChoiceModal";
 import UndoGlyphModal from "@/components/modals/UndoGlyphModal";
 import UpgradeMechanicLockModal from "@/components/modals/UpgradeMechanicLockModal";
+import AlphaMilestoneModal from "@/components/modals/AlphaMilestoneModal";
 
 import S12GamesModal from "@/components/modals/secret-themes/S12GamesModal";
 
@@ -102,7 +103,7 @@ export class Modal {
     // Most of the time the close event will be a prestige event, in which case we want it to trigger on all higher
     // prestiges as well
     const prestigeOrder = [GAME_EVENT.DIMBOOST_AFTER, GAME_EVENT.GALAXY_RESET_AFTER, GAME_EVENT.BIG_CRUNCH_AFTER,
-      GAME_EVENT.ETERNITY_RESET_AFTER, GAME_EVENT.REALITY_RESET_AFTER];
+    GAME_EVENT.ETERNITY_RESET_AFTER, GAME_EVENT.REALITY_RESET_AFTER];
     let shouldClose = false;
     for (const prestige of prestigeOrder) {
       if (prestige === closeEvent) shouldClose = true;
@@ -278,6 +279,7 @@ Modal.sacrifice = new Modal(SacrificeModal, 1, GAME_EVENT.DIMBOOST_AFTER);
 Modal.breakEternity = new Modal(BreakEternityModal, 1);
 Modal.breakInfinity = new Modal(BreakInfinityModal, 1, GAME_EVENT.ETERNITY_RESET_AFTER);
 Modal.respecIAP = new Modal(RespecIAPModal);
+Modal.alphaMilestones = new Modal(AlphaMilestoneModal);
 
 Modal.s12Games = new Modal(S12GamesModal);
 
@@ -333,7 +335,7 @@ Modal.cloudSaveConflict = new Modal(CloudSaveConflictModal);
 Modal.cloudLoadConflict = new Modal(CloudLoadConflictModal);
 Modal.cloudInvalidData = new Modal(CloudInvalidDataModal);
 // eslint-disable-next-line max-params
-Modal.addCloudConflict = function(saveId, saveComparison, cloudSave, localSave, onAccept) {
+Modal.addCloudConflict = function (saveId, saveComparison, cloudSave, localSave, onAccept) {
   Modal.hide();
   ui.view.modal.cloudConflict = {
     saveId,
@@ -344,7 +346,7 @@ Modal.addCloudConflict = function(saveId, saveComparison, cloudSave, localSave, 
   };
 };
 
-Modal.addImportConflict = function(importingSave, currentSave) {
+Modal.addImportConflict = function (importingSave, currentSave) {
   Modal.hide();
   ui.view.modal.cloudConflict = {
     importingSave: getSaveInfo(importingSave),

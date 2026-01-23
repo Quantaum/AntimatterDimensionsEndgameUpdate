@@ -14,7 +14,7 @@ export const ALPHA_STAGES = {
     TS61: 13,
     FOURTH_TD: 14,
     THIRD_EU: 15,
-    ONEHUNDREDFIFTEEN_TT: 16,
+    TT_115: 16,
     FIRST_EC: 17,
     FIRST_EC_FULL: 18,
     TS181: 19,

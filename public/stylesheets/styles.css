@@ -11096,10 +11096,6 @@ input.o-automator-block-input {
   align-items: center;
 }
 
-.l-alpha-celestial-tab--inner {
-  display: flex;
-}
-
 .l-alpha-run-container {
   display: block;
   margin-top: auto;
@@ -11194,4 +11190,97 @@ input.o-automator-block-input {
     color: #03fe00;
     border-color: #03fe00;
   }
+}
+
+.c-alpha-milestone {
+  display: flex;
+  flex-direction: column;
+  width: 21rem;
+  height: 16%;
+  position: relative;
+  z-index: 0;
+  justify-content: center;
+  color: var(--color-alpha--base);
+  background: black;
+  border: var(--var-border-width, 0.2rem) solid #03fe00;
+  border-radius: var(--var-border-radius, 0.5rem);
+  margin: 1rem 0 0;
+  padding: 0.6rem;
+}
+
+.l-alpha-milestone-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 20rem);
+  grid-template-rows: repeat(5, 20rem);
+  gap: 0.5rem;
+  justify-items: center;
+  align-items: center;
+}
+
+.l-alpha-milestone-grid> :nth-last-child(3) {
+  grid-column-start: 2;
+}
+
+.o-alpha-milestone-modal-button {
+  width: 21rem;
+  height: 4%;
+  font-weight: bold;
+  color: var(--color-alpha--base);
+  background: black;
+  border: var(--var-border-width, 0.2rem) solid var(--color-alpha--base);
+  border-radius: var(--var-border-radius, 0.5rem);
+  margin: 0;
+  padding: 0.6rem;
+  transition-duration: 0.15s;
+  cursor: pointer;
+}
+
+
+.c-alpha-next-milestones {
+  display: flex;
+  flex-direction: column;
+  height: 84rem;
+  margin-left: 1rem;
+}
+
+.l-alpha-milestone-modal {
+  height: 60rem;
+}
+
+.l-alpha-milestone-modal-container-outer {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 50rem;
+}
+
+.l-alpha-milestone-modal-container-outer::-webkit-scrollbar {
+  width: 1rem;
+}
+
+.l-alpha-milestone-modal-container-outer::-webkit-scrollbar-thumb {
+  border: none;
+}
+
+.l-alpha-milestone-modal-container-inner {
+  display: flex;
+  flex-wrap: wrap;
+  width: 111rem;
+  height: 120rem;
+  justify-content: space-evenly;
+  padding-bottom: 2rem;
+}
+
+.l-alpha-milestone-modal-container-inner .c-alpha-milestone {
+  height: 19rem;
+}
+
+.l-alpha-mechanics-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.l-alpha-mechanics-inner {
+  display: flex;
+  justify-content: flex-start;
 }

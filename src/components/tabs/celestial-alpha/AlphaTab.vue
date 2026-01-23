@@ -1,9 +1,10 @@
 <script>
-import BlackHoleChargingSliders from "@/components/tabs/black-hole/BlackHoleChargingSliders";
 import CelestialQuoteHistory from "@/components/CelestialQuoteHistory";
 import PrimaryButton from "@/components/PrimaryButton";
 import PrimaryToggleButton from "@/components/PrimaryToggleButton";
 import { ALPHA_STAGES } from "../../../core/celestials/alpha/alpha-stages";
+import { ALPHA_MILESTONES } from "../../../core/celestials/alpha/alpha-milestones";
+import AlphaMilestonePane from "./AlphaMilestonePane";
 
 export default {
   name: "AlphaTab",
@@ -11,7 +12,7 @@ export default {
     CelestialQuoteHistory,
     PrimaryButton,
     PrimaryToggleButton,
-    BlackHoleChargingSliders
+    AlphaMilestonePane,
   },
   data: () => ({
     isRunning: false,
@@ -21,6 +22,9 @@ export default {
   computed: {
     stageInfo() {
       return ALPHA_STAGES[Alpha.currentStage];
+    },
+    alphaMilestones() {
+      return ALPHA_MILESTONES;
     },
     realityTitle() {
       if (this.isRunning) return "The Darkness Takes Hold";
@@ -60,8 +64,9 @@ export default {
 <template>
   <div class="l-alpha-celestial-tab">
     <CelestialQuoteHistory celestial="alpha" />
-    <div class="l-alpha-celestial-tab--inner">
-      <div class="l-alpha-run-container">
+    <div class="l-alpha-mechanics-container">
+      <div class="l-alpha-mechanics-inner">
+        <div class="l-alpha-run-container">
           <div class="c-alpha-run-button">
             <div
               class="c-alpha-run-button__title"
@@ -88,11 +93,12 @@ export default {
               {{ line }}
             </div>
             <b>Each milestone reached applies a nerf while inside Alpha and a buff outside Alpha.</b>
-
           </div>
+          <AlphaMilestonePane />
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <style scoped>
