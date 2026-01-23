@@ -6,6 +6,38 @@ import { ALPHA_STAGES } from "./alpha-stages";
 
 import { ALPHA_MILESTONES } from "./alpha-milestones";
 
+// Map ALPHA stage constants to the corresponding quote keys in GameDatabase.celestials.quotes.alpha
+const ALPHA_STAGE_QUOTE_KEYS = {
+    [ALPHA_STAGES.FOURTH_DIMBOOST]: "dimBoost4",
+    [ALPHA_STAGES.FIFTH_DIMBOOST]: "dimBoost5",
+    [ALPHA_STAGES.GALAXY]: "galaxyUnlock",
+    [ALPHA_STAGES.INFINITY]: "infinity",
+    [ALPHA_STAGES.C12]: "c12Complete",
+    [ALPHA_STAGES.BREAK_INFINITY]: "breakInfinity",
+    [ALPHA_STAGES.IP_511]: "ipUpgrade5e11",
+    [ALPHA_STAGES.ALL_BIUS]: "allBreakUpgrades",
+    [ALPHA_STAGES.ALL_ICS]: "infinityChallengesComplete",
+    [ALPHA_STAGES.REPLICANTI]: "replicantiUnlock",
+    [ALPHA_STAGES.EIGHTH_ID]: "infinity8Unlock",
+    [ALPHA_STAGES.ETERNITY]: "eternity",
+    [ALPHA_STAGES.TS61]: "ts61Purchase",
+    [ALPHA_STAGES.FOURTH_TD]: "timeDimension4",
+    [ALPHA_STAGES.THIRD_EU]: "eternityUpgrade3",
+    [ALPHA_STAGES.TT_115]: "theorems115",
+    [ALPHA_STAGES.FIRST_EC]: "eternityChallenge1",
+    [ALPHA_STAGES.FIRST_EC_FULL]: "eternityChallenge5",
+    [ALPHA_STAGES.TS181]: "ts181Purchase",
+    [ALPHA_STAGES.EC10]: "eternityChallenge10",
+    [ALPHA_STAGES.TS192]: "replicantiUncap",
+    [ALPHA_STAGES.UNLOCK_EC11]: "eternityChallenge11Unlock",
+    [ALPHA_STAGES.COMPLETE_EC11]: "eternityChallenge11Complete",
+    [ALPHA_STAGES.DILATION]: "timeDilation",
+    [ALPHA_STAGES.ETERNITY_WHILE_DILATED]: "eternityDilated",
+    [ALPHA_STAGES.GENERATE_TT]: "theoremGeneration",
+    [ALPHA_STAGES.EIGHTH_TD]: "timeDimension8",
+    [ALPHA_STAGES.REALITY]: "alphaDefeated",
+};
+
 const disabledMechanicUnlocks = {
     achievements: () => ({}),
     IPMults: () => ({}),
@@ -54,6 +86,7 @@ export const Alpha = {
     quotes: Quotes.alpha,
     symbol: "α",
     resetAlpha: true,
+    cmExponent: 0.01,
     get isUnlocked() {
         return ImaginaryUpgrade(30).isBought;
     },
@@ -86,8 +119,8 @@ export const Alpha = {
         player.infinityRebuyables = [0, 0, 0];
         player.eternityUpgrades.clear();
         player.eternityRebuyables = [0, 0, 0, 0, 0];
-        player.dimensionBoosts = 0;
-        player.galaxies = 0;
+        player.dimensionBoosts = DC.D0;
+        player.galaxies = DC.D0;
         player.break = false;
         Replicanti.reset();
     },
@@ -101,7 +134,7 @@ export const Alpha = {
     },
     get currentStage() {
         const layer = Number(player.celestials.alpha.alphaLayer || 0);
-        if (layer <= 0) return ALPHA_STAGES["4TH_DIMBOOST"];
+        if (layer <= 0) return ALPHA_STAGES.FOURTH_DIMBOOST;
         if (layer >= ALPHA_STAGES.COMPLETED) return ALPHA_STAGES.COMPLETED;
         return layer;
     },
@@ -110,7 +143,6 @@ export const Alpha = {
     },
     get currentStageName() {
         const names = [
-            null,
             "Fourth Dimboost",
             "Fifth Dimboost",
             "Galaxy",
@@ -141,7 +173,30 @@ export const Alpha = {
             "Reality",
             "Completed"
         ];
-        return names[this.currentStage] || "Unknown";
+        if (this.currentStage >= ALPHA_STAGES.COMPLETED) return "Completed";
+        return names[this.currentStage];
+    },
+
+    get alphaCMExponent() {
+        return this.cmExponent;
+    },
+
+    checkStageCompletion() {
+        if (!this.isRunning) return;
+
+        const milestone = ALPHA_MILESTONES[this.currentStage];
+        if (!milestone.condition()) return;
+
+        this.advanceStage();
+    },
+
+    advanceStage() {
+        const completedStage = this.currentStage;
+        player.celestials.alpha.alphaLayer = Number(player.celestials.alpha.alphaLayer || 0) + 1;
+        player.celestials.alpha.run = false;
+        player.celestials.alpha.resetAlpha = true;
+        const quoteKey = ALPHA_STAGE_QUOTE_KEYS[completedStage];
+        if (quoteKey && this.quotes[quoteKey]) this.quotes[quoteKey].show();
     },
 
     isDisabled(mechanic) {
@@ -182,4 +237,10 @@ export const Alpha = {
 
 EventHub.logic.on(GAME_EVENT.TAB_CHANGED, () => {
     if (Tab.celestials.alpha.isOpen) Alpha.quotes.initial.show();
+});
+
+EventHub.logic.on(GAME_EVENT.GAME_TICK_AFTER, () => {
+    if (Alpha.isRunning) {
+        Alpha.checkStageCompletion();
+    }
 });

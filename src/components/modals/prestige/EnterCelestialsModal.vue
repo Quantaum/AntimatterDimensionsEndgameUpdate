@@ -80,11 +80,7 @@ export default {
       this.enslavedDone = Enslaved.isCompleted;
       this.laitelaFastest = player.celestials.laitela.fastestCompletion;
       this.laitelaTime = TimeSpan.fromSeconds(new Decimal(this.laitelaFastest)).toStringShort();
-      const alphaStage = Alpha.currentStage;
-      this.alphaLayer = [null, "4th Dimboost", "5th Dimboost", "Galaxy", "Infinity", "C12", 
-      "Break Infinity", "5e11 IP", "All BIUs", "All ICs", "Replicanti", "8th ID", "Eternity", 
-      "TS61", "4th TD", "3rd EU", "115 TT", "First EC", "First EC Full", "TS181", "EC10", "TS192", 
-      "Unlock EC11", "Complete EC11", "Dilation", "Eternity while Dilated", "Generate TT", "8th TD", "Reality"][alphaStage];
+      this.alphaLayer = Alpha.currentStageName;
     },
     handleYesClick() {
       beginProcessReality(getRealityProps(true));
